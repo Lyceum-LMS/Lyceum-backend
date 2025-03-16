@@ -1,11 +1,9 @@
 package com.cst438.domain;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name="user_table")
@@ -47,4 +45,13 @@ public class User {
 	public void setType(String type) {
 		this.type = type;
 	}
+
+//	// sls
+//	@OneToMany(mappedBy="student") // changed from default mappedBy="user"
+//	List<Enrollment> enrollments;
+//
+//	// sls
+//	public List<Enrollment> getEnrollments() {
+//		return enrollments;
+//	}
 }

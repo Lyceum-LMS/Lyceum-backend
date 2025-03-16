@@ -17,7 +17,11 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
 public class StudentController {
 
+    @Autowired
+    EnrollmentRepository enrollmentRepository;
 
+    @Autowired
+    AssignmentRepository assignmentRepository;
 
     /**
      students lists there enrollments given year and semester value
@@ -34,7 +38,27 @@ public class StudentController {
      // TODO
 	 //  hint: use enrollment repository method findByYearAndSemesterOrderByCourseId
      //  remove the following line when done
-       return null;
+       List<Enrollment> enrollments = enrollmentRepository.findByYearAndSemesterOrderByCourseId(year, semester, studentId);
+       List<EnrollmentDTO> dto_list = new ArrayList<>();
+       for (Enrollment e : enrollments) {
+           dto_list.add(new EnrollmentDTO(
+                   e.getEnrollmentId(),
+                   e.getGrade(),
+                   e.getStudent().getId(),
+                   e.getStudent().getName(),
+                   e.getStudent().getEmail(),
+                   e.getSection().getCourse().getCourseId(),
+                   e.getSection().getCourse().getTitle(),
+                   e.getSection().getSecId(),
+                   e.getSection().getSectionNo(),
+                   e.getSection().getBuilding(),
+                   e.getSection().getRoom(),
+                   e.getSection().getTimes(),
+                   e.getSection().getCourse().getCredits(),
+                   e.getSection().getTerm().getYear(),
+                   e.getSection().getTerm().getSemester()));
+       }
+       return  dto_list;
    }
 
     /**
@@ -50,11 +74,23 @@ public class StudentController {
 
         // TODO remove the following line when done
 
-        // return a list of assignments and (if they exist) the assignment grade
+        //  return a list of assignments and (if they exist) the assignment grade
         //  for all sections that the student is enrolled for the given year and semester
         //  hint: use the assignment repository method findByStudentIdAndYearAndSemesterOrderByDueDate
-
-        return null;
+        List<Assignment> assignments = assignmentRepository.findByStudentIdAndYearAndSemesterOrderByDueDate(studentId, year, semester);
+        List<AssignmentStudentDTO> dto_list = new ArrayList<>();
+        for (Assignment a : assignments) {
+            dto_list.add(new AssignmentStudentDTO(
+                    a.getAssignmentId(),
+                    a.getTitle(),
+                    a.getDueDate(),
+                    a.getSection().getCourse().getCourseId(),
+                    a.getSection().getSecId(),
+                    0
+//                    a.getGrades()
+            ));
+        }
+        return  dto_list;
     }
 
 }
