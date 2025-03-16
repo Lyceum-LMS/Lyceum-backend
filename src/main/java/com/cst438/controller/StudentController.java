@@ -84,7 +84,9 @@ public class StudentController {
         List<AssignmentStudentDTO> dto_list = new ArrayList<>();
         for (Assignment a : assignments) {
             int assignmentId = a.getAssignmentId();
-            int score = gradeRepository.findByEnrollmentIdAndAssignmentId(studentId, assignmentId).getScore();
+            int sectionNo = a.getSection().getSectionNo();
+            int enrollmentId = enrollmentRepository.findEnrollmentBySectionNoAndStudentId(sectionNo, studentId).getEnrollmentId();
+            int score = gradeRepository.findByEnrollmentIdAndAssignmentId(enrollmentId, assignmentId).getScore();
             dto_list.add(new AssignmentStudentDTO(
                    assignmentId,
                     a.getTitle(),
