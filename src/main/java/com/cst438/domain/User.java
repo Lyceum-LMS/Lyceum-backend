@@ -45,13 +45,4 @@ public class User {
 	public void setType(String type) {
 		this.type = type;
 	}
-
-//	// sls
-//	@OneToMany(mappedBy="student") // changed from default mappedBy="user"
-//	List<Enrollment> enrollments;
-//
-//	// sls
-//	public List<Enrollment> getEnrollments() {
-//		return enrollments;
-//	}
 }

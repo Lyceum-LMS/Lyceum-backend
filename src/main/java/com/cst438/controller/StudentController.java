@@ -23,6 +23,9 @@ public class StudentController {
     @Autowired
     AssignmentRepository assignmentRepository;
 
+    @Autowired
+    GradeRepository gradeRepository;
+
     /**
      students lists there enrollments given year and semester value
      returns list of enrollments, may be empty
@@ -80,17 +83,17 @@ public class StudentController {
         List<Assignment> assignments = assignmentRepository.findByStudentIdAndYearAndSemesterOrderByDueDate(studentId, year, semester);
         List<AssignmentStudentDTO> dto_list = new ArrayList<>();
         for (Assignment a : assignments) {
+            int assignmentId = a.getAssignmentId();
+            int score = gradeRepository.findByEnrollmentIdAndAssignmentId(studentId, assignmentId).getScore();
             dto_list.add(new AssignmentStudentDTO(
-                    a.getAssignmentId(),
+                   assignmentId,
                     a.getTitle(),
                     a.getDueDate(),
                     a.getSection().getCourse().getCourseId(),
                     a.getSection().getSecId(),
-                    0
-//                    a.getGrades()
+                    score
             ));
         }
         return  dto_list;
     }
-
 }

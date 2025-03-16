@@ -37,14 +37,4 @@ public class Assignment {
     public Section getSection() { return section; }
 
     public void setSection(Section section) { this.section = section; }
-
-    // add relationship between assignment and grade entities
-    // sls
-    @OneToMany(mappedBy="assignment")
-    List<Grade> grades;
-
-    // sls
-    public List<Grade> getGrades() {
-        return grades;
-    }
 }
