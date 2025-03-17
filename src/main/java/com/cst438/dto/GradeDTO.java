@@ -4,11 +4,11 @@ package com.cst438.dto;
  */
 public record GradeDTO(
         int gradeId,
-        com.cst438.domain.User studentName,
-        com.cst438.domain.Section studentEmail,
+        String studentName,
+        String studentEmail,
         String assignmentTitle,
-        int courseId,
-        com.cst438.domain.Section sectionId,
+        String courseId,
+        int sectionId,
         Integer score
 ) {
 
