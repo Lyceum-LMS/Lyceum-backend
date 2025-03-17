@@ -54,11 +54,11 @@ public class GradeController {
             // Build the GradeDTO using grade data
             GradeDTO dto = new GradeDTO(
                     grade.getGradeId(),
-                    enrollment.getStudent(),
-                    enrollment.getSection(),
+                    enrollment.getStudent().getName(),
+                    enrollment.getStudent().getEmail(),
                     assignment.getTitle(),
-                    assignment.getAssignmentId(),
-                    assignment.getSection(),
+                    assignment.getSection().getCourse().getCourseId(),
+                    assignment.getSection().getSectionNo(),
                     grade.getScore()
             );
             gradeDTOList.add(dto);
