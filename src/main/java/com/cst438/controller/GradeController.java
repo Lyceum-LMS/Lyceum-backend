@@ -40,7 +40,7 @@ public class GradeController {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Assignment not found."));
 
-        List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsBySectionOrderByStudentName(assignment.getSection());
+        List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsBySectionNoOrderByStudentName(assignment.getSection());
 
         List<GradeDTO> gradeDTOList = new ArrayList<>();
         for (Enrollment enrollment : enrollments) {
