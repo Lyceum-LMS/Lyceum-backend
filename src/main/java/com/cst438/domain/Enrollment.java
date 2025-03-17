@@ -20,7 +20,7 @@ public class Enrollment {
 
     // create relationship between enrollment and user entities
     @ManyToOne
-    @JoinColumn(name="id", nullable=false)
+    @JoinColumn(name="user_id", nullable=false)
     private User student;
     // create relationship between enrollment and section entities
     @ManyToOne
