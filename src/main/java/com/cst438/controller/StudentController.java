@@ -42,7 +42,6 @@ public class StudentController {
            @RequestParam("semester") String semester,
            @RequestParam("studentId") int studentId) {
 
-
      // TODO
        // verify studentId is valid
        User user = userRepository.findById(studentId).orElse(null);
@@ -94,7 +93,6 @@ public class StudentController {
         // TODO remove the following line when done
         // verify studentId is valid
         User user = userRepository.findById(studentId).orElse(null);
-
         if (user==null) {
             throw  new ResponseStatusException( HttpStatus.NOT_FOUND, "studentId invalid ");
         }
