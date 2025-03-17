@@ -25,16 +25,6 @@ public class Grade {
     @JoinColumn(name = "enrollment_id", nullable = false)
     private Enrollment enrollment;
 
-    // default constructor
-    public Grade() {}
-
-    // parameterized constructor
-    public Grade(Integer score, Assignment assignment, Enrollment enrollment) {
-        this.score = score;
-        this.assignment = assignment;
-        this.enrollment = enrollment;
-    }
-
     // getters and setters
     public int getGradeId() {
         return gradeId;
