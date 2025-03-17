@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 // add getter/setter methods ✅
 
 @Entity
+@Table(name="grade")
 public class Grade {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
