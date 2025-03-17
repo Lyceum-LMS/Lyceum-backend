@@ -1,12 +1,26 @@
 package com.cst438.controller;
 
+import com.cst438.domain.*;
 import com.cst438.dto.GradeDTO;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class GradeController {
+    @Autowired
+    GradeRepository gradeRepository;
+
+    @Autowired
+    EnrollmentRepository enrollmentRepository;
+
+    @Autowired
+    AssignmentRepository assignmentRepository;
 
     // instructor gets grades for assignment ordered by student name
     // user must be instructor for the section
