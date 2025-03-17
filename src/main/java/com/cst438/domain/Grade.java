@@ -2,11 +2,11 @@ package com.cst438.domain;
 
 import jakarta.persistence.*;
 
-// TODO complete this class ✅
-// add additional attribute for score that is nullable ✅
-// add relationship between grade and assignment entities ✅
-// add relationship between grade and enrollment entities ✅
-// add getter/setter methods ✅
+// TODO complete this class ✅ Done
+// add additional attribute for score that is nullable ✅ Done
+// add relationship between grade and assignment entities ✅ Done
+// add relationship between grade and enrollment entities ✅ Done
+// add getter/setter methods ✅ Done
 
 @Entity
 @Table(name="grade")
