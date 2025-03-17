@@ -32,16 +32,39 @@ public class GradeController {
      */
     @GetMapping("/assignments/{assignmentId}/grades")
     public List<GradeDTO> getAssignmentGrades(@PathVariable("assignmentId") int assignmentId) {
-
         // TODO remove the following line when done
-
         // get the list of enrollments for the section related to this assignment.
         // hint: use te enrollment repository method findEnrollmentsBySectionOrderByStudentName.
         // for each enrollment, get the grade related to the assignment and enrollment
         // hint: use the gradeRepository findByEnrollmentIdAndAssignmentId method.
+        Assignment assignment = assignmentRepository.findById(assignmentId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Assignment not found."));
 
+        List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsBySectionOrderByStudentName(assignment.getSection());
 
-        return null;
+        List<GradeDTO> gradeDTOList = new ArrayList<>();
+        for (Enrollment enrollment : enrollments) {
+            Grade grade = gradeRepository.findByEnrollmentIdAndAssignmentId(enrollment.getEnrollmentId(), assignmentId);
+            if (grade == null) {
+                grade = new Grade();
+                grade.setEnrollment(enrollment);
+                grade.setAssignment(assignment);
+                grade = gradeRepository.save(grade);
+            }
+            // Build the GradeDTO using grade data
+            GradeDTO dto = new GradeDTO(
+                    grade.getGradeId(),
+                    enrollment.getStudentName(),
+                    enrollment.getStudentEmail(),
+                    assignment.getTitle(),
+                    assignment.getCourseId(),
+                    assignment.getSection().getSectionId(),
+                    grade.getScore()
+            );
+            gradeDTOList.add(dto);
+        }
+
+        return gradeDTOList;
     }
 
     // instructor uploads grades for assignment
@@ -53,11 +76,15 @@ public class GradeController {
      */
     @PutMapping("/grades")
     public void updateGrades(@RequestBody List<GradeDTO> dlist) {
-
         // TODO
-
         // for each grade in the GradeDTO list, retrieve the grade entity
         // update the score and save the entity
+        for (GradeDTO dto : dlist) {
+            Grade grade = gradeRepository.findById(dto.gradeId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Grade not found for id: " + dto.gradeId()));
+            grade.setScore(dto.score());
+            gradeRepository.save(grade);
+        }
 
     }
 
