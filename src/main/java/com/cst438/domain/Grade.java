@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 // add relationship between grade and assignment entities ✅ Done
 // add relationship between grade and enrollment entities ✅ Done
 // add getter/setter methods ✅ Done
-// ☑️
+// ☑️✅✅✅☑️☑️☑️☑️☑️✅✅✅✅✅☑️☑️☑️👍👍✅☑️☑️👍
 
 @Entity
 @Table(name="grade")
