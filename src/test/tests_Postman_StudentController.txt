@@ -1,0 +1,20 @@
+Postman queries:
+
+StudentController
+-getSchedule(...)
+http://localhost:8080/enrollments?year=2025&semester=Spring&studentId=3
+
+Test bad parameters, studentId=42, year=2042, semester=Summer
+http://localhost:8080/enrollments?year=2025&semester=Spring&studentId=42
+http://localhost:8080/enrollments?year=2042&semester=Spring&studentId=3
+http://localhost:8080/enrollments?year=2025&semester=Summer&studentId=3
+
+-getStudentAssignments(...)
+http://localhost:8080/assignments?studentId=3&year=2025&semester=Spring
+
+Test bad parameters, studentId=42, year=2042, semester=Summer
+http://localhost:8080/assignments?studentId=42&year=2025&semester=Spring
+http://localhost:8080/assignments?studentId=3&year=2042&semester=Spring
+http://localhost:8080/assignments?studentId=3&year=2025&semester=Summer
+
+
