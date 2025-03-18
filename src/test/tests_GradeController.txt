@@ -1,0 +1,72 @@
+Postman queries:
+
+GradeController
+-getAssignmentGrades(...)
+http://localhost:8080//assignments/{assignmentId}/grades
+
+http://localhost:8080//assignments/1/grades
+http://localhost:8080//assignments/2/grades
+
+Test bad parameters, assignmentId=3
+http://localhost:8080/assignments/3/grades
+
+-updateGrades(...)
+http://localhost:8080/grades
+
+get grades and put into dlist format
+http://localhost:8080/assignments/1/grades
+http://localhost:8080/assignments/2/grades
+
+[
+    {
+        "gradeId": 1,
+        "studentName": "thomas edison",
+        "studentEmail": "tedison@csumb.edu",
+        "assignmentTitle": "db homework 1",
+        "courseId": "cst363",
+        "sectionId": 8,
+        "score": 95
+    },
+    {
+        "gradeId": 12000,
+        "studentName": "thomas edison",
+        "studentEmail": "tedison@csumb.edu",
+        "assignmentTitle": "db homework 2",
+        "courseId": "cst363",
+        "sectionId": 8,
+        "score": null
+    }
+]
+
+update second grade score from null to 90
+[
+    {
+        "gradeId": 1,
+        "studentName": "thomas edison",
+        "studentEmail": "tedison@csumb.edu",
+        "assignmentTitle": "db homework 1",
+        "courseId": "cst363",
+        "sectionId": 8,
+        "score": 95
+    },
+    {
+        "gradeId": 12000,
+        "studentName": "thomas edison",
+        "studentEmail": "tedison@csumb.edu",
+        "assignmentTitle": "db homework 2",
+        "courseId": "cst363",
+        "sectionId": 8,
+        "score": 90
+    }
+]
+
+verify grades
+http://localhost:8080/assignments/1/grades
+http://localhost:8080/assignments/2/grades
+
+Test bad parameters, score 
+message returned when gradeId not found
+messages not returned when grade < 0, >100 or non-integer
+
+
+
