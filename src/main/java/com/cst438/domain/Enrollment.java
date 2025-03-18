@@ -13,7 +13,7 @@ public class Enrollment {
     int enrollmentId;
 
     // sls
-	// TODO complete this class
+	// TO-DO complete this class
     // add additional attribute for grade
     @Column(name="grade")
     private String grade;
