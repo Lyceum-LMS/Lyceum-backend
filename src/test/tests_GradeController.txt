@@ -64,9 +64,9 @@ verify grades
 http://localhost:8080/assignments/1/grades
 http://localhost:8080/assignments/2/grades
 
-Test bad parameters, score 
+Test bad parameters: gradId and score
 message returned when gradeId not found
-messages not returned when grade < 0, >100 or non-integer
+messages not returned when score < 0, >100 or non-integer
 
 
 
