@@ -10,7 +10,7 @@ public class Grade {
     private int gradeId;
 
     // sls
-    // TODO complete this class
+    // TO-DO complete this class
     // add additional attribute for score that is nullable
     @Column(name="score")
     private Integer score;

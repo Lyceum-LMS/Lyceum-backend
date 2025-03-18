@@ -13,7 +13,7 @@ public class Assignment {
     private int assignmentId;
 
     // sls
-    // TODO  complete this class
+    // TO-DO  complete this class
     // add additional attributes for title, dueDate
     @Column(name="title")
     private String title;
