@@ -34,7 +34,7 @@ public class EnrollmentController {
     public List<EnrollmentDTO> getEnrollments(
             @PathVariable("sectionNo") int sectionNo ) {
 
-        // TODO
+        // TO-DO
 		//  hint: use enrollment repository findEnrollmentsBySectionNoOrderByStudentName method
         //  remove the following line when done
         List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsBySectionNoOrderByStudentName(sectionNo);
@@ -71,7 +71,7 @@ public class EnrollmentController {
     @PutMapping("/enrollments")
     public void updateEnrollmentGrade(@RequestBody List<EnrollmentDTO> dlist) {
 
-        // TODO
+        // TO-DO
         // For each EnrollmentDTO in the list
         //  find the Enrollment entity using enrollmentId
         //  update the grade and save back to database

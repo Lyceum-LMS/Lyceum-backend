@@ -42,7 +42,7 @@ public class StudentController {
            @RequestParam("semester") String semester,
            @RequestParam("studentId") int studentId) {
 
-     // TODO
+     // TO-DO
        // verify studentId is valid
        User user = userRepository.findById(studentId).orElse(null);
        if (user==null) {
@@ -90,7 +90,7 @@ public class StudentController {
             @RequestParam("semester") String semester) {
 
 
-        // TODO remove the following line when done
+        // TO-DO remove the following line when done
         // verify studentId is valid
         User user = userRepository.findById(studentId).orElse(null);
         if (user==null) {
