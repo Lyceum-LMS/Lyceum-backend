@@ -32,7 +32,6 @@ public class GradeController {
      */
     @GetMapping("/assignments/{assignmentId}/grades")
     public List<GradeDTO> getAssignmentGrades(@PathVariable("assignmentId") int assignmentId) {
-        // TODO remove the following line when done
         // get the list of enrollments for the section related to this assignment.
         // hint: use te enrollment repository method findEnrollmentsBySectionOrderByStudentName.
         // for each enrollment, get the grade related to the assignment and enrollment
@@ -76,7 +75,6 @@ public class GradeController {
      */
     @PutMapping("/grades")
     public void updateGrades(@RequestBody List<GradeDTO> dlist) {
-        // TODO
         // for each grade in the GradeDTO list, retrieve the grade entity
         // update the score and save the entity
         for (GradeDTO dto : dlist) {
