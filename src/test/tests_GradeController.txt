@@ -2,13 +2,25 @@ Postman queries:
 
 GradeController
 -getAssignmentGrades(...)
-http://localhost:8080//assignments/{assignmentId}/grades
+http://localhost:8080/assignments/{assignmentId}/grades
 
-http://localhost:8080//assignments/1/grades
-http://localhost:8080//assignments/2/grades
+create records to test for multiple grades in assignment
+select * from assignment;
+select * from user_table;
+insert into user_table (name, email, password, type)
+values ('homer simpson', 'hsimpson@csumb.edu', '', 'STUDENT')
+select * from enrollment;
+insert into enrollment (grade, section_no, user_id)
+values (null, 8, 7003);
+select * from grade;
+insert into grade (enrollment_id, assignment_id, score)
+values (10000, 1, null);
+
+http://localhost:8080/assignments/1/grades
+http://localhost:8080/assignments/2/grades
 
 Test bad parameters, assignmentId=3
-http://localhost:8080/assignments/3/grades
+message returned for assignment not found http://localhost:8080/assignments/3/grades
 
 -updateGrades(...)
 http://localhost:8080/grades
@@ -66,7 +78,5 @@ http://localhost:8080/assignments/2/grades
 
 Test bad parameters: gradeId and score
 message returned when gradeId not found
-messages not returned when score < 0, >100 or non-integer
 
-
-
+not required: validate score < 0, > 100 or non-integer
