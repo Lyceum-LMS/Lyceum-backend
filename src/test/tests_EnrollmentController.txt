@@ -231,6 +231,6 @@ Test bad enrollmentId
     }
 ]
 
-verify change wasn't made:
+verify change wasn't made (entry should be ignored but grading continued since this entry is part of a list):
 http://localhost:8080/enrollments?year=2025&semester=Spring&studentId=3
 

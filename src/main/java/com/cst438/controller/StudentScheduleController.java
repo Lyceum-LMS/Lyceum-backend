@@ -1,15 +1,9 @@
 package com.cst438.controller;
 
-import com.cst438.domain.*;
-import com.cst438.dto.CourseDTO;    //HP added
 import com.cst438.dto.EnrollmentDTO;
-import org.checkerframework.checker.units.qual.A;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;   //HP added
 
 @RestController
 public class StudentScheduleController {
@@ -20,15 +14,6 @@ public class StudentScheduleController {
      logged in user must be the student (assignment 7)
      example URL  /transcript?studentId=19803
      */
-    @Autowired
-    EnrollmentRepository enrollmentRepository;
-
-    @Autowired
-    SectionRepository sectionRepository;
-
-    @Autowired
-    UserRepository userRepository;
-
     @GetMapping("/transcripts")
     public List<EnrollmentDTO> getTranscript(@RequestParam("studentId") int studentId) {
 
@@ -36,32 +21,8 @@ public class StudentScheduleController {
 
         // list course_id, sec_id, title, credit, grade
         // hint: use enrollment repository method findEnrollmentByStudentIdOrderByTermId
-        List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsByStudentIdOrderByTermId(studentId);
-
         // remove the following line when done
-        // return null;
-
-        List<EnrollmentDTO> dto_list = new ArrayList<>();
-        for (Enrollment e : enrollments) {
-            dto_list.add(new EnrollmentDTO(
-                    e.getEnrollmentId(),
-                    e.getGrade(),
-                    e.getStudent().getId(),
-                    e.getStudent().getName(),
-                    e.getStudent().getEmail(),
-                    e.getSection().getCourse().getCourseId(),
-                    e.getSection().getCourse().getTitle(),
-                    e.getSection().getSecId(),
-                    e.getSection().getSectionNo(),
-                    e.getSection().getBuilding(),
-                    e.getSection().getRoom(),
-                    e.getSection().getTimes(),
-                    e.getSection().getCourse().getCredits(),
-                    e.getSection().getTerm().getYear(),
-                    e.getSection().getTerm().getSemester()
-            ));
-        }
-        return dto_list;
+        return null;
     }
 
 
@@ -76,56 +37,18 @@ public class StudentScheduleController {
             @RequestParam("studentId") int studentId ) {
 
         // TODO
-        Optional<Section> sectionOpt = sectionRepository.findById(sectionNo);
 
         // check that the Section entity with primary key sectionNo exists
-        if (sectionOpt.isEmpty()) {
-            throw new RuntimeException("Section not found");
-        }
-        Section section = sectionOpt.get();
         // check that today is between addDate and addDeadline for the section
-        if (!(java.time.LocalDate.now().isAfter(section.getTerm().getAddDate().toLocalDate()) &&
-                java.time.LocalDate.now().isBefore(section.getTerm().getAddDeadline().toLocalDate()))) {
-            throw new RuntimeException("Enrollment period is closed for this section");
-        }
         // check that student is not already enrolled into this section
-        if (enrollmentRepository.findEnrollmentBySectionNoAndStudentId(sectionNo, studentId) != null) {
-            throw new RuntimeException("Student already enrolled in this section");
-        }
         // create a new enrollment entity and save.  The enrollment grade will
         // be NULL until instructor enters final grades for the course.
-        Optional<User> studentOpt = userRepository.findById(studentId);
-        if(studentOpt.isEmpty()) {
-            throw new RuntimeException("Student not found");
-        }
-        User student = studentOpt.get();
-        Enrollment enrollment = new Enrollment();
-        enrollment.setStudent(student);
-        enrollment.setSection(section);
-        enrollment.setGrade(null);
-        enrollmentRepository.save(enrollment);
 
         // remove the following line when done.
-        // return null;
+        return null;
 
-        return new EnrollmentDTO(
-                enrollment.getEnrollmentId(),
-                enrollment.getGrade(),
-                student.getId(),
-                student.getName(),
-                student.getEmail(),
-                section.getCourse().getCourseId(),
-                section.getCourse().getTitle(),
-                section.getSecId(),
-                section.getSectionNo(),
-                section.getBuilding(),
-                section.getRoom(),
-                section.getTimes(),
-                section.getCourse().getCredits(),
-                section.getTerm().getYear(),
-                section.getTerm().getSemester()
-        );
     }
+
 
     /**
      students drops an enrollment for a section
@@ -135,18 +58,7 @@ public class StudentScheduleController {
     public void dropCourse(@PathVariable("enrollmentId") int enrollmentId) {
 
         // TODO
-
-        Optional<Enrollment> enrollmentOpt = enrollmentRepository.findById(enrollmentId);
-        if (enrollmentOpt.isEmpty()) {
-            throw new RuntimeException("Enrollment not found");
-        }
-        Enrollment enrollment = enrollmentOpt.get();
         // check that today is not after the dropDeadline for section
-        Section section = enrollment.getSection();
-        if (!(java.time.LocalDate.now().isAfter(section.getTerm().getAddDate().toLocalDate()))) {
-            throw new RuntimeException("Enrollment period is closed for this section");
-        }
-        enrollmentRepository.delete(enrollment);
     }
 
 

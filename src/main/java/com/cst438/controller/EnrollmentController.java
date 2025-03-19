@@ -78,9 +78,7 @@ public class EnrollmentController {
 
         for (EnrollmentDTO dto : dlist) {
             Enrollment e = enrollmentRepository.findById(dto.enrollmentId()).orElse(null);
-            if (e == null) {
-                throw  new ResponseStatusException( HttpStatus.NOT_FOUND, "enrollment not found "+ dto.enrollmentId());
-            } else {
+            if (e != null) {
                 if (dto.grade() != null){
                     e.setGrade(dto.grade().toUpperCase().substring(0,5));
                 } else {
@@ -90,5 +88,4 @@ public class EnrollmentController {
             }
         }
     }
-
 }
