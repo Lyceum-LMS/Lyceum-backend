@@ -79,7 +79,7 @@ public class EnrollmentController {
         for (EnrollmentDTO dto : dlist) {
             Enrollment e = enrollmentRepository.findById(dto.enrollmentId()).orElse(null);
             if (e != null) {
-                if (dto.grade() != null){
+                if (dto.grade() != null) {
                     e.setGrade(dto.grade().toUpperCase());
                 } else {
                     e.setGrade(null);
