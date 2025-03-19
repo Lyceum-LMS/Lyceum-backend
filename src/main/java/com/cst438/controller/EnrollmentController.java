@@ -80,7 +80,7 @@ public class EnrollmentController {
             Enrollment e = enrollmentRepository.findById(dto.enrollmentId()).orElse(null);
             if (e != null) {
                 if (dto.grade() != null){
-                    e.setGrade(dto.grade().toUpperCase().substring(0,5));
+                    e.setGrade(dto.grade().toUpperCase());
                 } else {
                     e.setGrade(null);
                 }
