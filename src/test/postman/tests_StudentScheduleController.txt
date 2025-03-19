@@ -1,0 +1,102 @@
+Postman queries:
+
+StudentScheduleController
+-getTranscripts(...)
+http://localhost:8080/transcripts ✅
+http://localhost:8080/transcripts?studentId=3 ✅
+
+Test bad parameters: studentId=1, 4 (existing user but student not found)
+http://localhost:8080/transcripts?studentId=4 ✅
+http://localhost:8080/transcripts?studentId=1 ✅
+Test bad parameters: studentId=5 (user/student not found)
+http://localhost:8080/transcripts?studentId=5 ✅
+
+-addCourse(...)
+http://localhost:8080/enrollments/sections/{sectionNo}
+http://localhost:8080/enrollments/sections/1?studentId=3
+
+add course: secNo=6, studentId=3
+http://localhost:8080/enrollments/sections/6?studentId=3 ✅
+
+Test bad parameters: secNo, studentId
+message returned, section not found http://localhost:8080/enrollments/sections/11?studentId=3 ✅
+message returned, enrollment period close for section before addDate (change a section to future term 10)
+UPDATE SECTION
+SET TERM_ID = 10
+WHERE SECTION_NO = 9;
+http://localhost:8080/enrollments/sections/9?studentId=3 ✅
+message returned, enrollment period close for section after addDeadline
+http://localhost:8080/enrollments/sections/1?studentId=3 ✅
+message returned, student already enrolled
+http://localhost:8080/enrollments/sections/10?studentId=3 ✅
+message returned, student not found http://localhost:8080/enrollments/sections/6?studentId=5 ✅
+message returned, studentID indicates not a student, http://localhost:8080/enrollments/sections/6?studentId=1 ✅
+
+
+-dropCourse(...)
+http://localhost:8080/enrollments/{enrollmentId}
+http://localhost:8080/enrollments/3
+
+drop course: enrollmentId=3
+http://localhost:8080/enrollments/3 ✅
+
+Test bad parameters: enrollmentId
+message returned, Enrollment not found http://localhost:8080/enrollments/4 ✅
+message returned, Drop deadline already passed http://localhost:8080/enrollments/1 ✅
+
+get transcripts
+http://localhost:8080/transcripts?studentId=3
+
+[
+    {
+        "enrollmentId": 1,
+        "grade": "A",
+        "studentId": 3,
+        "name": "thomas edison",
+        "email": "tedison@csumb.edu",
+        "courseId": "cst338",
+        "title": "Software Design",
+        "sectionId": 1,
+        "sectionNo": 1,
+        "building": "052",
+        "room": "100",
+        "times": "M W 10:00-11:50",
+        "credits": 4,
+        "year": 2024,
+        "semester": "Fall"
+    },
+    {
+        "enrollmentId": 2,
+        "grade": "B",
+        "studentId": 3,
+        "name": "thomas edison",
+        "email": "tedison@csumb.edu",
+        "courseId": "cst363",
+        "title": "Introduction to Database",
+        "sectionId": 1,
+        "sectionNo": 8,
+        "building": "052",
+        "room": "104",
+        "times": "M W 10:00-11:50",
+        "credits": 4,
+        "year": 2025,
+        "semester": "Spring"
+    },
+    {
+        "enrollmentId": 3,
+        "grade": null,
+        "studentId": 3,
+        "name": "thomas edison",
+        "email": "tedison@csumb.edu",
+        "courseId": "cst438",
+        "title": "Software Engineering",
+        "sectionId": 1,
+        "sectionNo": 10,
+        "building": "052",
+        "room": "222",
+        "times": "T Th 12:00-1:50",
+        "credits": 4,
+        "year": 2025,
+        "semester": "Spring"
+    }
+]
