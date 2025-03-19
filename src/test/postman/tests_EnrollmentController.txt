@@ -1,0 +1,236 @@
+Postman queries:
+
+EnrollmentController
+
+-getEnrollments(...)
+(select * from enrollment;)
+http://localhost:8080/sections/{sectionNo}/enrollments
+
+http://localhost:8080/sections/1/enrollments
+http://localhost:8080/sections/8/enrollments
+http://localhost:8080/sections/10/enrollments
+
+Test bad parameters 
+http://localhost:8080/sections/42/enrollments
+
+performed insert and test that two records are returned for sectionNo=1
+insert into enrollment (enrollment_id, grade, section_no, user_id)
+values ('4', 'C', '1', '3');
+
+http://localhost:8080/sections/1/enrollments
+
+-updateEnrollmentGrade(...)
+*** grade value is limited to length 5 to match database type varchar(5).
+*** null is a valid entry
+
+get enrollments
+http://localhost:8080/enrollments?year=2025&semester=Spring&studentId=3
+
+[
+    {
+        "enrollmentId": 2,
+        "grade": "B",
+        "studentId": 3,
+        "name": "thomas edison",
+        "email": "tedison@csumb.edu",
+        "courseId": "cst363",
+        "title": "Introduction to Database",
+        "sectionId": 1,
+        "sectionNo": 8,
+        "building": "052",
+        "room": "104",
+        "times": "M W 10:00-11:50",
+        "credits": 4,
+        "year": 2025,
+        "semester": "Spring"
+    },
+    {
+        "enrollmentId": 3,
+        "grade": null,
+        "studentId": 3,
+        "name": "thomas edison",
+        "email": "tedison@csumb.edu",
+        "courseId": "cst438",
+        "title": "Software Engineering",
+        "sectionId": 1,
+        "sectionNo": 10,
+        "building": "052",
+        "room": "222",
+        "times": "T Th 12:00-1:50",
+        "credits": 4,
+        "year": 2025,
+        "semester": "Spring"
+    }
+]
+
+update second enrollment record from null to "A"
+http://localhost:8080/enrollments
+
+[
+    {
+        "enrollmentId": 2,
+        "grade": "A",
+        "studentId": 3,
+        "name": "thomas edison",
+        "email": "tedison@csumb.edu",
+        "courseId": "cst363",
+        "title": "Introduction to Database",
+        "sectionId": 1,
+        "sectionNo": 8,
+        "building": "052",
+        "room": "104",
+        "times": "M W 10:00-11:50",
+        "credits": 4,
+        "year": 2025,
+        "semester": "Spring"
+    },
+    {
+        "enrollmentId": 3,
+        "grade": "A",
+        "studentId": 3,
+        "name": "thomas edison",
+        "email": "tedison@csumb.edu",
+        "courseId": "cst438",
+        "title": "Software Engineering",
+        "sectionId": 1,
+        "sectionNo": 10,
+        "building": "052",
+        "room": "222",
+        "times": "T Th 12:00-1:50",
+        "credits": 4,
+        "year": 2025,
+        "semester": "Spring"
+    }
+]
+
+verify change is made:
+http://localhost:8080/enrollments?year=2025&semester=Spring&studentId=3
+
+Attempt to update enrollment grade to null
+http://localhost:8080/enrollments
+[
+    {
+        "enrollmentId": 2,
+        "grade": null,
+        "studentId": 3,
+        "name": "thomas edison",
+        "email": "tedison@csumb.edu",
+        "courseId": "cst363",
+        "title": "Introduction to Database",
+        "sectionId": 1,
+        "sectionNo": 8,
+        "building": "052",
+        "room": "104",
+        "times": "M W 10:00-11:50",
+        "credits": 4,
+        "year": 2025,
+        "semester": "Spring"
+    },
+    {
+        "enrollmentId": 3,
+        "grade": "A",
+        "studentId": 3,
+        "name": "thomas edison",
+        "email": "tedison@csumb.edu",
+        "courseId": "cst438",
+        "title": "Software Engineering",
+        "sectionId": 1,
+        "sectionNo": 10,
+        "building": "052",
+        "room": "222",
+        "times": "T Th 12:00-1:50",
+        "credits": 4,
+        "year": 2025,
+        "semester": "Spring"
+    }
+]
+
+
+verify change was made:
+http://localhost:8080/enrollments?year=2025&semester=Spring&studentId=3
+
+Attempt to update enrollment from "B" to "INC"
+http://localhost:8080/enrollments
+[
+    {
+        "enrollmentId": 2,
+        "grade": "INC",
+        "studentId": 3,
+        "name": "thomas edison",
+        "email": "tedison@csumb.edu",
+        "courseId": "cst363",
+        "title": "Introduction to Database",
+        "sectionId": 1,
+        "sectionNo": 8,
+        "building": "052",
+        "room": "104",
+        "times": "M W 10:00-11:50",
+        "credits": 4,
+        "year": 2025,
+        "semester": "Spring"
+    },
+    {
+        "enrollmentId": 3,
+        "grade": "A",
+        "studentId": 3,
+        "name": "thomas edison",
+        "email": "tedison@csumb.edu",
+        "courseId": "cst438",
+        "title": "Software Engineering",
+        "sectionId": 1,
+        "sectionNo": 10,
+        "building": "052",
+        "room": "222",
+        "times": "T Th 12:00-1:50",
+        "credits": 4,
+        "year": 2025,
+        "semester": "Spring"
+    }
+]
+
+verify change was made:
+http://localhost:8080/enrollments?year=2025&semester=Spring&studentId=3
+
+Test bad parameters: enrollmentId
+
+Test bad enrollmentId
+[
+    {
+        "enrollmentId": 42,
+        "grade": "B",
+        "studentId": 3,
+        "name": "thomas edison",
+        "email": "tedison@csumb.edu",
+        "courseId": "cst363",
+        "title": "Introduction to Database",
+        "sectionId": 1,
+        "sectionNo": 8,
+        "building": "052",
+        "room": "104",
+        "times": "M W 10:00-11:50",
+        "credits": 4,
+        "year": 2025,
+        "semester": "Spring"
+    },
+    {
+        "enrollmentId": 3,
+        "grade": "A",
+        "studentId": 3,
+        "name": "thomas edison",
+        "email": "tedison@csumb.edu",
+        "courseId": "cst438",
+        "title": "Software Engineering",
+        "sectionId": 1,
+        "sectionNo": 10,
+        "building": "052",
+        "room": "222",
+        "times": "T Th 12:00-1:50",
+        "credits": 4,
+        "year": 2025,
+        "semester": "Spring"
+    }
+]
+
+verify change wasn't made (entry should be ignored but grading continued since this entry is part of a list):
+http://localhost:8080/enrollments?year=2025&semester=Spring&studentId=3
+
