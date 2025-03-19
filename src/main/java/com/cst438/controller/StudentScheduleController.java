@@ -1,9 +1,7 @@
 package com.cst438.controller;
 
 import com.cst438.domain.*;
-import com.cst438.dto.CourseDTO;    //HP added
 import com.cst438.dto.EnrollmentDTO;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,11 +30,22 @@ public class StudentScheduleController {
     @GetMapping("/transcripts")
     public List<EnrollmentDTO> getTranscript(@RequestParam("studentId") int studentId) {
 
-        // TO-DO
+        // TO-DO ✅
 
         // list course_id, sec_id, title, credit, grade
         // hint: use enrollment repository method findEnrollmentByStudentIdOrderByTermId
         List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsByStudentIdOrderByTermId(studentId);
+
+        // Rubric: studentID not found ✅
+        Optional<User> studentOpt = userRepository.findById(studentId);
+        if(studentOpt.isEmpty()) {
+            throw new RuntimeException("Student not found");
+        }
+        // Rubric: studentID is invalid
+        User student = studentOpt.get();
+        if(!(student.getType().equals("STUDENT"))){
+            throw new RuntimeException("StudentId argument indicates user is not a student");
+        }
 
         // remove the following line when done
         // return null;
@@ -75,15 +84,17 @@ public class StudentScheduleController {
             @PathVariable int sectionNo,
             @RequestParam("studentId") int studentId ) {
 
-        // TO-DO
+        // TO-DO ✅
         Optional<Section> sectionOpt = sectionRepository.findById(sectionNo);
 
         // check that the Section entity with primary key sectionNo exists
+        // Rubric: sectionNo is not found when adding a course ✅
         if (sectionOpt.isEmpty()) {
             throw new RuntimeException("Section not found");
         }
         Section section = sectionOpt.get();
         // check that today is between addDate and addDeadline for the section
+        // Rubric: adding a course before the addDate or after the addDeadline ✅
         if (!(java.time.LocalDate.now().isAfter(section.getTerm().getAddDate().toLocalDate()) &&
                 java.time.LocalDate.now().isBefore(section.getTerm().getAddDeadline().toLocalDate()))) {
             throw new RuntimeException("Enrollment period is closed for this section");
@@ -92,8 +103,8 @@ public class StudentScheduleController {
         if (enrollmentRepository.findEnrollmentBySectionNoAndStudentId(sectionNo, studentId) != null) {
             throw new RuntimeException("Student already enrolled in this section");
         }
-        // create a new enrollment entity and save.  The enrollment grade will
-        // be NULL until instructor enters final grades for the course.
+
+        // Rubric: studentID not found ✅
         Optional<User> studentOpt = userRepository.findById(studentId);
         if(studentOpt.isEmpty()) {
             throw new RuntimeException("Student not found");
@@ -102,6 +113,9 @@ public class StudentScheduleController {
         if(!(student.getType().equals("STUDENT"))) {
             throw new RuntimeException("StudentId argument indicates user is not a student");
         }
+
+        // create a new enrollment entity and save.  The enrollment grade will
+        // be NULL until instructor enters final grades for the course.
         Enrollment enrollment = new Enrollment();
         enrollment.setStudent(student);
         enrollment.setSection(section);
@@ -137,17 +151,19 @@ public class StudentScheduleController {
     @DeleteMapping("/enrollments/{enrollmentId}")
     public void dropCourse(@PathVariable("enrollmentId") int enrollmentId) {
 
-        // TO-DO
+        // TO-DO ✅
 
         Optional<Enrollment> enrollmentOpt = enrollmentRepository.findById(enrollmentId);
+        // Rubric: dropping an invalid enrollmentId ✅
         if (enrollmentOpt.isEmpty()) {
-            throw new RuntimeException("Enrollment not found");
+            throw new RuntimeException("Enrollment ID invalid");
         }
         Enrollment enrollment = enrollmentOpt.get();
         // check that today is not after the dropDeadline for section
+        // Rubric: dropping a course after the dropDeadline date ✅
         Section section = enrollment.getSection();
-        if (!(java.time.LocalDate.now().isAfter(section.getTerm().getAddDate().toLocalDate()))) {
-            throw new RuntimeException("Enrollment period is closed for this section");
+        if (java.time.LocalDate.now().isAfter(section.getTerm().getDropDeadline().toLocalDate())) {
+            throw new RuntimeException("Drop deadline already passed, unable to drop enrollment");
         }
         enrollmentRepository.delete(enrollment);
     }
