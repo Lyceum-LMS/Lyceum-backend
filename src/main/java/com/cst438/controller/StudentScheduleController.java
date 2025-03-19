@@ -109,6 +109,7 @@ public class StudentScheduleController {
         if(studentOpt.isEmpty()) {
             throw new RuntimeException("Student not found");
         }
+        // check if studentID is not a student
         User student = studentOpt.get();
         if(!(student.getType().equals("STUDENT"))) {
             throw new RuntimeException("StudentId argument indicates user is not a student");
