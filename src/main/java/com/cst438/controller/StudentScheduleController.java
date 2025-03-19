@@ -32,7 +32,7 @@ public class StudentScheduleController {
     @GetMapping("/transcripts")
     public List<EnrollmentDTO> getTranscript(@RequestParam("studentId") int studentId) {
 
-        // TODO
+        // TO-DO
 
         // list course_id, sec_id, title, credit, grade
         // hint: use enrollment repository method findEnrollmentByStudentIdOrderByTermId
@@ -75,7 +75,7 @@ public class StudentScheduleController {
             @PathVariable int sectionNo,
             @RequestParam("studentId") int studentId ) {
 
-        // TODO
+        // TO-DO
         Optional<Section> sectionOpt = sectionRepository.findById(sectionNo);
 
         // check that the Section entity with primary key sectionNo exists
@@ -99,6 +99,9 @@ public class StudentScheduleController {
             throw new RuntimeException("Student not found");
         }
         User student = studentOpt.get();
+        if(!(student.getType().equals("STUDENT"))) {
+            throw new RuntimeException("StudentId argument indicates user is not a student");
+        }
         Enrollment enrollment = new Enrollment();
         enrollment.setStudent(student);
         enrollment.setSection(section);
@@ -134,7 +137,7 @@ public class StudentScheduleController {
     @DeleteMapping("/enrollments/{enrollmentId}")
     public void dropCourse(@PathVariable("enrollmentId") int enrollmentId) {
 
-        // TODO
+        // TO-DO
 
         Optional<Enrollment> enrollmentOpt = enrollmentRepository.findById(enrollmentId);
         if (enrollmentOpt.isEmpty()) {
