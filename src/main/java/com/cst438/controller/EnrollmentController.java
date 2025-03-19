@@ -75,15 +75,16 @@ public class EnrollmentController {
         // For each EnrollmentDTO in the list
         //  find the Enrollment entity using enrollmentId
         //  update the grade and save back to database
-        Set<String> VALID_GRADES = Set.of("a", "b", "c", "d", "f");
 
         for (EnrollmentDTO dto : dlist) {
             Enrollment e = enrollmentRepository.findById(dto.enrollmentId()).orElse(null);
             if (e == null) {
                 throw  new ResponseStatusException( HttpStatus.NOT_FOUND, "enrollment not found "+ dto.enrollmentId());
             } else {
-                if (dto.grade() != null && VALID_GRADES.contains(dto.grade().toLowerCase())){
-                    e.setGrade(dto.grade().toUpperCase());
+                if (dto.grade() != null){
+                    e.setGrade(dto.grade().toUpperCase().substring(0,5));
+                } else {
+                    e.setGrade(null);
                 }
                 enrollmentRepository.save(e);
             }
