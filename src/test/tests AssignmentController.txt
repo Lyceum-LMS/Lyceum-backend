@@ -1,0 +1,113 @@
+Postman queries:
+
+AssignmentController
+-getAssignments(...)
+http://localhost:8080/sections/{secNo}/assignments
+select * from section join assignment;
+(secNo: 8)
+
+http://localhost:8080/sections/8/assignments
+http://localhost:8080/sections/8/assignments?instructorEmail=dwisneski@csumb.edu
+http://localhost:8080/sections/7/assignments?instructorEmail=jgross@csumb.edu
+
+Test bad parameters: secNo, email
+message returned for not instructor of secNo http://localhost:8080/sections/7/assignments?instructorEmail=dwisneski@csumb.edu
+
+
+-createAssignment(...)
+http://localhost:8080/sections/assignments
+http://localhost:8080/assignments?instructorEmail=dwisneski@csumb.edu
+
+    {
+        "title": "db homework 3",
+        "dueDate": "2025-02-18",
+        "courseId": "cst363",
+        "secId": 1,
+        "secNo": 8
+    }
+
+
+Test bad parameters: secId, email
+message returned not instructor for http://localhost:8080/assignments?instructorEmail=dwisneski@csumb.edu
+
+    {
+        "title": "db homework 4",
+        "dueDate": "2025-02-25",
+        "courseId": "cst363",
+        "secId": 1,
+        "secNo": 7
+    }
+
+message returned for not instructor http://localhost:8080/assignments?instructorEmail=jgross@csumb.edu
+    {
+        "title": "db homework 4",
+        "dueDate": "2025-02-25",
+        "courseId": "cst363",
+        "secId": 1,
+        "secNo": 8
+    }
+
+-updateAssignment(...)
+http://localhost:8080/assignments{id}
+http://localhost:8080/assignments/1?instructorEmail=dwisneski@csumb.edu
+
+change date from 2025-02-01 to 2025-02-14   
+  {
+        "id": 1,
+        "title": "db homework 1",
+        "dueDate": "2025-02-14",
+        "courseId": "cst363",
+        "secId": 1,
+        "secNo": 8
+  }
+
+
+
+Test bad parameters: id, email
+message returned for not instructor http://localhost:8080/assignments/1?instructorEmail=jgross@csumb.edu
+message returned for http://localhost:8080/assignments/3?instructorEmail=dwisneski@csumb.edu
+Also, returned proper messages for invalid/out-of-range dueDate
+
+
+-deleteAssignment(...)
+http://localhost:8080/assignments{id}
+http://localhost:8080/assignments/2?instructorEmail=dwisneski@csumb.edu
+
+delete assignmentId = 2
+http://localhost:8080/assignments/2?instructorEmail=dwisneski@csumb.edu
+
+Test bad parameters: id, email
+message returned for assignment not found http://localhost:8080/assignments/5?instructorEmail=dwisneski@csumb.edu
+message returned for not instructor http://localhost:8080/assignments/1?instructorEmail=jgross@csumb.edu
+message returned for existing grade http://localhost:8080/assignments/1?instructorEmail=dwisneski@csumb.edu
+
+
+test assignments 
+http://localhost:8080/sections/8/assignments?instructorEmail=dwisneski@csumb.edu
+[
+    {
+        "id": 1,
+        "title": "db homework 1",
+        "dueDate": "2025-02-01",
+        "courseId": "cst363",
+        "secId": 1,
+        "secNo": 8
+    },
+    {
+        "id": 2,
+        "title": "db homework 2",
+        "dueDate": "2025-02-15",
+        "courseId": "cst363",
+        "secId": 1,
+        "secNo": 8
+    }
+]
+
+
+
+**other interesting findings:
+http://localhost:8080/assignments?instructorEmail=dwisneski@csumb.edu
+returns message "Required parameter 'studentId' is not present."
+
+
+
