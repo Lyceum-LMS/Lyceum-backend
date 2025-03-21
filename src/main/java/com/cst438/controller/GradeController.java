@@ -83,7 +83,31 @@ public class GradeController {
             grade.setScore(dto.score());
             gradeRepository.save(grade);
         }
-
     }
 
+    /**
+     * Delete a single grade
+     * This effectively resets a student's grade to "not graded"
+     * The grade entity remains in the database but with a null score
+     */
+    @DeleteMapping("/grades/{gradeId}")
+    public void deleteGrade(
+            @PathVariable("gradeId") int gradeId,
+            @RequestParam("instructorEmail") String instructorEmail) {
+
+        // Retrieve the grade
+        Grade grade = gradeRepository.findById(gradeId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Grade not found with ID: " + gradeId));
+
+        // Verify that the instructor is authorized for this grade's section
+        if (!grade.getAssignment().getSection().getInstructorEmail().equals(instructorEmail)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "You are not the instructor for this section");
+        }
+
+        // Set the score to null (considered "not graded")
+        grade.setScore(null);
+        gradeRepository.save(grade);
+    }
 }
