@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.StringBuilder;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -200,12 +201,49 @@ public class AssignmentController {
         // This prevents orphaned records and provides a more user-friendly error message than a raw SQL constraint violation
         List<Grade> existingGrades = assignment.getGrades();
         if (existingGrades != null && !existingGrades.isEmpty()) {
+            // Create a list of student names with their grades
+            StringBuilder studentInfo = new StringBuilder();
+            for (Grade grade : existingGrades) {
+                User student = grade.getEnrollment().getStudent();
+                studentInfo.append("\n- ")
+                        .append(student.getName())
+                        .append(" (")
+                        .append(student.getEmail())
+                        .append("), Score: ")
+                        .append(grade.getScore() == null ? "Not graded" : grade.getScore());
+            }
+
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Cannot delete assignment with ID " + assignmentId + " because it has " +
-                            existingGrades.size() + " associated grades. Delete the grades first to maintain referential integrity.");
+                            existingGrades.size() + " associated grades for these students:" +
+                            studentInfo.toString() +
+                            "\nDelete the grades first to maintain referential integrity.");
         }
 
         // Delete the assignment now that we've verified no grades reference it
         assignmentRepository.delete(assignment);
+    }
+
+    @DeleteMapping("/assignments/{assignmentId}/grades")
+    public void deleteAllGradesForAssignment(
+            @PathVariable("assignmentId") int assignmentId,
+            @RequestParam("instructorEmail") String instructorEmail) {
+
+        // Get the assignment
+        Assignment assignment = assignmentRepository.findById(assignmentId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Assignment not found: " + assignmentId));
+
+        // Validate that the logged-in user is the instructor for the section
+        if (!assignment.getSection().getInstructorEmail().equals(instructorEmail)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "You are not the instructor for this section");
+        }
+
+        // Delete all grades for this assignment
+        List<Grade> grades = assignment.getGrades();
+        if (grades != null && !grades.isEmpty()) {
+            gradeRepository.deleteAll(grades);
+        }
     }
 }
