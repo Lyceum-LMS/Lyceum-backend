@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;   //HP added
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class StudentScheduleController {
 
     /**
