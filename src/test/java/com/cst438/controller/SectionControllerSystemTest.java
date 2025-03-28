@@ -18,7 +18,8 @@ public class SectionControllerSystemTest {
     //  for WinOS the file name will be chromedriver.exe
     //  for MacOS the file name will be chromedriver
     public static final String CHROME_DRIVER_FILE_LOCATION =
-            "C:/chromedriver_win32/chromedriver.exe";
+            (System.getProperty("os.name").toLowerCase().contains("mac")) ?
+                    "drivers/chromedriver" : "drivers/chromedriver.exe";
 
     //public static final String CHROME_DRIVER_FILE_LOCATION =
     //        "~/chromedriver_macOS/chromedriver";
@@ -231,7 +232,11 @@ public class SectionControllerSystemTest {
 
         // clear the courseId field and enter cst499
         WebElement courseId = driver.findElement(By.id("ecourseId"));
-        courseId.sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        String os = System.getProperty("os.name").toLowerCase();
+        Keys modifierKey = (os.contains("mac")) ? Keys.COMMAND : Keys.CONTROL;
+        courseId.sendKeys(Keys.chord(modifierKey, "a", Keys.DELETE));
+//        courseId.sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+
        Thread.sleep(SLEEP_DURATION);
         courseId.sendKeys("cst499");
         driver.findElement(By.id("save")).click();
