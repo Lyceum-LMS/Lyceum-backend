@@ -7,11 +7,9 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-public class InstructorControllerClassGradesSystemTest {
+public class EnrollmentControllerStudentEnrollSectionSystemTest {
 
     // TODO edit the following to give the location and file name
     // of the Chrome driver.
@@ -64,105 +62,170 @@ public class InstructorControllerClassGradesSystemTest {
     }
 
     @Test
-    public void systemTestAddGrades() throws Exception {
+    public void systemTestEnrollClass() throws Exception {
         /*
-        System test to enter enrollment grades for enrolled students
-        The test uses Selenium to navigate from the home page for an instructor,
-        to view a list of Sections, enter year and semester and view the list of sections,
-        then select the link to view enrollments,
-        and the grade field for each enrolled student is updated with a final letter grade value.
-        Then the grades are saved.
-        There are assert statements to verify that the grades were saved.
+            System test to enroll into a section
+            The test uses Selenium to navigate from the home page for an student
+            to the page to enroll into a section.
+            A section is selected from the list of open sections.
+            The student view schedule page is selected, and the year and semester are entered.
+            There are assert statements that verify the new section was successfully
+            added to the student's schedule.
         */
+
 
         // click link to navigate to home
 //        WebElement we = driver.findElement(By.id("root"));
-        WebElement we = driver.findElement(By.xpath("//a[text()='Home']"));
-        we.click();
+        WebElement we_home = driver.findElement(By.xpath("//a[text()='Home']"));
+        we_home.click();
         Thread.sleep(SLEEP_DURATION);
 
-        // enter 2025, Spring and click show sections
-        driver.findElement(By.id("year")).sendKeys("2025");
-        driver.findElement(By.id("semester")).sendKeys("Spring");
-        driver.findElement(By.id("search")).click();
-//        driver.findElement(By.xpath("//a[text()='Show Sections']")).click();
+        // click link to navigate to "Enroll in a class"
+        WebElement we_enroll = driver.findElement(By.xpath("//a[text()='Enroll in a class']"));
+        we_enroll.click();
+        Thread.sleep(2500);
+
+        // enroll in cst338 section 1 (secNo=6)
+//        WebElement row = driver.findElement(By.cssSelector("tr[data-secno='6']"));
+        WebElement row = driver.findElement(By.xpath("//tr[td[text()='cst338'] and td[text()='1']]"));
+        WebElement enrollButton = row.findElement(By.xpath(".//button[text()='Enroll']"));
+        enrollButton.click();
+        Thread.sleep(2500);
+
+        // Wait for prompt to enroll in course and select 'OK']
+        Alert alert = driver.switchTo().alert();
+        String alertText = alert.getText();
+        assertTrue(alertText.contains("Are you sure you want to enroll in section 6?"), "Unexpected alert message");
+        alert.accept();
+        Thread.sleep(1500);
+
+        // Wait for prompt that course was enrolled and select 'OK'
+        alert = driver.switchTo().alert();
+        alertText = alert.getText();
+        assertTrue(alertText.contains("Successfully enrolled in course"), "Unexpected alert message");
+        alert.accept();
+        Thread.sleep(1500);
+
+        // go to View Class Schedule, verify course is added and then delete
+        WebElement we_schedule = driver.findElement(By.xpath("//a[text()='VIew Class Schedule']"));
+        we_schedule.click();
+        Thread.sleep(SLEEP_DURATION);
+        driver.findElement(By.id("syear")).sendKeys("2025");
+        driver.findElement(By.id("ssemester")).sendKeys("Spring");
+        driver.findElement(By.xpath("//button[text()='Search for Enrollments']")).click();
         Thread.sleep(SLEEP_DURATION);
 
-        // select View Enrollments for secNo "8"
-        WebElement enrollmentsLink = driver.findElement(
-                By.xpath("//tr[@data-secno='8']//a[text()='View Enrollments']")
-        );
-        enrollmentsLink.click();
+        // assert course has been added
+        WebElement we_row = driver.findElement(By.xpath("//tr[td[text()='cst338']]"));
+        assertNotNull(we_row, "course not there");
         Thread.sleep(SLEEP_DURATION);
 
-        // set up OS specific modifier key
-        String os = System.getProperty("os.name").toLowerCase();
-        Keys modifierKey = (os.contains("mac")) ? Keys.COMMAND : Keys.CONTROL;
-        // create array of students
-        String[] emails = {"tedison@csumb.edu", "lsimpson@csumb.edu", "bsimpson@csumb.edu", "hsimpson@csumb.edu"};
-        String[] grades = {"A", "A", "", "B"};
+        // delete added course
+        WebElement deleteButton = we_row.findElement(By.xpath(".//button[text()='Delete']"));
+        deleteButton.click();
+        Thread.sleep(1500);
+        // Wait for prompt to delete course and select 'Yes']
+        WebElement yesButton = driver.findElement(By.xpath("//div[contains(@class,'react-confirm-alert')]//button[text()='Yes']"));
+        yesButton.click();
+        Thread.sleep(1500);
 
-        int index = 0;
-
-        while (index < emails.length) {
-            // if student email does not exist, increment index and loop
-            try {
-                // get student email and grade from list
-                String email = emails[index];
-                String grade = grades[index];
-                // find student email, update grade
-                WebElement row = driver.findElement(By.xpath("//tr[td[text()='" + email + "']]"));
-                WebElement inputGrade = row.findElement(By.cssSelector("input[name='grade']"));
-                // clear inputGrade
-                inputGrade.click();  // focus the field
-                inputGrade.clear();  // attempt native clear
-                inputGrade.sendKeys(Keys.chord(modifierKey, "a")); // select all
-                inputGrade.sendKeys(Keys.DELETE); // then delete
-                Thread.sleep(SLEEP_DURATION);
-                // send grade with whitespace otherwise react repopulates field with previous value
-                inputGrade.sendKeys(grade + " ");
-                inputGrade.sendKeys(Keys.BACK_SPACE);
-            } catch (NoSuchElementException e) {
-                String email = emails[index];
-                System.err.println("Skipping index/email: " + index + "/" + email + " — missing element.");
-            } finally {
-                index++;
-                Thread.sleep(SLEEP_DURATION);
-            }
-        } // while()
-
-        try {
-            driver.findElement(By.id("btn-save-grades")).click();
-            Thread.sleep(SLEEP_DURATION);
-        } catch (NoSuchElementException e) {
-            System.err.println("missing expected save element.");
-        } finally {
-        }
-
-        // assert grades have been updated
-        index = 0;
-        while (index < emails.length) {
-            try {
-                String email = emails[index];
-                String expectedGrade = grades[index];
-
-                WebElement row = driver.findElement(By.xpath("//tr[td[text()='" + email + "']]"));
-                WebElement inputGrade = row.findElement(By.cssSelector("input[name='grade']"));
-                String actualGrade = inputGrade.getAttribute("value");
-                assertEquals(expectedGrade, actualGrade, "Grade mismatch for " + email);
-
-            } catch (NoSuchElementException e) {
-                String email = emails[index];
-                System.err.println("Could not verify grade for row/email: " + index + "/" + email + " — missing element.");
-            } finally {
-                index++;
-                Thread.sleep(SLEEP_DURATION);
-            }
-        } // while()
         // return to home page
-        we.click();
+        we_home.click();
         Thread.sleep(SLEEP_DURATION);
-    } // systemTestAddGrades()
+
+        // confirm course delete via mesage
+        // String message = driver.findElement(By.id("message")).getText();
+//        WebElement we_message = driver.findElement(By.xpath("//h4[text()='Enrollment deleted']"));
+////      assertTrue(message.startsWith("section added"));
+//        assertNotNull(we_message);
+//        Thread.sleep(1500);
+
+
+
+
+
+
+//        // enter 2025, Spring and click show sections
+//        driver.findElement(By.id("year")).sendKeys("2025");
+//        driver.findElement(By.id("semester")).sendKeys("Spring");
+//        driver.findElement(By.id("search")).click();
+//        Thread.sleep(SLEEP_DURATION);
+//
+//        // select View Enrollments for secNo "8"
+//        WebElement enrollmentsLink = driver.findElement(
+//                By.xpath("//tr[@data-secno='8']//a[text()='View Enrollments']")
+//        );
+//        enrollmentsLink.click();
+//        Thread.sleep(SLEEP_DURATION);
+//
+//        // set up OS specific modifier key
+//        String os = System.getProperty("os.name").toLowerCase();
+//        Keys modifierKey = (os.contains("mac")) ? Keys.COMMAND : Keys.CONTROL;
+//        // create array of students
+//        String[] emails = {"tedison@csumb.edu", "lsimpson@csumb.edu", "bsimpson@csumb.edu", "hsimpson@csumb.edu"};
+//        String[] grades = {"A", "A", "", "B"};
+//
+//        int index = 0;
+//
+//        while (index < emails.length) {
+//            // if student email does not exist, increment index and loop
+//            try {
+//                // get student email and grade from list
+//                String email = emails[index];
+//                String grade = grades[index];
+//                // find student email, update grade
+//                WebElement row = driver.findElement(By.xpath("//tr[td[text()='" + email + "']]"));
+//                WebElement inputGrade = row.findElement(By.cssSelector("input[name='grade']"));
+//                // clear inputGrade
+//                inputGrade.click();  // focus the field
+//                inputGrade.clear();  // attempt native clear
+//                inputGrade.sendKeys(Keys.chord(modifierKey, "a")); // select all
+//                inputGrade.sendKeys(Keys.DELETE); // then delete
+//                Thread.sleep(SLEEP_DURATION);
+//                // send grade with whitespace otherwise react repopulates field with previous value
+//                inputGrade.sendKeys(grade + " ");
+//                inputGrade.sendKeys(Keys.BACK_SPACE);
+//            } catch (NoSuchElementException e) {
+//                String email = emails[index];
+//                System.err.println("Skipping index/email: " + index + "/" + email + " — missing element.");
+//            } finally {
+//                index++;
+//                Thread.sleep(SLEEP_DURATION);
+//            }
+//        } // while()
+//
+//        try {
+//            driver.findElement(By.id("btn-save-grades")).click();
+//            Thread.sleep(SLEEP_DURATION);
+//        } catch (NoSuchElementException e) {
+//            System.err.println("missing expected save element.");
+//        } finally {
+//        }
+//
+//        // assert grades have been updated
+//        index = 0;
+//        while (index < emails.length) {
+//            try {
+//                String email = emails[index];
+//                String expectedGrade = grades[index];
+//
+//                WebElement row = driver.findElement(By.xpath("//tr[td[text()='" + email + "']]"));
+//                WebElement inputGrade = row.findElement(By.cssSelector("input[name='grade']"));
+//                String actualGrade = inputGrade.getAttribute("value");
+//                assertEquals(expectedGrade, actualGrade, "Grade mismatch for " + email);
+//
+//            } catch (NoSuchElementException e) {
+//                String email = emails[index];
+//                System.err.println("Could not verify grade for row/email: " + index + "/" + email + " — missing element.");
+//            } finally {
+//                index++;
+//                Thread.sleep(SLEEP_DURATION);
+//            }
+//        } // while()
+//        // return to home page
+//        we.click();
+//        Thread.sleep(SLEEP_DURATION);
+    } // systemTestEnrollClass()
 } // InstructorControllerClassGradesSystemTest
 
 
