@@ -7,11 +7,9 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-public class InstructorControllerClassGradesSystemTest {
+public class InstructorControllerSystemTest_SLS {
 
     // TODO edit the following to give the location and file name
     // of the Chrome driver.
@@ -100,7 +98,7 @@ public class InstructorControllerClassGradesSystemTest {
         Keys modifierKey = (os.contains("mac")) ? Keys.COMMAND : Keys.CONTROL;
         // create array of students
         String[] emails = {"tedison@csumb.edu", "lsimpson@csumb.edu", "bsimpson@csumb.edu", "hsimpson@csumb.edu"};
-        String[] grades = {"A", "A", "", "B"};
+        String[] grades = {"", "A", "C", "B"};
 
         int index = 0;
 
@@ -138,6 +136,23 @@ public class InstructorControllerClassGradesSystemTest {
             System.err.println("missing expected save element.");
         } finally {
         }
+
+        // go to home page and then come back in
+        we.click();
+        Thread.sleep(SLEEP_DURATION);
+        // enter 2025, Spring and click show sections
+        driver.findElement(By.id("year")).sendKeys("2025");
+        driver.findElement(By.id("semester")).sendKeys("Spring");
+        driver.findElement(By.id("search")).click();
+//        driver.findElement(By.xpath("//a[text()='Show Sections']")).click();
+        Thread.sleep(SLEEP_DURATION);
+
+        enrollmentsLink = driver.findElement(
+                By.xpath("//tr[@data-secno='8']//a[text()='View Enrollments']")
+        );
+        enrollmentsLink.click();
+        Thread.sleep(SLEEP_DURATION);
+
 
         // assert grades have been updated
         index = 0;

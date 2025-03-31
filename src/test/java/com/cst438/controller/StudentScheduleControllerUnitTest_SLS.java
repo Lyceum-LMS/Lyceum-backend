@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class StudentScheduleControllerEnrollSectionUnitTest {
+public class StudentScheduleControllerUnitTest_SLS {
 
     @Autowired
     MockMvc mvc;
@@ -118,36 +118,50 @@ public class StudentScheduleControllerEnrollSectionUnitTest {
         // STATUS: 500, message: "Student already enrolled in this section"
 
         // solution #1
-        Exception exception = assertThrows(Exception.class, () -> {
-            mvc.perform(MockMvcRequestBuilders
-                            .post("/enrollments/sections/" + enrollment.sectionNo() + "?studentId=" + enrollment.studentId())
-                            .accept(MediaType.APPLICATION_JSON)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(asJsonString(enrollment)))
-                    .andReturn()
-                    .getResponse();
-        });
-
-        String message = exception.getCause().getMessage(); // unwraps RuntimeException
-        assertTrue(message.contains("Student already enrolled in this section"));
+//        Exception exception = assertThrows(Exception.class, () -> {
+//            mvc.perform(MockMvcRequestBuilders
+//                            .post("/enrollments/sections/" + enrollment.sectionNo() + "?studentId=" + enrollment.studentId())
+//                            .accept(MediaType.APPLICATION_JSON)
+//                            .contentType(MediaType.APPLICATION_JSON)
+//                            .content(asJsonString(enrollment)))
+//                    .andReturn()
+//                    .getResponse();
+//        });
+//
+//        String message = exception.getCause().getMessage(); // unwraps RuntimeException
+//        assertTrue(message.contains("Student already enrolled in this section"));
 
         // solution #2
-        try{
-            response = mvc.perform(
-                            MockMvcRequestBuilders
-                                    .post("/enrollments/sections/" + enrollment.sectionNo() + "?studentId=" + enrollment.studentId())
-                                    .accept(MediaType.APPLICATION_JSON)
-                                    .contentType(MediaType.APPLICATION_JSON)
-                                    .content(asJsonString(enrollment)))
-                    .andReturn()
-                    .getResponse();
-        }  catch (Exception ex) {
-            Throwable root = ex.getCause();
-            // check the response code for 500 meaning ERROR
-            // "Student already enrolled in this section"
-            assertNotNull(root);
-            assertTrue(root.getMessage().contains("Student already enrolled in this section"));
-        }
+//        try{
+//            response = mvc.perform(
+//                            MockMvcRequestBuilders
+//                                    .post("/enrollments/sections/" + enrollment.sectionNo() + "?studentId=" + enrollment.studentId())
+//                                    .accept(MediaType.APPLICATION_JSON)
+//                                    .contentType(MediaType.APPLICATION_JSON)
+//                                    .content(asJsonString(enrollment)))
+//                    .andReturn()
+//                    .getResponse();
+//        }  catch (Exception ex) {
+//            Throwable root = ex.getCause();
+//            // check the response code for 500 meaning ERROR
+//            // "Student already enrolled in this section"
+//            assertNotNull(root);
+//            assertTrue(root.getMessage().contains("Student already enrolled in this section"));
+//        }
+        response = mvc.perform(
+                        MockMvcRequestBuilders
+                                .post("/enrollments/sections/" + enrollment.sectionNo() + "?studentId=" + enrollment.studentId())
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(asJsonString(enrollment)))
+                .andReturn()
+                .getResponse();
+
+        // check the response code for 400 meaning OK
+        assertEquals(400, response.getStatus());
+        assertTrue(response.getErrorMessage().contains("Student already enrolled in this section"));
+
+
     } // enrollCourseFailsAlreadyEnrolled()
 
 //    @Test

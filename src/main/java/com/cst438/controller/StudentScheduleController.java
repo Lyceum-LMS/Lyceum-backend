@@ -3,7 +3,9 @@ package com.cst438.controller;
 import com.cst438.domain.*;
 import com.cst438.dto.EnrollmentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,12 +42,14 @@ public class StudentScheduleController {
         // Rubric: studentID not found ✅
         Optional<User> studentOpt = userRepository.findById(studentId);
         if(studentOpt.isEmpty()) {
-            throw new RuntimeException("Student not found");
+//            throw new RuntimeException("Student not found");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Student not found");
         }
         // Rubric: studentID is invalid
         User student = studentOpt.get();
         if(!(student.getType().equals("STUDENT"))){
-            throw new RuntimeException("StudentId argument indicates user is not a student");
+//            throw new RuntimeException("StudentId argument indicates user is not a student");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "StudentId argument indicates user is not a student");
         }
 
         // remove the following line when done
@@ -91,29 +95,34 @@ public class StudentScheduleController {
         // check that the Section entity with primary key sectionNo exists
         // Rubric: sectionNo is not found when adding a course ✅
         if (sectionOpt.isEmpty()) {
-            throw new RuntimeException("Section not found");
+//            throw new RuntimeException("Section not found");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Section not found");
         }
         Section section = sectionOpt.get();
         // check that today is between addDate and addDeadline for the section
         // Rubric: adding a course before the addDate or after the addDeadline ✅
         if (!(java.time.LocalDate.now().isAfter(section.getTerm().getAddDate().toLocalDate()) &&
                 java.time.LocalDate.now().isBefore(section.getTerm().getAddDeadline().toLocalDate()))) {
-            throw new RuntimeException("Enrollment period is closed for this section");
+//            throw new RuntimeException("Enrollment period is closed for this section");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Enrollment period is closed for this section");
         }
         // check that student is not already enrolled into this section
         if (enrollmentRepository.findEnrollmentBySectionNoAndStudentId(sectionNo, studentId) != null) {
-            throw new RuntimeException("Student already enrolled in this section");
+//            throw new RuntimeException("Student already enrolled in this section");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Student already enrolled in this section");
         }
 
         // Rubric: studentID not found ✅
         Optional<User> studentOpt = userRepository.findById(studentId);
         if(studentOpt.isEmpty()) {
-            throw new RuntimeException("Student not found");
+//            throw new RuntimeException("Student not found");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Student not found");
         }
         // check if studentID is not a student
         User student = studentOpt.get();
         if(!(student.getType().equals("STUDENT"))) {
-            throw new RuntimeException("StudentId argument indicates user is not a student");
+//            throw new RuntimeException("StudentId argument indicates user is not a student");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "StudentId argument indicates user is not a student");
         }
 
         // create a new enrollment entity and save.  The enrollment grade will
@@ -165,7 +174,8 @@ public class StudentScheduleController {
         // Rubric: dropping a course after the dropDeadline date ✅
         Section section = enrollment.getSection();
         if (java.time.LocalDate.now().isAfter(section.getTerm().getDropDeadline().toLocalDate())) {
-            throw new RuntimeException("Drop deadline already passed, unable to drop enrollment");
+//            throw new RuntimeException("Drop deadline already passed, unable to drop enrollment");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Drop deadline already passed, unable to drop enrollment");
         }
         enrollmentRepository.delete(enrollment);
     }
