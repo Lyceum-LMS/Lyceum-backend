@@ -82,13 +82,14 @@ public class InstructorControllerSystemTest_SLS {
         // enter 2025, Spring and click show sections
         driver.findElement(By.id("year")).sendKeys("2025");
         driver.findElement(By.id("semester")).sendKeys("Spring");
-        driver.findElement(By.id("search")).click();
+        driver.findElement(By.xpath("//a[text()='Show Sections']")).click();
 //        driver.findElement(By.xpath("//a[text()='Show Sections']")).click();
         Thread.sleep(SLEEP_DURATION);
 
         // select View Enrollments for secNo "8"
         WebElement enrollmentsLink = driver.findElement(
-                By.xpath("//tr[@data-secno='8']//a[text()='View Enrollments']")
+//                By.xpath("//tr[@data-secno='8']//a[text()='View Enrollments']")
+                By.xpath("//tr[td[text()='cst363'] and td[text()='1']]//a[text()='View Enrollments']")
         );
         enrollmentsLink.click();
         Thread.sleep(SLEEP_DURATION);
@@ -143,12 +144,13 @@ public class InstructorControllerSystemTest_SLS {
         // enter 2025, Spring and click show sections
         driver.findElement(By.id("year")).sendKeys("2025");
         driver.findElement(By.id("semester")).sendKeys("Spring");
-        driver.findElement(By.id("search")).click();
+        driver.findElement(By.xpath("//a[text()='Show Sections']")).click();
 //        driver.findElement(By.xpath("//a[text()='Show Sections']")).click();
         Thread.sleep(SLEEP_DURATION);
 
         enrollmentsLink = driver.findElement(
-                By.xpath("//tr[@data-secno='8']//a[text()='View Enrollments']")
+//                By.xpath("//tr[@data-secno='8']//a[text()='View Enrollments']")
+                By.xpath("//tr[td[text()='cst363'] and td[text()='1']]//a[text()='View Enrollments']")
         );
         enrollmentsLink.click();
         Thread.sleep(SLEEP_DURATION);

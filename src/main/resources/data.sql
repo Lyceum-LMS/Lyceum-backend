@@ -10,7 +10,9 @@ insert into user_table (id, name, email, password, type) values
 (1, 'david wisneski', 'dwisneski@csumb.edu', '', 'INSTRUCTOR'),
 (2, 'joshua gross', 'jgross@csumb.edu', '', 'INSTRUCTOR'),
 (3, 'thomas edison', 'tedison@csumb.edu', '', 'STUDENT'),
-(4, 'fred brooks', 'fbrooks@csumb.edu', '', 'ADMIN');
+(4, 'fred brooks', 'fbrooks@csumb.edu', '', 'ADMIN'),
+(5, 'lisa simpson', 'lsimpson@csumb.edu', '', 'STUDENT'),
+(6, 'bart simpson', 'bsimpson@csumb.edu', '', 'STUDENT');
 
 insert into course values
 ('cst238', 'Introduction to Programming', 5),
@@ -38,11 +40,15 @@ insert into section(section_no, course_id, sec_id, term_id, building, room, time
 insert into enrollment (enrollment_id, grade, section_no, user_id ) values
 (1, 'A', 1, 3),
 (2, 'B', 8, 3),
-(3,  null, 10, 3);
+(3,  null, 10, 3),
+(4,  'A', 8, 5),
+(5,  'B', 8, 6);
 
 insert into assignment (assignment_id, section_no, title, due_date) values
 ( 1, 8, 'db homework 1', '2025-02-01'),
 ( 2, 8, 'db homework 2', '2025-02-15');
 
 insert into grade (grade_id, enrollment_id, assignment_id, score) values
-( 1, 2, 1, 95);
+( 1, 2, 1, 95),
+( 2, 4, 1, 97),
+( 3, 5, 1, 85);
