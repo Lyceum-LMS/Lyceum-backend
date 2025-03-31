@@ -251,7 +251,7 @@ public class StudentScheduleControllerUnitTest_SLS {
         );
 
         EnrollmentDTO enrollment3 = new EnrollmentDTO(
-                4, "A", 5, "list simpson", "lsimpson@csumb.edu",
+                4, "A", 5, "lisa simpson", "lsimpson@csumb.edu",
                 "cst363", "Introduction to Database", 1, 8,"052","104",
                 "M W 10:00-11:50", 4,2025,"Spring"
         );
@@ -329,23 +329,7 @@ public class StudentScheduleControllerUnitTest_SLS {
         assertEquals("A", result.get(1).grade());;
         assertEquals("", result.get(2).grade());
 
-        // sectionNo:5, fails
-        // returns jakarta.servlet.ServletException: Request processing failed: java.lang.RuntimeException:
-        // Bad secNo
-        // POST http://localhost:8080/enrollments/sections/5?studentId=3
-        // STATUS: 400, message: "Enrollment period is closed for this section"
-//        response = mvc.perform(
-//                        MockMvcRequestBuilders
-//                                .post("/enrollments/sections/" + enrollment.sectionNo() + "?studentId=" + enrollment.studentId())
-//                                .accept(MediaType.APPLICATION_JSON)
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                                .content(asJsonString(enrollment)))
-//                .andReturn()
-//                .getResponse();
-
-        // check the response code for 200 meaning OK
-//        assertEquals(200, response.getStatus());
-    } // enrollCourseFailsPastDeadline()
+    } // enrollCourseUpdateGrade()
 
 //    @Test
 //    public void addSectionFailsBadCourse( ) throws Exception {
