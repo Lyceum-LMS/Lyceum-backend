@@ -2,10 +2,8 @@ package com.cst438.controller;
 
 import com.cst438.domain.Enrollment;
 import com.cst438.domain.EnrollmentRepository;
-import com.cst438.domain.Section;
 import com.cst438.domain.SectionRepository;
 import com.cst438.dto.EnrollmentDTO;
-import com.cst438.dto.SectionDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class EnrollmentControllerEnrollSectionUnitTest {
+public class StudentScheduleControllerEnrollSectionUnitTest {
 
     @Autowired
     MockMvc mvc;

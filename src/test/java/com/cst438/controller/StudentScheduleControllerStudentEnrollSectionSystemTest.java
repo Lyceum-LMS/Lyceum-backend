@@ -9,7 +9,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class EnrollmentControllerStudentEnrollSectionSystemTest {
+public class StudentScheduleControllerStudentEnrollSectionSystemTest {
 
     // TODO edit the following to give the location and file name
     // of the Chrome driver.
