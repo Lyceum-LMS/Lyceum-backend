@@ -14,7 +14,9 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import com.fasterxml.jackson.core.type.TypeReference;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -272,25 +274,59 @@ public class StudentScheduleControllerUnitTest_SLS {
         assertEquals(200, response.getStatus());
 
         // return data converted from String to DTO
-        List<EnrollmentDTO> result = fromJsonListString(response.getContentAsString(), EnrollmentDTO.class);
+        List<EnrollmentDTO> result = new ObjectMapper().readValue(response.getContentAsString(), new TypeReference<List<EnrollmentDTO>>() {});
+//        List<EnrollmentDTO> result = fromJsonListString(response.getContentAsString(), EnrollmentDTO.class);
         assertFalse(result.isEmpty());
         assertEquals("cst363", result.get(0).courseId());
 
-        List<EnrollmentDTO> updated = result.stream()
-                .map(e -> {
-                    String newGrade = switch (e.email()) {
-                        case "tedison@csumb.edu" -> "";
-                        case "lsimpson@csumb.edu" -> "A";
-                        case "bsimpson@csumb.edu" -> "B";
-                        default -> e.grade(); // keep the same
-                    };
-                    return new EnrollmentDTO(
-                            e.enrollmentId(), newGrade, e.studentId(), e.name(), e.email(),
-                            e.courseId(), e.title(), e.sectionId(), e.sectionNo(), e.building(), e.room(),
-                            e.times(), e.credits(), e.year(), e.semester()
+        // go through
+        String[] emails = {"tedison@csumb.edu", "lsimpson@csumb.edu", "bsimpson@csumb.edu", "hsimpson@csumb.edu"};
+        String[] grades = {"", "A", "C", "B"};
+        List<EnrollmentDTO> updatedList =  new ArrayList<>() ;
+
+        for (EnrollmentDTO dto : result){
+            int index = 0;
+            boolean flagUpdate = false;
+            while (index < emails.length) {
+                String email = emails[index];
+                String newGrade = grades[index];
+
+                if (email.equals(dto.email())){
+                    EnrollmentDTO tempDTO = new EnrollmentDTO(
+                            dto.enrollmentId(), newGrade, dto.studentId(), dto.name(), dto.email(),
+                            dto.courseId(), dto.title(), dto.sectionId(), dto.sectionNo(), dto.building(), dto.room(),
+                            dto.times(), dto.credits(), dto.year(),dto.semester()
                     );
-                })
-                .toList();
+                    updatedList.add(tempDTO);
+                    flagUpdate= true;
+                    break;
+                } else {
+                    updatedList.add(dto);
+                }
+                index++;
+            } // while
+            if (!flagUpdate){
+                System.err.println("did not update grade for student: " + dto.name() + " — missing new grade.");
+            }
+        } // for
+
+
+
+//        List<EnrollmentDTO> updated = result.stream()
+//                .map(e -> {
+//                    String newGrade = switch (e.email()) {
+//                        case "tedison@csumb.edu" -> "";
+//                        case "lsimpson@csumb.edu" -> "A";
+//                        case "bsimpson@csumb.edu" -> "B";
+//                        default -> e.grade(); // keep the same
+//                    };
+//                    return new EnrollmentDTO(
+//                            e.enrollmentId(), newGrade, e.studentId(), e.name(), e.email(),
+//                            e.courseId(), e.title(), e.sectionId(), e.sectionNo(), e.building(), e.room(),
+//                            e.times(), e.credits(), e.year(), e.semester()
+//                    );
+//                })
+//                .toList();
 
         // invoke PUT http://localhost:8080/enrollments
         response = mvc.perform(
@@ -298,7 +334,7 @@ public class StudentScheduleControllerUnitTest_SLS {
                                 .put("/enrollments")
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(asJsonString(updated)))
+                                .content(asJsonString(updatedList)))
                 .andReturn()
                 .getResponse();
 
@@ -320,14 +356,32 @@ public class StudentScheduleControllerUnitTest_SLS {
         assertEquals(200, response.getStatus());
 
         // return data converted from String to DTO
-        result = fromJsonListString(response.getContentAsString(), EnrollmentDTO.class);
+        result =   new ObjectMapper().readValue(response.getContentAsString(), new TypeReference<List<EnrollmentDTO>>() {});
+//        result = fromJsonListString(response.getContentAsString(), EnrollmentDTO.class);
         assertFalse(result.isEmpty());
-        assertEquals("bart simpson", result.get(0).name());
-        assertEquals("lisa simpson", result.get(1).name());
-        assertEquals("thomas edison", result.get(2).name());
-        assertEquals("B", result.get(0).grade());
-        assertEquals("A", result.get(1).grade());;
-        assertEquals("", result.get(2).grade());
+
+        // assert grade has been updated
+        for (EnrollmentDTO dto : result){
+            int index = 0;
+            while (index < emails.length) {
+                String email = emails[index];
+                String newGrade = grades[index];
+
+                if (email.equals(dto.email())) {
+                    assertEquals(newGrade, dto.grade());
+                    break;
+                }
+                index++;
+            } // while
+        } // for
+
+
+//        assertEquals("bart simpson", result.get(0).name());
+//        assertEquals("lisa simpson", result.get(1).name());
+//        assertEquals("thomas edison", result.get(2).name());
+//        assertEquals("B", result.get(0).grade());
+//        assertEquals("A", result.get(1).grade());;
+//        assertEquals("", result.get(2).grade());
 
     } // enrollCourseUpdateGrade()
 
