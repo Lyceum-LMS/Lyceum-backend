@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.sql.Date;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -91,21 +93,105 @@ public class AssignmentControllerUnitTest {
         termRepository.delete(section.getTerm());
     }
 
+    @Test
+    public void addAssignment_withInvalidDueDate_shouldFail() throws Exception {
+        MockHttpServletResponse response;
+
+        // Setup: create section using helper
+        Section section = buildAndSaveTestSection();
+
+        AssignmentDTO assignmentDTO = new AssignmentDTO(
+                0,
+                "Invalid Due Date Assignment",
+                "2025-01-05", // invalid: before course start date
+                section.getCourse().getCourseId(),
+                section.getSecId(),
+                section.getSectionNo()
+        );
+
+        response = mvc.perform(
+                        MockMvcRequestBuilders
+                                .post("/assignments")
+                                .param("instructorEmail", section.getInstructorEmail())
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(asJsonString(assignmentDTO)))
+                .andReturn()
+                .getResponse();
+
+        assertEquals(400, response.getStatus());
+        String message = response.getErrorMessage();
+        assertEquals("Due date must be within the section's term dates", message);
+
+        // cleanup section and dependencies
+        sectionRepository.delete(section);
+        courseRepository.delete(section.getCourse());
+        termRepository.delete(section.getTerm());
+    }
+
+    @Test
+    public void addAssignment_withInvalidSection_shouldFail() throws Exception {
+        MockHttpServletResponse response;
+
+        // Setup: create valid section and use invalid section number
+        Section section = buildAndSaveTestSection();
+
+        AssignmentDTO assignmentDTO = new AssignmentDTO(
+                0,
+                "Invalid Section Assignment",
+                "2025-05-01",
+                section.getCourse().getCourseId(),
+                section.getSecId(),
+                12345 // invalid section number
+        );
+
+        response = mvc.perform(
+                        MockMvcRequestBuilders
+                                .post("/assignments")
+                                .param("instructorEmail", section.getInstructorEmail())
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(asJsonString(assignmentDTO)))
+                .andReturn()
+                .getResponse();
+
+        assertEquals(400, response.getStatus());
+        String message = response.getErrorMessage();
+        assertEquals("Section not found: 12345", message);
+
+        // cleanup section and dependencies
+        sectionRepository.delete(section);
+        courseRepository.delete(section.getCourse());
+        termRepository.delete(section.getTerm());
+    }
+
     private Section buildAndSaveTestSection() {
         Course course = new Course();
         course.setCourseId("CST438");
         course.setTitle("Software Engineering");
         course = courseRepository.save(course);
 
-        Term term = new Term();
-        term.setYear(2025);
-        term.setSemester("Spring");
-        term.setStartDate(Date.valueOf("2025-01-10"));
-        term.setEndDate(Date.valueOf("2025-05-15"));
-        term.setAddDate(Date.valueOf("2025-01-12"));
-        term.setAddDeadline(Date.valueOf("2025-01-20"));
-        term.setDropDeadline(Date.valueOf("2025-02-01"));
-        term = termRepository.save(term);
+        Optional<Term> existing = StreamSupport.stream(termRepository.findAll().spliterator(), false)
+                .filter(t -> t.getYear() == 2025 &&
+                        "Spring".equals(t.getSemester()) &&
+                        t.getStartDate().equals(Date.valueOf("2025-01-10")) &&
+                        t.getEndDate().equals(Date.valueOf("2025-05-15")))
+                .findFirst();
+
+        Term term;
+        if (existing.isPresent()) {
+            term = existing.get();
+        } else {
+            term = new Term();
+            term.setYear(2025);
+            term.setSemester("Spring");
+            term.setStartDate(Date.valueOf("2025-01-10"));
+            term.setEndDate(Date.valueOf("2025-05-15"));
+            term.setAddDate(Date.valueOf("2025-01-12"));
+            term.setAddDeadline(Date.valueOf("2025-01-20"));
+            term.setDropDeadline(Date.valueOf("2025-02-01"));
+            term = termRepository.save(term);
+        }
 
         Section section = new Section();
         section.setCourse(course);
