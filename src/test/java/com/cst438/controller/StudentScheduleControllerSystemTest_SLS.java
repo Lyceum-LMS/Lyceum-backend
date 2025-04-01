@@ -140,7 +140,6 @@ public class StudentScheduleControllerSystemTest_SLS {
         we_home.click();
         Thread.sleep(SLEEP_DURATION);
 
-
     } // systemTestEnrollClass()
 } // EnrollmentControllerStudentEnrollSectionSystemTest
 
