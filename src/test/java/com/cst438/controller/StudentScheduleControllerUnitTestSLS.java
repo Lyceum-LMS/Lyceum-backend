@@ -15,9 +15,9 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class StudentScheduleControllerUnitTest_SLS {
+public class StudentScheduleControllerUnitTestSLS {
 
     @Autowired
     MockMvc mvc;
@@ -145,6 +145,8 @@ public class StudentScheduleControllerUnitTest_SLS {
 
         // check the response code for 400 meaning BAD_REQUEST
         assertEquals(400, response.getStatus());
+
+        // check the expected error message
         assertTrue(Objects.requireNonNull(response.getErrorMessage()).contains("Student already enrolled in this section"));
 
     } // enrollCourseFailsDuplicateCourse()
@@ -183,6 +185,8 @@ public class StudentScheduleControllerUnitTest_SLS {
 
         // check the response code for 400 meaning BAD_REQUEST
         assertEquals(400, response.getStatus());
+
+        // check the expected error message
         assertTrue(Objects.requireNonNull(response.getErrorMessage()).contains("Section not found"));
 
     } // enrollCourseFailsBadSecNo()
@@ -221,6 +225,8 @@ public class StudentScheduleControllerUnitTest_SLS {
 
         // check the response code for 400 meaning BAD_REQUEST
         assertEquals(400, response.getStatus());
+
+        // check the expected error message
         assertTrue(Objects.requireNonNull(response.getErrorMessage()).contains("Enrollment period is closed for this section"));
 
     } // enrollCourseFailsPastDeadline()
@@ -263,8 +269,7 @@ public class StudentScheduleControllerUnitTest_SLS {
                         MockMvcRequestBuilders
                                 .get("/sections/" + enrollment1.sectionNo() + "/enrollments")
                                 .accept(MediaType.APPLICATION_JSON)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(asJsonString(enrollments)))
+                                .contentType(MediaType.APPLICATION_JSON))
                 .andReturn()
                 .getResponse();
 
@@ -272,33 +277,50 @@ public class StudentScheduleControllerUnitTest_SLS {
         assertEquals(200, response.getStatus());
 
         // return data converted from String to DTO
-        List<EnrollmentDTO> result = fromJsonListString(response.getContentAsString(), EnrollmentDTO.class);
-        assertFalse(result.isEmpty());
-        assertEquals("cst363", result.get(0).courseId());
+//        List<EnrollmentDTO> result = new ObjectMapper().readValue(response.getContentAsString(), new TypeReference<List<EnrollmentDTO>>() {});
+        List<EnrollmentDTO> resultOrg = fromJsonListString(response.getContentAsString(), EnrollmentDTO.class);
+        assertFalse(resultOrg.isEmpty());
+        assertEquals("cst363:1", resultOrg.get(0).courseId() + ":" + resultOrg.get(0).sectionId());
 
-        List<EnrollmentDTO> updated = result.stream()
-                .map(e -> {
-                    String newGrade = switch (e.email()) {
-                        case "tedison@csumb.edu" -> "";
-                        case "lsimpson@csumb.edu" -> "A";
-                        case "bsimpson@csumb.edu" -> "B";
-                        default -> e.grade(); // keep the same
-                    };
-                    return new EnrollmentDTO(
-                            e.enrollmentId(), newGrade, e.studentId(), e.name(), e.email(),
-                            e.courseId(), e.title(), e.sectionId(), e.sectionNo(), e.building(), e.room(),
-                            e.times(), e.credits(), e.year(), e.semester()
+        // update grades for students on following list that exist in course - account for erroneous student records
+        String[] emails = {"tedison@csumb.edu", "lsimpson@csumb.edu", "bsimpson@csumb.edu", "hsimpson@csumb.edu"};
+        String[] gradesNew = {"", "A", "C", "B"};
+        List<EnrollmentDTO> updatedList =  new ArrayList<>() ;
+
+        for (EnrollmentDTO dto : resultOrg){
+            int index = 0;
+            boolean flagUpdate = false;
+            while (index < emails.length) {
+                String email = emails[index];
+                String newGrade = gradesNew[index];
+
+                if (email.equals(dto.email())){
+                    EnrollmentDTO tempDTO = new EnrollmentDTO(
+                            dto.enrollmentId(), newGrade, dto.studentId(), dto.name(), dto.email(),
+                            dto.courseId(), dto.title(), dto.sectionId(), dto.sectionNo(), dto.building(), dto.room(),
+                            dto.times(), dto.credits(), dto.year(),dto.semester()
                     );
-                })
-                .toList();
+                    updatedList.add(tempDTO);
+                    flagUpdate= true;
+                    break;
+                } else {
+                    updatedList.add(dto);
+                }
+                index++;
+            } // while
+            if (!flagUpdate){
+                System.err.println("did not update grade for student: " + dto.name() + " — missing new grade.");
+            }
+        } // for
 
+        // update grades in database using HTTP PUT
         // invoke PUT http://localhost:8080/enrollments
         response = mvc.perform(
                         MockMvcRequestBuilders
                                 .put("/enrollments")
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(asJsonString(updated)))
+                                .content(asJsonString(updatedList)))
                 .andReturn()
                 .getResponse();
 
@@ -311,64 +333,51 @@ public class StudentScheduleControllerUnitTest_SLS {
                         MockMvcRequestBuilders
                                 .get("/sections/" + enrollment1.sectionNo() + "/enrollments")
                                 .accept(MediaType.APPLICATION_JSON)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(asJsonString(enrollments)))
+                                .contentType(MediaType.APPLICATION_JSON))
                 .andReturn()
                 .getResponse();
 
         // check the response code for 200 meaning OK
         assertEquals(200, response.getStatus());
 
-        // return data converted from String to DTO
-        result = fromJsonListString(response.getContentAsString(), EnrollmentDTO.class);
-        assertFalse(result.isEmpty());
-        assertEquals("bart simpson", result.get(0).name());
-        assertEquals("lisa simpson", result.get(1).name());
-        assertEquals("thomas edison", result.get(2).name());
-        assertEquals("B", result.get(0).grade());
-        assertEquals("A", result.get(1).grade());;
-        assertEquals("", result.get(2).grade());
+        // return data converted from String to List<DTO>
+//        result =   new ObjectMapper().readValue(response.getContentAsString(), new TypeReference<List<EnrollmentDTO>>() {});
+//        List<EnrollmentDTO> resultNew = fromJsonListString(response.getContentAsString(), EnrollmentDTO.class);
+        EnrollmentDTO[] resultNew = fromJsonString(response.getContentAsString(), EnrollmentDTO[].class);
+//        assertFalse(resultNew.isEmpty());
+        assertNotEquals(0, resultNew.length);
+
+        // assert grade has been updated for students on list where student record exists in database
+        for (EnrollmentDTO dto : resultNew){
+            int index = 0;
+            while (index < emails.length) {
+                String email = emails[index];
+                String newGrade = gradesNew[index];
+
+                if (email.equals(dto.email())) {
+                    assertEquals(newGrade, dto.grade());
+                    break;
+                }
+                index++;
+            } // while
+        } // for
+
+        // restore original grades
+        // update grades in database using HTTP PUT
+        // invoke PUT http://localhost:8080/enrollments
+        response = mvc.perform(
+                        MockMvcRequestBuilders
+                                .put("/enrollments")
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(asJsonString(resultOrg)))
+                .andReturn()
+                .getResponse();
+
+        // check the response code for 200 meaning OK
+        assertEquals(200, response.getStatus());
 
     } // enrollCourseUpdateGrade()
-
-//    @Test
-//    public void addSectionFailsBadCourse( ) throws Exception {
-//
-//        MockHttpServletResponse response;
-//
-//        // course id cst599 does not exist.
-//        SectionDTO section = new SectionDTO(
-//                0,
-//                2024,
-//                "Spring",
-//                "cst599",
-//                "",
-//                1,
-//                "052",
-//                "104",
-//                "W F 1:00-2:50 pm",
-//                "Joshua Gross",
-//                "jgross@csumb.edu"
-//        );
-//
-//        // issue the POST request
-//        response = mvc.perform(
-//                        MockMvcRequestBuilders
-//                                .post("/sections")
-//                                .accept(MediaType.APPLICATION_JSON)
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                                .content(asJsonString(section)))
-//                .andReturn()
-//                .getResponse();
-//
-//        // response should be 404, the course cst599 is not found
-//        assertEquals(404, response.getStatus());
-//
-//        // check the expected error message
-//        String message = response.getErrorMessage();
-//        assertEquals("course not found cst599", message);
-//
-//    } // addSectionFailsBadCourse
 
     private static String asJsonString(final Object obj) {
         try {
@@ -386,11 +395,11 @@ public class StudentScheduleControllerUnitTest_SLS {
         }
     }
 
+    // return List<DTO> from Json
     public static <T> List<T> fromJsonListString(String json, Class<T> clazz) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         JavaType type = mapper.getTypeFactory().constructCollectionType(List.class, clazz);
         return mapper.readValue(json, type);
     }
-
 
 } // StudentScheduleControllerUnitTest_SLS
