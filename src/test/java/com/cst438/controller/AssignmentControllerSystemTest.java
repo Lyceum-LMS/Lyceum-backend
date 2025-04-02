@@ -98,12 +98,12 @@ public class AssignmentControllerSystemTest {
         // Fill out title and due date fields in modal
         WebElement titleInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='title']")));
         WebElement dueDateInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='dueDate']")));
-        titleInput.clear();
+        titleInput.sendKeys(Keys.chord(modifierKey, "a", Keys.DELETE));
         titleInput.sendKeys("System Test Assignment");
-        dueDateInput.clear();
+        dueDateInput.sendKeys(Keys.chord(modifierKey, "a", Keys.DELETE));
         dueDateInput.sendKeys("2025-05-01");
         Thread.sleep(500);
-        dueDateInput.sendKeys(Keys.TAB); // trigger blur event
+        dueDateInput.sendKeys(Keys.TAB);
 
         // Click save button inside modal using JS to ensure success
         WebElement saveButton = wait.until(ExpectedConditions.elementToBeClickable(
