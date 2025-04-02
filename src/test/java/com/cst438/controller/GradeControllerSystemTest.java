@@ -15,10 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GradeControllerSystemTest {
 
-    /*public static final String CHROME_DRIVER_FILE_LOCATION =
+    public static final String CHROME_DRIVER_FILE_LOCATION =
             (System.getProperty("os.name").toLowerCase().contains("mac")) ?
-                    "drivers/chromedriver" : "drivers/chromedriver.exe";*/
-    public static final String CHROME_DRIVER_FILE_LOCATION = "/Users/harris/Documents/chromedriver-mac-arm64/chromedriver";
+                    "drivers/chromedriver" : "drivers/chromedriver.exe";
+    /*public static final String CHROME_DRIVER_FILE_LOCATION = "/Users/harris/Documents/chromedriver-mac-arm64/chromedriver";*/
 
     public static final String URL = "http://localhost:3000";
     public static final int SLEEP_DURATION = 1000; // 1 second.

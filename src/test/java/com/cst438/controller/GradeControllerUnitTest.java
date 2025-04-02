@@ -80,25 +80,12 @@ public class GradeControllerUnitTest {
         Integer updatedScore = 90;
         List<GradeDTO> updatedGradeDTOList = new ArrayList<>();
         for (GradeDTO dto : gradeDTOList) {
-            Grade grade = gradeRepository.findById(dto.gradeId()).orElse(null);
-
-            if(grade != null) {
-                grade.setScore(updatedScore);
-                gradeRepository.save(grade);
-                GradeDTO updatedDTO = new GradeDTO(
-                        grade.getGradeId(),
-                        grade.getEnrollment().getStudent().getName(),
-                        grade.getEnrollment().getStudent().getEmail(),
-                        grade.getAssignment().getTitle(),
-                        grade.getAssignment().getSection().getCourse().getCourseId(),
-                        grade.getAssignment().getSection().getSectionNo(),
-                        grade.getScore()
-                );
-                updatedGradeDTOList.add(updatedDTO);
-            }
+            GradeDTO updatedDTO = new GradeDTO(
+                    dto.gradeId(), dto.studentName(), dto.studentEmail(), dto.assignmentTitle(),
+                    dto.courseId(), dto.sectionId(), updatedScore
+            );
+            updatedGradeDTOList.add(updatedDTO);
         }
-        // Ensure the updated score is reflected in the DTO list (at least first object)
-        assertEquals(updatedGradeDTOList.get(0).score(), updatedScore);
 
         // PUT Request to Save Updated Grades
         MockHttpServletResponse gradePutResponse = mvc.perform(
