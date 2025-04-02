@@ -67,9 +67,11 @@ public class GradeControllerSystemTest {
         Thread.sleep(SLEEP_DURATION);
 
         List<WebElement> gradeInputs = driver.findElements(By.name("score"));
+        String os = System.getProperty("os.name").toLowerCase();                // Mac/Win conditional
+        Keys modifierKey = (os.contains("mac")) ? Keys.COMMAND : Keys.CONTROL;  // Set Command or Control key
         for (WebElement gradeInput : gradeInputs) {
             gradeInput.clear();
-            gradeInput.sendKeys(Keys.chord(Keys.COMMAND,"a", Keys.DELETE));
+            gradeInput.sendKeys(Keys.chord(modifierKey,"a", Keys.DELETE));  // use modifierKey
             gradeInput.sendKeys("90"); // example grade
         }
         Thread.sleep(SLEEP_DURATION);
