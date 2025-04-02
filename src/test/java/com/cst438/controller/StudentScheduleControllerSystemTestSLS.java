@@ -9,7 +9,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class StudentScheduleControllerSystemTest_SLS {
+public class StudentScheduleControllerSystemTestSLS {
 
     // TODO edit the following to give the location and file name
     // of the Chrome driver.
