@@ -14,13 +14,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class EnrollmentControllerTest {
+public class EnrollmentControllerUnitTest {
 
     @Autowired
     MockMvc mvc;
