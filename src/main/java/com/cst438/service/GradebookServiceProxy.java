@@ -2,6 +2,9 @@ package com.cst438.service;
 
 import com.cst438.domain.EnrollmentRepository;
 import com.cst438.dto.CourseDTO;
+import com.cst438.dto.EnrollmentDTO;
+import com.cst438.dto.SectionDTO;
+import com.cst438.dto.UserDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -25,12 +28,18 @@ public class GradebookServiceProxy {
 
     @Autowired
     EnrollmentRepository enrollmentRepository;
-    public void addCourse(CourseDTO course) {
-        sendMessage("addCourse" + asJsonString(course));
-    }
-    public void updateCourse(CourseDTO course) {
+    public void addCourse(CourseDTO course) {sendMessage("addCourse " + asJsonString(course));}
+    public void updateCourse(CourseDTO course) {sendMessage("updateCourse " + asJsonString(course));}
+    public void deleteCourse(String courseId) {sendMessage("deleteCourse " + courseId);}
+    public void addSection(SectionDTO section) {sendMessage("addSection " + asJsonString(section));}
+    public void updateSection(SectionDTO section) {sendMessage("updateSection " + asJsonString(section));}
+    public void deleteSection(String sectionNo) {sendMessage("deleteSection " + sectionNo);}
+    public void addUser(UserDTO user) {sendMessage("addUser " + asJsonString(user));}
+    public void updateUser(UserDTO user) {sendMessage("updateUser " + asJsonString(user));}
+    public void deleteUser(int userId) {sendMessage("deleteUser " + userId);}
+    public void enrollInCourse(EnrollmentDTO enrollment) {sendMessage("addEnrollment " + asJsonString(enrollment));}
+    public void dropCourse(int enrollmentId) {sendMessage("dropEnrollment " + enrollmentId);}
 
-    }
 
     @RabbitListener(queues = "registrar_service")
     public void receiveFromGradebook(String message)  {
