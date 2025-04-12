@@ -44,11 +44,11 @@ insert into enrollment (enrollment_id, grade, section_no, user_id ) values
 (4,  'A', 8, 5),
 (5,  'B', 8, 6);
 
-insert into assignment (assignment_id, section_no, title, due_date) values
-( 1, 8, 'db homework 1', '2025-02-01'),
-( 2, 8, 'db homework 2', '2025-02-15');
+-- insert into assignment (assignment_id, section_no, title, due_date) values
+-- ( 1, 8, 'db homework 1', '2025-02-01'),
+-- ( 2, 8, 'db homework 2', '2025-02-15');
 
-insert into grade (grade_id, enrollment_id, assignment_id, score) values
-( 1, 2, 1, 95),
-( 2, 4, 1, 97),
-( 3, 5, 1, 85);
+-- insert into grade (grade_id, enrollment_id, assignment_id, score) values
+-- ( 1, 2, 1, 95),
+-- ( 2, 4, 1, 97),
+-- ( 3, 5, 1, 85);

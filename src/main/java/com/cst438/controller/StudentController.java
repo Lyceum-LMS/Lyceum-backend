@@ -20,11 +20,11 @@ public class StudentController {
     @Autowired
     EnrollmentRepository enrollmentRepository;
 
-    @Autowired
-    AssignmentRepository assignmentRepository;
-
-    @Autowired
-    GradeRepository gradeRepository;
+//    @Autowired
+//    AssignmentRepository assignmentRepository;
+//
+//    @Autowired
+//    GradeRepository gradeRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -83,6 +83,7 @@ public class StudentController {
      returns list of assignments may be empty
      logged in user must be the student (assignment 7)
      */
+    /* To be moved to Assignment Controller in SOAgradebook
     @GetMapping("/assignments")
     public List<AssignmentStudentDTO> getStudentAssignments(
             @RequestParam("studentId") int studentId,
@@ -121,5 +122,5 @@ public class StudentController {
             ));
         }
         return  dto_list;
-    }
+    }*/
 }

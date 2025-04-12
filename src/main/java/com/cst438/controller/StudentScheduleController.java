@@ -2,6 +2,7 @@ package com.cst438.controller;
 
 import com.cst438.domain.*;
 import com.cst438.dto.EnrollmentDTO;
+import com.cst438.service.GradebookServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,9 @@ public class StudentScheduleController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    GradebookServiceProxy gradebookService;
 
     @GetMapping("/transcripts")
     public List<EnrollmentDTO> getTranscript(@RequestParam("studentId") int studentId) {
@@ -136,7 +140,7 @@ public class StudentScheduleController {
         // remove the following line when done.
         // return null;
 
-        return new EnrollmentDTO(
+        EnrollmentDTO enrollmentDTO = new EnrollmentDTO(
                 enrollment.getEnrollmentId(),
                 enrollment.getGrade(),
                 student.getId(),
@@ -153,6 +157,8 @@ public class StudentScheduleController {
                 section.getTerm().getYear(),
                 section.getTerm().getSemester()
         );
+        gradebookService.enrollInCourse(enrollmentDTO);
+        return enrollmentDTO;
     }
 
     /**
@@ -178,6 +184,7 @@ public class StudentScheduleController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Drop deadline already passed, unable to drop enrollment");
         }
         enrollmentRepository.delete(enrollment);
+        gradebookService.dropCourse(enrollmentId);
     }
 
 
