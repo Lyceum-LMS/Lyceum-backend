@@ -1,9 +1,6 @@
 package com.cst438.service;
 
-import com.cst438.domain.Course;
-import com.cst438.domain.CourseRepository;
-import com.cst438.domain.Section;
-import com.cst438.domain.SectionRepository;
+import com.cst438.domain.*;
 import com.cst438.dto.CourseDTO;
 import com.cst438.dto.SectionDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +10,8 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class RegistrarServiceProxy {
@@ -33,6 +32,9 @@ public class RegistrarServiceProxy {
     @Autowired
     SectionRepository sectionRepository;
 
+    @Autowired
+    TermRepository ternRepository;
+
     @RabbitListener(queues = "gradebook_service")
     public void receiveFromRegistrar(String message)  {
         //TODO implement this message
@@ -40,9 +42,11 @@ public class RegistrarServiceProxy {
             System.out.println("receive from Registrar " + message);
             String[] parts = message.split(" ", 2);
             String action = parts[0];
+
             if(action.equals("addCourse")){ // Course
                 CourseDTO dto = fromJsonString(parts[1], CourseDTO.class);
                 Course c = new Course();
+
                 c.setCourseId(dto.courseId());
                 c.setTitle(dto.title());
                 c.setCredits(dto.credits());
@@ -51,29 +55,63 @@ public class RegistrarServiceProxy {
                 courseRepository.deleteById(parts[1]);
             } else if (action.equals("updateCourse")){
                 CourseDTO dto = fromJsonString(parts[1], CourseDTO.class);
-                Course c = new Course();
-                c.setTitle(dto.title());
-                c.setCredits(dto.credits());
-                courseRepository.save(c);
+                Course c = courseRepository.findById(dto.courseId()).orElse(null);
+                if (c != null) {
+                    c.setTitle(dto.title());
+                    c.setCredits(dto.credits());
+                    courseRepository.save(c);
+                } else {
+                    throw new RuntimeException("Course with courseId=" + dto.courseId() + " not found.");
+                }
             } else if(action.equals("addSection")){ // Section
                 SectionDTO dto = fromJsonString(parts[1], SectionDTO.class);
                 Section s = new Section();
+
+                Course c = courseRepository.findById(dto.courseId()).orElse(null);
+                Term t = ternRepository.findByYearAndSemester(dto.year(), dto.semester());
+
                 s.setSecId(dto.secId());
                 s.setBuilding(dto.building());
                 s.setRoom(dto.room());
                 s.setTimes(dto.times());
-//                s.setCourse(dto.courseId());
-
-
+                s.setCourse(c);
+                s.setTerm(t);
+                s.setInstructor_email(dto.instructorEmail());
+                s.setSectionNo(dto.secNo());
                 sectionRepository.save(s);
             } else if (action.equals("deleteSection")){
-                courseRepository.deleteById(parts[1]);
+                sectionRepository.deleteById(Integer.valueOf(parts[1]));
             } else if (action.equals("updateSection")){
-                CourseDTO dto = fromJsonString(parts[1], CourseDTO.class);
-                Course c = new Course();
-                c.setTitle(dto.title());
-                c.setCredits(dto.credits());
-                courseRepository.save(c);
+                SectionDTO dto = fromJsonString(parts[1], SectionDTO.class);
+                Section s = sectionRepository.findById(dto.secNo()).orElse(null);
+
+                Course c = courseRepository.findById(dto.courseId()).orElse(null);
+                Term t = ternRepository.findByYearAndSemester(dto.year(), dto.semester());
+
+                if (s != null) {
+                    s.setSecId(dto.secId());
+                    s.setBuilding(dto.building());
+                    s.setRoom(dto.room());
+                    s.setTimes(dto.times());
+                    s.setCourse(c);
+                    s.setTerm(t);
+                    s.setInstructor_email(dto.instructorEmail());
+                    sectionRepository.save(s);
+                } else {
+                    throw new RuntimeException("Section with secNo=" + dto.secNo() + " not found.");
+                }
+            } else if(action.equals("addUser")){
+
+            } else if(action.equals("deleteUser")){
+
+            } else if(action.equals("updateeUser")){
+
+            } else if(action.equals("addEnrollment")){
+
+            } else if(action.equals("deleteEnrollment")){
+
+            } else if(action.equals("updateEnrollment")){
+
             }
         } catch (Exception e) {
             System.out.println("Exception in receivedFromRegistrar +" + e.getMessage());
