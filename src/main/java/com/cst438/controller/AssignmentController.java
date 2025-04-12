@@ -2,6 +2,8 @@ package com.cst438.controller;
 
 import com.cst438.domain.*;
 import com.cst438.dto.AssignmentDTO;
+import com.cst438.dto.AssignmentStudentDTO;
+import com.cst438.dto.SectionDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,15 @@ public class AssignmentController {
 
     @Autowired
     GradeRepository gradeRepository;
+
+    @Autowired
+    EnrollmentRepository enrollmentRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    TermRepository termRepository;
 
     /**
      instructor lists assignments for a section.
@@ -61,6 +72,51 @@ public class AssignmentController {
         }
 
         return assignmentDTOs;
+    }
+
+    /**
+     * Students lists their assignments given year and semester value
+     * Returns list of assignments may be empty
+     * Logged in user must be the student (assignment 7)
+     */
+    @GetMapping("/assignments")
+    public List<AssignmentStudentDTO> getStudentAssignments(
+            @RequestParam("studentId") int studentId,
+            @RequestParam("year") int year,
+            @RequestParam("semester") String semester) {
+
+        // Verify studentId is valid
+        User user = userRepository.findById(studentId).orElse(null);
+        if (user==null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "studentId invalid");
+        }
+
+        // Verify year, semester are valid
+        Term term = termRepository.findByYearAndSemester(year, semester);
+        if (term == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "year, semester invalid");
+        }
+
+        // Return a list of assignments and (if they exist) the assignment grade
+        // for all sections that the student is enrolled for the given year and semester
+        List<Assignment> assignments = assignmentRepository.findByStudentIdAndYearAndSemesterOrderByDueDate(studentId, year, semester);
+        List<AssignmentStudentDTO> dto_list = new ArrayList<>();
+
+        for (Assignment a : assignments) {
+            int assignmentId = a.getAssignmentId();
+            int sectionNo = a.getSection().getSectionNo();
+            int enrollmentId = enrollmentRepository.findEnrollmentBySectionNoAndStudentId(sectionNo, studentId).getEnrollmentId();
+            Grade grade = gradeRepository.findByEnrollmentIdAndAssignmentId(enrollmentId, assignmentId);
+            dto_list.add(new AssignmentStudentDTO(
+                    assignmentId,
+                    a.getTitle(),
+                    a.getDueDate(),
+                    a.getSection().getCourse().getCourseId(),
+                    a.getSection().getSecId(),
+                    (grade!=null)? grade.getScore(): null
+            ));
+        }
+        return dto_list;
     }
 
     /**
@@ -207,5 +263,37 @@ public class AssignmentController {
 
         // Delete the assignment now that we've verified no grades reference it
         assignmentRepository.delete(assignment);
+    }
+
+    /**
+     * Get the sections for an instructor
+     * Returns list of sections, may be empty
+     * Logged in user must be the instructor (assignment 7)
+     */
+    @GetMapping("/sections")
+    public List<SectionDTO> getSectionsForInstructor(
+            @RequestParam("instructorEmail") String instructorEmail,
+            @RequestParam("year") int year,
+            @RequestParam("semester") String semester) {
+        // This method was moved from SectionController as per the instructions
+        List<Section> sections = sectionRepository.findByInstructorEmailAndYearAndSemester(instructorEmail, year, semester);
+        List<SectionDTO> dtos = new ArrayList<>();
+        for (Section s : sections) {
+            SectionDTO dto = new SectionDTO(
+                    s.getSectionNo(),
+                    s.getTerm().getYear(),
+                    s.getTerm().getSemester(),
+                    s.getCourse().getCourseId(),
+                    s.getCourse().getTitle(),
+                    s.getSecId(),
+                    s.getBuilding(),
+                    s.getRoom(),
+                    s.getTimes(),
+                    "", // Instructor name not available in the Section entity
+                    s.getInstructorEmail()
+            );
+            dtos.add(dto);
+        }
+        return dtos;
     }
 }
