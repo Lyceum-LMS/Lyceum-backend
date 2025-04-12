@@ -1,5 +1,11 @@
 package com.cst438.service;
 
+import com.cst438.domain.Course;
+import com.cst438.domain.CourseRepository;
+import com.cst438.domain.Section;
+import com.cst438.domain.SectionRepository;
+import com.cst438.dto.CourseDTO;
+import com.cst438.dto.SectionDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -21,9 +27,57 @@ public class RegistrarServiceProxy {
     @Autowired
     RabbitTemplate rabbitTemplate;
 
+    @Autowired
+    CourseRepository courseRepository;
+
+    @Autowired
+    SectionRepository sectionRepository;
+
     @RabbitListener(queues = "gradebook_service")
     public void receiveFromRegistrar(String message)  {
         //TODO implement this message
+        try{
+            System.out.println("receive from Registrar " + message);
+            String[] parts = message.split(" ", 2);
+            String action = parts[0];
+            if(action.equals("addCourse")){ // Course
+                CourseDTO dto = fromJsonString(parts[1], CourseDTO.class);
+                Course c = new Course();
+                c.setCourseId(dto.courseId());
+                c.setTitle(dto.title());
+                c.setCredits(dto.credits());
+                courseRepository.save(c);
+            } else if (action.equals("deleteCourse")){
+                courseRepository.deleteById(parts[1]);
+            } else if (action.equals("updateCourse")){
+                CourseDTO dto = fromJsonString(parts[1], CourseDTO.class);
+                Course c = new Course();
+                c.setTitle(dto.title());
+                c.setCredits(dto.credits());
+                courseRepository.save(c);
+            } else if(action.equals("addSection")){ // Section
+                SectionDTO dto = fromJsonString(parts[1], SectionDTO.class);
+                Section s = new Section();
+                s.setSecId(dto.secId());
+                s.setBuilding(dto.building());
+                s.setRoom(dto.room());
+                s.setTimes(dto.times());
+//                s.setCourse(dto.courseId());
+
+
+                sectionRepository.save(s);
+            } else if (action.equals("deleteSection")){
+                courseRepository.deleteById(parts[1]);
+            } else if (action.equals("updateSection")){
+                CourseDTO dto = fromJsonString(parts[1], CourseDTO.class);
+                Course c = new Course();
+                c.setTitle(dto.title());
+                c.setCredits(dto.credits());
+                courseRepository.save(c);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception in receivedFromRegistrar +" + e.getMessage());
+        }
     }
 
 
