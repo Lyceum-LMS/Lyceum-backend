@@ -100,13 +100,13 @@ public class RegistrarServiceProxy {
                 } else {
                     throw new RuntimeException("Section with secNo=" + dto.secNo() + " not found.");
                 }
-            } else if(action.equals("addUser")){
+            } else if(action.equals("addUser")){   // User
 
             } else if(action.equals("deleteUser")){
 
             } else if(action.equals("updateeUser")){
 
-            } else if(action.equals("addEnrollment")){
+            } else if(action.equals("addEnrollment")){   // Enrollment
 
             } else if(action.equals("deleteEnrollment")){
 
