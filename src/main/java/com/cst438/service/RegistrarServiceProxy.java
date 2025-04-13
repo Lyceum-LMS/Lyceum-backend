@@ -2,7 +2,9 @@ package com.cst438.service;
 
 import com.cst438.domain.*;
 import com.cst438.dto.CourseDTO;
+import com.cst438.dto.EnrollmentDTO;
 import com.cst438.dto.SectionDTO;
+import com.cst438.dto.UserDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -10,8 +12,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class RegistrarServiceProxy {
@@ -33,7 +33,13 @@ public class RegistrarServiceProxy {
     SectionRepository sectionRepository;
 
     @Autowired
-    TermRepository ternRepository;
+    TermRepository termRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    EnrollmentRepository enrollmentRepository;
 
     @RabbitListener(queues = "gradebook_service")
     public void receiveFromRegistrar(String message)  {
@@ -68,7 +74,7 @@ public class RegistrarServiceProxy {
                 Section s = new Section();
 
                 Course c = courseRepository.findById(dto.courseId()).orElse(null);
-                Term t = ternRepository.findByYearAndSemester(dto.year(), dto.semester());
+                Term t = termRepository.findByYearAndSemester(dto.year(), dto.semester());
 
                 s.setSecId(dto.secId());
                 s.setBuilding(dto.building());
@@ -86,7 +92,7 @@ public class RegistrarServiceProxy {
                 Section s = sectionRepository.findById(dto.secNo()).orElse(null);
 
                 Course c = courseRepository.findById(dto.courseId()).orElse(null);
-                Term t = ternRepository.findByYearAndSemester(dto.year(), dto.semester());
+                Term t = termRepository.findByYearAndSemester(dto.year(), dto.semester());
 
                 if (s != null) {
                     s.setSecId(dto.secId());
@@ -101,17 +107,69 @@ public class RegistrarServiceProxy {
                     throw new RuntimeException("Section with secNo=" + dto.secNo() + " not found.");
                 }
             } else if(action.equals("addUser")){   // User
+                UserDTO dto = fromJsonString(parts[1], UserDTO.class);
+                User u = new User();
+
+                u.setId(dto.id());
+                u.setName(dto.name());
+                u.setEmail(dto.email());
+                u.setType(dto.type());
+
+                userRepository.save(u);
 
             } else if(action.equals("deleteUser")){
 
-            } else if(action.equals("updateeUser")){
+                UserDTO dto = fromJsonString(parts[1], UserDTO.class);
+                userRepository.deleteById(dto.id());
+
+            } else if(action.equals("updateUser")){
+
+                UserDTO dto = fromJsonString(parts[1], UserDTO.class);
+                User u = userRepository.findById(dto.id()).orElse(null);
+
+                u.setName(dto.name());
+                u.setEmail(dto.email());
+                u.setType(dto.type());
+
+                userRepository.save(u);
 
             } else if(action.equals("addEnrollment")){   // Enrollment
+                EnrollmentDTO dto = fromJsonString(parts[1], EnrollmentDTO.class);
+                Enrollment e = new Enrollment();
+
+                User u = userRepository.findById(dto.studentId()).orElse(null);
+                Section s = sectionRepository.findById((dto.sectionNo())).orElse(null);
+
+                e.setEnrollmentId(dto.enrollmentId());
+                e.setStudent(u);
+                e.setSection(s);
+                if (dto.grade() == null) {
+                    e.setGrade(null);
+                } else {
+                    e.setGrade(dto.grade());
+                }
+
+                enrollmentRepository.save(e);
 
             } else if(action.equals("deleteEnrollment")){
-
+                EnrollmentDTO dto = fromJsonString(parts[1], EnrollmentDTO.class);
+                enrollmentRepository.deleteById(dto.enrollmentId());
             } else if(action.equals("updateEnrollment")){
+                EnrollmentDTO dto = fromJsonString(parts[1], EnrollmentDTO.class);
+                Enrollment e = enrollmentRepository.findById(dto.enrollmentId()).orElse(null);
 
+                User u = userRepository.findById(dto.studentId()).orElse(null);
+                Section s = sectionRepository.findById((dto.sectionNo())).orElse(null);
+
+                e.setStudent(u);
+                e.setSection(s);
+                if (dto.grade() == null) {
+                    e.setGrade(null);
+                } else {
+                    e.setGrade(dto.grade());
+                }
+
+                enrollmentRepository.save(e);
             }
         } catch (Exception e) {
             System.out.println("Exception in receivedFromRegistrar +" + e.getMessage());
