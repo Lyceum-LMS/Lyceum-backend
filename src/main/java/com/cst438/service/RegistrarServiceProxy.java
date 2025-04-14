@@ -176,6 +176,10 @@ public class RegistrarServiceProxy {
         }
     }
 
+    public void sendFinalGrade(EnrollmentDTO enrollment) {
+        String msg = "updateEnrollmentGrade " + asJsonString(enrollment);
+        sendMessage(msg);
+    }
 
     private void sendMessage(String s) {
         rabbitTemplate.convertAndSend(registrarServiceQueue.getName(), s);
