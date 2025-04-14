@@ -78,48 +78,48 @@ public class StudentController {
        return  dto_list;
    }
 
-    /**
-     students lists there assignments given year and semester value
-     returns list of assignments may be empty
-     logged in user must be the student (assignment 7)
-     */
-    @GetMapping("/assignments")
-    public List<AssignmentStudentDTO> getStudentAssignments(
-            @RequestParam("studentId") int studentId,
-            @RequestParam("year") int year,
-            @RequestParam("semester") String semester) {
-
-
-        // TO-DO remove the following line when done
-        // verify studentId is valid
-        User user = userRepository.findById(studentId).orElse(null);
-        if (user==null) {
-            throw  new ResponseStatusException( HttpStatus.NOT_FOUND, "studentId invalid ");
-        }
-        // verify year, semester are valid
-        Term term = termRepository.findByYearAndSemester(year, semester);
-        if (term == null) {
-            throw  new ResponseStatusException( HttpStatus.NOT_FOUND, "year, semester invalid ");
-        }
-        //  return a list of assignments and (if they exist) the assignment grade
-        //  for all sections that the student is enrolled for the given year and semester
-        //  hint: use the assignment repository method findByStudentIdAndYearAndSemesterOrderByDueDate
-        List<Assignment> assignments = assignmentRepository.findByStudentIdAndYearAndSemesterOrderByDueDate(studentId, year, semester);
-        List<AssignmentStudentDTO> dto_list = new ArrayList<>();
-        for (Assignment a : assignments) {
-            int assignmentId = a.getAssignmentId();
-            int sectionNo = a.getSection().getSectionNo();
-            int enrollmentId = enrollmentRepository.findEnrollmentBySectionNoAndStudentId(sectionNo, studentId).getEnrollmentId();
-            Grade grade = gradeRepository.findByEnrollmentIdAndAssignmentId(enrollmentId, assignmentId);
-            dto_list.add(new AssignmentStudentDTO(
-                   assignmentId,
-                    a.getTitle(),
-                    a.getDueDate(),
-                    a.getSection().getCourse().getCourseId(),
-                    a.getSection().getSecId(),
-                    (grade!=null)? grade.getScore(): null
-            ));
-        }
-        return  dto_list;
-    }
+//    /**
+//     students lists there assignments given year and semester value
+//     returns list of assignments may be empty
+//     logged in user must be the student (assignment 7)
+//     */
+//    @GetMapping("/assignments")
+//    public List<AssignmentStudentDTO> getStudentAssignments(
+//            @RequestParam("studentId") int studentId,
+//            @RequestParam("year") int year,
+//            @RequestParam("semester") String semester) {
+//
+//
+//        // TO-DO remove the following line when done
+//        // verify studentId is valid
+//        User user = userRepository.findById(studentId).orElse(null);
+//        if (user==null) {
+//            throw  new ResponseStatusException( HttpStatus.NOT_FOUND, "studentId invalid ");
+//        }
+//        // verify year, semester are valid
+//        Term term = termRepository.findByYearAndSemester(year, semester);
+//        if (term == null) {
+//            throw  new ResponseStatusException( HttpStatus.NOT_FOUND, "year, semester invalid ");
+//        }
+//        //  return a list of assignments and (if they exist) the assignment grade
+//        //  for all sections that the student is enrolled for the given year and semester
+//        //  hint: use the assignment repository method findByStudentIdAndYearAndSemesterOrderByDueDate
+//        List<Assignment> assignments = assignmentRepository.findByStudentIdAndYearAndSemesterOrderByDueDate(studentId, year, semester);
+//        List<AssignmentStudentDTO> dto_list = new ArrayList<>();
+//        for (Assignment a : assignments) {
+//            int assignmentId = a.getAssignmentId();
+//            int sectionNo = a.getSection().getSectionNo();
+//            int enrollmentId = enrollmentRepository.findEnrollmentBySectionNoAndStudentId(sectionNo, studentId).getEnrollmentId();
+//            Grade grade = gradeRepository.findByEnrollmentIdAndAssignmentId(enrollmentId, assignmentId);
+//            dto_list.add(new AssignmentStudentDTO(
+//                   assignmentId,
+//                    a.getTitle(),
+//                    a.getDueDate(),
+//                    a.getSection().getCourse().getCourseId(),
+//                    a.getSection().getSecId(),
+//                    (grade!=null)? grade.getScore(): null
+//            ));
+//        }
+//        return  dto_list;
+//    }
 }
