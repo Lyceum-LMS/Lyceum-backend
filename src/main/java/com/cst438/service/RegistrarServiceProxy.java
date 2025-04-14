@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RegistrarServiceProxy {
 
@@ -50,6 +52,7 @@ public class RegistrarServiceProxy {
             String action = parts[0];
 
             if(action.equals("addCourse")){ // Course
+
                 CourseDTO dto = fromJsonString(parts[1], CourseDTO.class);
                 Course c = new Course();
 
@@ -57,18 +60,28 @@ public class RegistrarServiceProxy {
                 c.setTitle(dto.title());
                 c.setCredits(dto.credits());
                 courseRepository.save(c);
+                System.out.print("addCourse: " + dto.courseId() +  " course added");
+
             } else if (action.equals("deleteCourse")){
+
                 courseRepository.deleteById(parts[1]);
+                System.out.print("deleteCourse: " + parts[1] +  " course deleted");
+
             } else if (action.equals("updateCourse")){
+
                 CourseDTO dto = fromJsonString(parts[1], CourseDTO.class);
                 Course c = courseRepository.findById(dto.courseId()).orElse(null);
+
                 if (c != null) {
                     c.setTitle(dto.title());
                     c.setCredits(dto.credits());
                     courseRepository.save(c);
+                    System.out.print("updateCourse: " + dto.courseId() + " course updated");
                 } else {
+                    System.out.print("ERROR: updateCourse failed - courseId= " + dto.courseId() + " not found.");
                     throw new RuntimeException("Course with courseId=" + dto.courseId() + " not found.");
                 }
+
             } else if(action.equals("addSection")){ // Section
                 SectionDTO dto = fromJsonString(parts[1], SectionDTO.class);
                 Section s = new Section();
@@ -76,6 +89,7 @@ public class RegistrarServiceProxy {
                 Course c = courseRepository.findById(dto.courseId()).orElse(null);
                 Term t = termRepository.findByYearAndSemester(dto.year(), dto.semester());
 
+                s.setSectionNo(dto.secNo()); // set primary key
                 s.setSecId(dto.secId());
                 s.setBuilding(dto.building());
                 s.setRoom(dto.room());
@@ -83,30 +97,39 @@ public class RegistrarServiceProxy {
                 s.setCourse(c);
                 s.setTerm(t);
                 s.setInstructor_email(dto.instructorEmail());
-                s.setSectionNo(dto.secNo());
                 sectionRepository.save(s);
+                System.out.print("addSection: " + dto.secNo() +  " section added");
+
             } else if (action.equals("deleteSection")){
+
                 sectionRepository.deleteById(Integer.valueOf(parts[1]));
+                System.out.print("deleteSection: " + parts[1] +  " section deleted");
+
             } else if (action.equals("updateSection")){
+
                 SectionDTO dto = fromJsonString(parts[1], SectionDTO.class);
                 Section s = sectionRepository.findById(dto.secNo()).orElse(null);
 
                 Course c = courseRepository.findById(dto.courseId()).orElse(null);
                 Term t = termRepository.findByYearAndSemester(dto.year(), dto.semester());
 
-                if (s != null) {
+                if (s != null) {  // check if databases are out of sync;
                     s.setSecId(dto.secId());
                     s.setBuilding(dto.building());
                     s.setRoom(dto.room());
                     s.setTimes(dto.times());
-                    s.setCourse(c);
-                    s.setTerm(t);
+//                    s.setCourse(c);  // not necessary
+//                    s.setTerm(t);  // not necessary
                     s.setInstructor_email(dto.instructorEmail());
                     sectionRepository.save(s);
-                } else {
+                    System.out.print("updateSection: " + dto.secNo() + " section updated");
+                } else { // if null, you can throw exception or fix by adding Section
+                    System.out.print("ERROR: updateSection failed - secNo=" + dto.secNo() + " not found.");
                     throw new RuntimeException("Section with secNo=" + dto.secNo() + " not found.");
                 }
+
             } else if(action.equals("addUser")){   // User
+
                 UserDTO dto = fromJsonString(parts[1], UserDTO.class);
                 User u = new User();
 
@@ -116,11 +139,12 @@ public class RegistrarServiceProxy {
                 u.setType(dto.type());
 
                 userRepository.save(u);
+                System.out.print("addUser: " + dto.name() +  " user added");
 
             } else if(action.equals("deleteUser")){
 
-                UserDTO dto = fromJsonString(parts[1], UserDTO.class);
-                userRepository.deleteById(dto.id());
+                userRepository.deleteById(Integer.valueOf(parts[1]));
+                System.out.print("deleteUser: " + parts[1] +  " user deleted");
 
             } else if(action.equals("updateUser")){
 
@@ -132,8 +156,10 @@ public class RegistrarServiceProxy {
                 u.setType(dto.type());
 
                 userRepository.save(u);
+                System.out.print("updateUser: " + dto.name() +  " user deleted");
 
             } else if(action.equals("addEnrollment")){   // Enrollment
+
                 EnrollmentDTO dto = fromJsonString(parts[1], EnrollmentDTO.class);
                 Enrollment e = new Enrollment();
 
@@ -141,35 +167,19 @@ public class RegistrarServiceProxy {
                 Section s = sectionRepository.findById((dto.sectionNo())).orElse(null);
 
                 e.setEnrollmentId(dto.enrollmentId());
-                e.setStudent(u);
-                e.setSection(s);
-                if (dto.grade() == null) {
-                    e.setGrade(null);
-                } else {
-                    e.setGrade(dto.grade());
-                }
-
-                enrollmentRepository.save(e);
-
-            } else if(action.equals("deleteEnrollment")){
-                EnrollmentDTO dto = fromJsonString(parts[1], EnrollmentDTO.class);
-                enrollmentRepository.deleteById(dto.enrollmentId());
-            } else if(action.equals("updateEnrollment")){
-                EnrollmentDTO dto = fromJsonString(parts[1], EnrollmentDTO.class);
-                Enrollment e = enrollmentRepository.findById(dto.enrollmentId()).orElse(null);
-
-                User u = userRepository.findById(dto.studentId()).orElse(null);
-                Section s = sectionRepository.findById((dto.sectionNo())).orElse(null);
+                e.setGrade(dto.grade());
 
                 e.setStudent(u);
                 e.setSection(s);
-                if (dto.grade() == null) {
-                    e.setGrade(null);
-                } else {
-                    e.setGrade(dto.grade());
-                }
 
                 enrollmentRepository.save(e);
+                System.out.print("addEnrollment: " + dto.enrollmentId() +  " enrollment added");
+
+            } else if(action.equals("dropEnrollment")){
+
+                enrollmentRepository.deleteById(Integer.valueOf(parts[1]));
+                System.out.print("dropEnrollment: " + parts[1] +  " enrollment deleted");
+
             }
         } catch (Exception e) {
             System.out.println("Exception in receivedFromRegistrar +" + e.getMessage());
@@ -177,8 +187,9 @@ public class RegistrarServiceProxy {
     }
 
     public void sendFinalGrade(EnrollmentDTO enrollment) {
-        String msg = "updateEnrollmentGrade " + asJsonString(enrollment);
+        String msg = "updateEnrollment" + asJsonString(enrollment);
         sendMessage(msg);
+        System.out.println("Sent message to Registrar " + msg);
     }
 
     private void sendMessage(String s) {
