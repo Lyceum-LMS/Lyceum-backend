@@ -272,7 +272,7 @@ public class AssignmentController {
      */
     @GetMapping("/sections")
     public List<SectionDTO> getSectionsForInstructor(
-            @RequestParam("instructorEmail") String instructorEmail,
+            @RequestParam("email") String instructorEmail,
             @RequestParam("year") int year,
             @RequestParam("semester") String semester) {
         // This method was moved from SectionController as per the instructions

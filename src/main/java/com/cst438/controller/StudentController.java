@@ -83,7 +83,7 @@ public class StudentController {
      returns list of assignments may be empty
      logged in user must be the student (assignment 7)
      */
-    @GetMapping("/student/assignments")
+    @GetMapping("/assignments")
     public List<AssignmentStudentDTO> getStudentAssignments(
             @RequestParam("studentId") int studentId,
             @RequestParam("year") int year,
