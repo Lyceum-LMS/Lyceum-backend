@@ -163,9 +163,6 @@ public class RegistrarServiceProxy {
                     throw new RuntimeException("User with id=" + dto.id() + " not found.");
                 }
 
-                userRepository.save(u);
-                System.out.print("updateUser: " + dto.name() +  " user deleted");
-
             } else if(action.equals("addEnrollment")){   // Enrollment
 
                 EnrollmentDTO dto = fromJsonString(parts[1], EnrollmentDTO.class);
