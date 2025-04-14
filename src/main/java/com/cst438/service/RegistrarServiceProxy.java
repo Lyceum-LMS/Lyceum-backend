@@ -135,6 +135,7 @@ public class RegistrarServiceProxy {
                 u.setName(dto.name());
                 u.setEmail(dto.email());
                 u.setType(dto.type());
+                u.setPassword("test_password");
 
                 userRepository.save(u);
                 System.out.print("addUser: " + dto.name() +  " user added");
@@ -155,7 +156,7 @@ public class RegistrarServiceProxy {
                     u.setType(dto.type());
 
                     userRepository.save(u);
-                    System.out.print("updateUser: " + dto.name() +  " user added");
+                    System.out.print("updateUser: " + dto.name() +  " user updated");
                 } else {
                     System.out.print("ERROR: updateUser failed - user= " + dto.name() + " not found.");
                     throw new RuntimeException("User with id=" + dto.id() + " not found.");
