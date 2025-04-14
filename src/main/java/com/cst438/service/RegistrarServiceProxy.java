@@ -21,9 +21,7 @@ public class RegistrarServiceProxy {
     Queue registrarServiceQueue = new Queue("registrar_service", true);
 
     @Bean
-    public Queue createQueue() {
-        return new Queue("gradebook_service", true);
-    }
+    public Queue createQueue() { return new Queue("gradebook_service", true); }
 
     @Autowired
     RabbitTemplate rabbitTemplate;
@@ -192,7 +190,7 @@ public class RegistrarServiceProxy {
     }
 
     public void sendFinalGrade(EnrollmentDTO enrollment) {
-        String msg = "updateEnrollment" + asJsonString(enrollment);
+        String msg = "updateEnrollment " + asJsonString(enrollment);
         sendMessage(msg);
         System.out.println("Sent message to Registrar " + msg);
     }
