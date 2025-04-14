@@ -5,6 +5,7 @@ import com.cst438.domain.*;
 import com.cst438.dto.AssignmentStudentDTO;
 import com.cst438.dto.CourseDTO;
 import com.cst438.dto.EnrollmentDTO;
+import com.cst438.service.RegistrarServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,8 @@ public class EnrollmentController {
     SectionRepository sectionRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    RegistrarServiceProxy registrarServiceProxy;
 
     /**
      instructor gets list of enrollments for a section
@@ -35,7 +38,7 @@ public class EnrollmentController {
             @PathVariable("sectionNo") int sectionNo ) {
 
         // TO-DO
-		//  hint: use enrollment repository findEnrollmentsBySectionNoOrderByStudentName method
+        //  hint: use enrollment repository findEnrollmentsBySectionNoOrderByStudentName method
         //  remove the following line when done
         List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsBySectionNoOrderByStudentName(sectionNo);
         List<EnrollmentDTO> dto_list = new ArrayList<>();
@@ -85,6 +88,9 @@ public class EnrollmentController {
                     e.setGrade(null);
                 }
                 enrollmentRepository.save(e);
+
+                // Send message to Registrar service about the grade update (placeholder for now)
+                registrarServiceProxy.sendFinalGrade(dto);
             }
         }
     }
