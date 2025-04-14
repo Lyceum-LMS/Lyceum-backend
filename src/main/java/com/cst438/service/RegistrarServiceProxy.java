@@ -151,12 +151,17 @@ public class RegistrarServiceProxy {
                 UserDTO dto = fromJsonString(parts[1], UserDTO.class);
                 User u = userRepository.findById(dto.id()).orElse(null);
 
-                u.setName(dto.name());
-                u.setEmail(dto.email());
-                u.setType(dto.type());
+                if (u != null){
+                    u.setName(dto.name());
+                    u.setEmail(dto.email());
+                    u.setType(dto.type());
 
-                userRepository.save(u);
-                System.out.print("updateUser: " + dto.name() +  " user deleted");
+                    userRepository.save(u);
+                    System.out.print("updateUser: " + dto.name() +  " user added");
+                } else {
+                    System.out.print("ERROR: updateUser failed - user= " + dto.name() + " not found.");
+                    throw new RuntimeException("User with id=" + dto.id() + " not found.");
+                }
 
             } else if(action.equals("addEnrollment")){   // Enrollment
 
