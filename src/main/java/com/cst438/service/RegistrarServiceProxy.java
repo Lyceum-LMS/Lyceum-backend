@@ -187,7 +187,7 @@ public class RegistrarServiceProxy {
         } catch (Exception e) {
             System.out.println("Exception in receivedFromRegistrar +" + e.getMessage());
         }
-    }
+    } //
 
     public void sendFinalGrade(EnrollmentDTO enrollment) {
         String msg = "updateEnrollment " + asJsonString(enrollment);
