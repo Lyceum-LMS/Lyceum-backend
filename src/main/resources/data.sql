@@ -12,7 +12,8 @@ insert into user_table (id, name, email, password, type) values
 (3, 'thomas edison', 'tedison@csumb.edu', '', 'STUDENT'),
 (4, 'fred brooks', 'fbrooks@csumb.edu', '', 'ADMIN'),
 (5, 'user', 'user@csumb.edu', '$2a$10$NVM0n8ElaRgg7zWO1CxUdei7vWoPg91Lz2aYavh9.f9q0e4bRadue','STUDENT'),
-(6, 'admin', 'admin@csumb.edu', '$2a$10$8cjz47bjbR4Mn8GMg9IZx.vyjhLXR/SKKMSZ9.mP9vpMu0ssKi8GW' , 'ADMIN');
+(6, 'admin', 'admin@csumb.edu', '$2a$10$8cjz47bjbR4Mn8GMg9IZx.vyjhLXR/SKKMSZ9.mP9vpMu0ssKi8GW' , 'ADMIN'),
+(7, 'instructor', 'instructor@csumb.edu', '$2a$12$QZy6k02Br.5fX4SL2GVwmem3sq9zFQLj9txpYLzD.ZoYaHHY9huZC', 'INSTRUCTOR');
 
 insert into course values
 ('cst238', 'Introduction to Programming', 5),
