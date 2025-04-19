@@ -4,9 +4,11 @@ import com.cst438.domain.*;
 import com.cst438.dto.EnrollmentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;   //HP added
@@ -30,28 +32,33 @@ public class StudentScheduleController {
     @Autowired
     UserRepository userRepository;
 
+    // a8 sls
     @GetMapping("/transcripts")
-    public List<EnrollmentDTO> getTranscript(@RequestParam("studentId") int studentId) {
-
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_STUDENT')")
+//    public List<EnrollmentDTO> getTranscript(@RequestParam("studentId") int studentId) {
+    public List<EnrollmentDTO> getTranscript(Principal principal) {
         // TO-DO ✅
-
-        // list course_id, sec_id, title, credit, grade
-        // hint: use enrollment repository method findEnrollmentByStudentIdOrderByTermId
-        List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsByStudentIdOrderByTermId(studentId);
+        String studentEmail= principal.getName(); // a8 sls
 
         // Rubric: studentID not found ✅
-        Optional<User> studentOpt = userRepository.findById(studentId);
+        Optional<User> studentOpt = Optional.ofNullable(userRepository.findByEmail(studentEmail)); // a8 sls
         if(studentOpt.isEmpty()) {
 //            throw new RuntimeException("Student not found");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Student not found");
         }
         // Rubric: studentID is invalid
         User student = studentOpt.get();
+
         if(!(student.getType().equals("STUDENT"))){
 //            throw new RuntimeException("StudentId argument indicates user is not a student");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "StudentId argument indicates user is not a student");
         }
 
+        int studentId = student.getId();  // a8 sls
+
+        // list course_id, sec_id, title, credit, grade
+        // hint: use enrollment repository method findEnrollmentByStudentIdOrderByTermId
+        List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsByStudentIdOrderByTermId(studentId);
         // remove the following line when done
         // return null;
 
@@ -85,9 +92,29 @@ public class StudentScheduleController {
      logged in user must be the student (assignment 7)
      */
     @PostMapping("/enrollments/sections/{sectionNo}")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_STUDENT')")
     public EnrollmentDTO addCourse(
             @PathVariable int sectionNo,
-            @RequestParam("studentId") int studentId ) {
+//            @RequestParam("studentId") int studentId ) {
+            Principal principal ) {
+
+        String studentEmail= principal.getName(); // a8 sls
+
+        // Rubric: studentID not found ✅
+        Optional<User> studentOpt = Optional.ofNullable(userRepository.findByEmail(studentEmail)); // a8 sls
+        if(studentOpt.isEmpty()) {
+//            throw new RuntimeException("Student not found");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Student not found");
+        }
+        // Rubric: studentID is invalid
+        User student = studentOpt.get();
+
+        if(!(student.getType().equals("STUDENT"))){
+//            throw new RuntimeException("StudentId argument indicates user is not a student");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "StudentId argument indicates user is not a student");
+        }
+
+        int studentId = student.getId();  // a8 sls
 
         // TO-DO ✅
         Optional<Section> sectionOpt = sectionRepository.findById(sectionNo);
@@ -110,19 +137,6 @@ public class StudentScheduleController {
         if (enrollmentRepository.findEnrollmentBySectionNoAndStudentId(sectionNo, studentId) != null) {
 //            throw new RuntimeException("Student already enrolled in this section");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Student already enrolled in this section");
-        }
-
-        // Rubric: studentID not found ✅
-        Optional<User> studentOpt = userRepository.findById(studentId);
-        if(studentOpt.isEmpty()) {
-//            throw new RuntimeException("Student not found");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Student not found");
-        }
-        // check if studentID is not a student
-        User student = studentOpt.get();
-        if(!(student.getType().equals("STUDENT"))) {
-//            throw new RuntimeException("StudentId argument indicates user is not a student");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "StudentId argument indicates user is not a student");
         }
 
         // create a new enrollment entity and save.  The enrollment grade will

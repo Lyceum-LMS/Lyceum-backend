@@ -1,15 +1,13 @@
 package com.cst438.controller;
 
 import com.cst438.domain.*;
-import com.cst438.dto.*;
+import com.cst438.dto.CourseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,6 +84,7 @@ public class CourseController {
     }
 
     @GetMapping("/courses")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public List<CourseDTO> getAllCourses( ) {
         List<Course> courses = courseRepository.findAllByOrderByCourseIdAsc();
         List<CourseDTO> dto_list = new ArrayList<>();
@@ -96,6 +95,8 @@ public class CourseController {
     }
 
     @GetMapping("/terms")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN') || hasAuthority('SCOPE_ROLE_INSTRUCTOR') || hasAuthority('SCOPE_ROLE_STUDENT')")
+//    @PreAuthorize("hasAnyAuthority('SCOPE_ROLE_ADMIN', 'SCOPE_ROLE_INSTRUCTOR','SCOPE_ROLE_STUDENT')")
     public List<Term> getAllTerms() {
         return termRepository.findAllByOrderByTermIdDesc();
     }

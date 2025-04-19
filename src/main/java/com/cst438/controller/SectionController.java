@@ -4,7 +4,6 @@ import com.cst438.domain.*;
 import com.cst438.dto.SectionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -123,6 +122,7 @@ public class SectionController {
 
     // get Sections with query parms courseId, year, semester
     @GetMapping("/courses/{courseId}/sections")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ROLE_ADMIN', 'SCOPE_ROLE_INSTRUCTOR','SCOPE_ROLE_STUDENT')")
     public List<SectionDTO> getSections(
             @PathVariable("courseId") String courseId,
             @RequestParam("year") int year ,
@@ -191,6 +191,7 @@ public class SectionController {
     }
 
     @GetMapping("/sections/open")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ROLE_ADMIN', 'SCOPE_ROLE_INSTRUCTOR','SCOPE_ROLE_STUDENT')")
     public List<SectionDTO> getOpenSectionsForEnrollment() {
 
         List<Section> sections = sectionRepository.findByOpenOrderByCourseIdSectionId();

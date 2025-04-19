@@ -3,17 +3,20 @@ insert into term (term_id, tyear, semester, add_date, add_deadline, drop_deadlin
 (6, 2022, 'Fall',   '2022-05-01', '2022-08-30', '2022-08-30', '2022-08-15', '2022-12-17'),
 (7, 2023, 'Spring', '2022-11-01', '2023-01-30', '2023-01-30', '2023-01-15', '2023-05-17'),
 (8, 2023, 'Fall' ,  '2023-05-01', '2023-08-30', '2023-08-30', '2023-08-15', '2023-12-17'),
-(9, 2024, 'Spring', '2023-11-01', '2024-03-30', '2024-03-30', '2024-01-15', '2024-05-17'),
-(10, 2024, 'Fall',  '2024-05-01', '2024-08-30', '2024-08-30', '2024-08-15', '2024-12-17');
+(9, 2024, 'Spring', '2023-11-01', '2025-04-30', '2025-05-07', '2024-01-15', '2024-05-17'),
+(10, 2024, 'Fall',  '2024-05-01', '2024-08-30', '2024-08-30', '2024-08-15', '2024-12-17'),
+(11, 2025, 'Spring', '2024-11-01', '2025-04-30', '2025-05-14', '2025-01-15', '2025-05-17'),
+(12, 2025, 'Fall',  '2025-05-01', '2025-08-30', '2025-08-30', '2025-08-15', '2025-12-17');
 
 insert into user_table (id, name, email, password, type) values
-(1, 'david wisneski', 'dwisneski@csumb.edu', '', 'INSTRUCTOR'),
-(2, 'joshua gross', 'jgross@csumb.edu', '', 'INSTRUCTOR'),
-(3, 'thomas edison', 'tedison@csumb.edu', '', 'STUDENT'),
+(1, 'david wisneski', 'dwisneski@csumb.edu', '$2a$12$/y5v.yNemLUsEpXL6GZXPeIPCUHWbaVBCKaXqOVCJKpG/cQP662N6', 'INSTRUCTOR'),
+(2, 'joshua gross', 'jgross@csumb.edu', '$2a$12$v/WoYCvbhToaNV4h64v9u.f5qk1JQbJNGJOT2NsRyykIywgPGPNYS', 'INSTRUCTOR'),
+(3, 'thomas edison', 'tedison@csumb.edu', '$2a$12$wocDShzoMujLCGZZHfHwDOBLb4N1WJz1rW6.gcLJ49GRQk5RyK0tG', 'STUDENT'),
 (4, 'fred brooks', 'fbrooks@csumb.edu', '', 'ADMIN'),
 (5, 'user', 'user@csumb.edu', '$2a$10$NVM0n8ElaRgg7zWO1CxUdei7vWoPg91Lz2aYavh9.f9q0e4bRadue','STUDENT'),
 (6, 'admin', 'admin@csumb.edu', '$2a$10$8cjz47bjbR4Mn8GMg9IZx.vyjhLXR/SKKMSZ9.mP9vpMu0ssKi8GW' , 'ADMIN'),
-(7, 'instructor', 'instructor@csumb.edu', '$2a$12$QZy6k02Br.5fX4SL2GVwmem3sq9zFQLj9txpYLzD.ZoYaHHY9huZC', 'INSTRUCTOR');
+(7, 'instructor', 'instructor@csumb.edu', '$2a$12$QZy6k02Br.5fX4SL2GVwmem3sq9zFQLj9txpYLzD.ZoYaHHY9huZC', 'INSTRUCTOR'),
+(8, 'homer simpson', 'hsimpson@csumb.edu', '$2a$12$RHwZCxps.n1IPgq1oujhxOb1h9mFaDrwKnFDpCakFriaQdiLYITfi', 'STUDENT');
 
 insert into course values
 ('cst238', 'Introduction to Programming', 5),
@@ -36,7 +39,12 @@ insert into section(section_no, course_id, sec_id, term_id, building, room, time
 (7, 'cst338', 2, 9, '052', '100', 'M W 10:00-11:50', 'jgross@csumb.edu'),
 (8, 'cst363', 1, 9, '052', '104', 'M W 10:00-11:50', 'dwisneski@csumb.edu'),
 (9, 'cst363', 2, 9, '052', '102', 'M W 2:00-3:50', 'dwisneski@csumb.edu'),
-(10, 'cst438', 1, 9, '052', '222', 'T Th 12:00-1:50', 'dwisneski@csumb.edu');
+(10, 'cst438', 1, 9, '052', '222', 'T Th 12:00-1:50', 'dwisneski@csumb.edu'),
+(11, 'cst338', 1, 11, '052', '100', 'M W 10:00-11:50', 'jgross@csumb.edu'),
+(12, 'cst338', 2, 11, '052', '100', 'M W 10:00-11:50', 'jgross@csumb.edu'),
+(13, 'cst363', 1, 11, '052', '104', 'M W 10:00-11:50', 'dwisneski@csumb.edu'),
+(14, 'cst363', 2, 11, '052', '102', 'M W 2:00-3:50', 'dwisneski@csumb.edu'),
+(15, 'cst438', 1, 11, '052', '222', 'T Th 12:00-1:50', 'dwisneski@csumb.edu');
 
 insert into enrollment (enrollment_id, grade, section_no, user_id ) values
 (1, 'A', 1, 3),
@@ -45,7 +53,9 @@ insert into enrollment (enrollment_id, grade, section_no, user_id ) values
 
 insert into assignment (assignment_id, section_no, title, due_date) values
 ( 1, 8, 'db homework 1', '2024-02-01'),
-( 2, 8, 'db homework 2', '2024-02-15');
+( 2, 8, 'db homework 2', '2024-02-15'),
+( 3, 13, 'db homework 1 2025', '2025-02-01'),
+( 4, 13, 'db homework 2 2025', '2025-02-15');
 
 insert into grade (grade_id, enrollment_id, assignment_id, score) values
 ( 1, 2, 1, 95);

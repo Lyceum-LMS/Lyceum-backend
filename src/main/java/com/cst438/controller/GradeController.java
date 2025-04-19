@@ -2,6 +2,7 @@ package com.cst438.controller;
 
 import com.cst438.domain.*;
 import com.cst438.dto.GradeDTO;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,9 @@ public class GradeController {
      if there is no grade entity for an enrolled student, a grade entity with null grade is created
      logged in user must be the instructor for the section (assignment 7)
      */
+    // a8 sls
     @GetMapping("/assignments/{assignmentId}/grades")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_INSTRUCTOR')")
     public List<GradeDTO> getAssignmentGrades(@PathVariable("assignmentId") int assignmentId) {
         // get the list of enrollments for the section related to this assignment.
         // hint: use te enrollment repository method findEnrollmentsBySectionOrderByStudentName.
@@ -73,7 +76,9 @@ public class GradeController {
      only the score attribute of grade entity can be changed
      logged in user must be the instructor for the section (assignment 7)
      */
+    // a8 sls
     @PutMapping("/grades")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_INSTRUCTOR')")
     public void updateGrades(@RequestBody List<GradeDTO> dlist) {
         // for each grade in the GradeDTO list, retrieve the grade entity
         // update the score and save the entity

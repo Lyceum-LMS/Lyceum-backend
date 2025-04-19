@@ -3,10 +3,12 @@ package com.cst438.controller;
 import com.cst438.domain.*;
 import com.cst438.dto.AssignmentDTO;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,10 +34,16 @@ public class AssignmentController {
      logged in user must be the instructor for the section (assignment 7)
      */
     // Get assignments for a section
+    // a8 sls
     @GetMapping("/sections/{secNo}/assignments")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_INSTRUCTOR')")
     public List<AssignmentDTO> getAssignments(
             @PathVariable("secNo") int secNo, // Section number
-            @RequestParam("instructorEmail") String instructorEmail) { // Add instructorEmail parameter
+//            @RequestParam("instructorEmail") String instructorEmail) { // Add instructorEmail parameter
+            Principal principal ) {
+
+        String instructorEmail = principal.getName();
+
         // Fetch the section
         Section section = sectionRepository.findById(secNo)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Section not found"));
@@ -69,10 +77,16 @@ public class AssignmentController {
      logged in user must be the instructor for the section (assignment 7)
      */
     // Create an assignment
+    // a8 sls
     @PostMapping("/assignments")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_INSTRUCTOR')")
     public AssignmentDTO createAssignment(
             @RequestBody AssignmentDTO dto,
-            @RequestParam("instructorEmail") String instructorEmail) { // Add instructorEmail parameter
+//            @RequestParam("instructorEmail") String instructorEmail) { // Add instructorEmail parameter
+            Principal principal ) {
+
+        String instructorEmail = principal.getName();
+
         // Get the section
         Section section = sectionRepository.findById(dto.secNo())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -127,11 +141,16 @@ public class AssignmentController {
      logged in user must be the instructor for the section (assignment 7)
      */
     // Update an assignment
+    // a8 sls
     @PutMapping("/assignments/{id}")
     public AssignmentDTO updateAssignment(
             @PathVariable("id") int assignmentId,
             @RequestBody AssignmentDTO dto,
-            @RequestParam("instructorEmail") String instructorEmail) { // Add instructorEmail parameter
+//            @RequestParam("instructorEmail") String instructorEmail) { // Add instructorEmail parameter
+            Principal principal ) {
+
+        String instructorEmail = principal.getName();
+
         // Get the assignment
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -180,10 +199,15 @@ public class AssignmentController {
      instructor deletes an assignment for a section.
      logged in user must be the instructor for the section (assignment 7)
      */
+    // a8 sls
     @DeleteMapping("/assignments/{id}")
     public void deleteAssignment(
             @PathVariable("id") int assignmentId,
-            @RequestParam("instructorEmail") String instructorEmail) { // Add instructorEmail parameter
+//            @RequestParam("instructorEmail") String instructorEmail) { // Add instructorEmail parameter
+            Principal principal ) {
+
+        String instructorEmail = principal.getName();
+
         // Get the assignment
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,

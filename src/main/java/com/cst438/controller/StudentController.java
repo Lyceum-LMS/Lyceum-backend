@@ -5,13 +5,16 @@ import com.cst438.dto.AssignmentStudentDTO;
 import com.cst438.dto.EnrollmentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -37,10 +40,15 @@ public class StudentController {
      logged in user must be the student (assignment 7)
      */
    @GetMapping("/enrollments")
+   @PreAuthorize("hasAuthority('SCOPE_ROLE_STUDENT')")
    public List<EnrollmentDTO> getSchedule(
            @RequestParam("year") int year,
            @RequestParam("semester") String semester,
-           @RequestParam("studentId") int studentId) {
+//           @RequestParam("studentId") int studentId) {
+           Principal principal) {
+       String studentEmail = principal.getName();
+       User student = userRepository.findByEmail(studentEmail);
+       int studentId = student.getId();
 
      // TO-DO
        // verify studentId is valid
@@ -84,11 +92,16 @@ public class StudentController {
      logged in user must be the student (assignment 7)
      */
     @GetMapping("/assignments")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_STUDENT')")
     public List<AssignmentStudentDTO> getStudentAssignments(
-            @RequestParam("studentId") int studentId,
+//            @RequestParam("studentId") int studentId,
             @RequestParam("year") int year,
-            @RequestParam("semester") String semester) {
+            @RequestParam("semester") String semester,
+            Principal principal) {
 
+        String studentEmail = principal.getName();
+        User student = userRepository.findByEmail(studentEmail);
+        int studentId = student.getId();
 
         // TO-DO remove the following line when done
         // verify studentId is valid
