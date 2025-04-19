@@ -9,10 +9,10 @@ insert into term (term_id, tyear, semester, add_date, add_deadline, drop_deadlin
 (12, 2025, 'Fall',  '2025-05-01', '2025-08-30', '2025-08-30', '2025-08-15', '2025-12-17');
 
 insert into user_table (id, name, email, password, type) values
-(1, 'david wisneski', 'dwisneski@csumb.edu', '$2a$12$/y5v.yNemLUsEpXL6GZXPeIPCUHWbaVBCKaXqOVCJKpG/cQP662N6', 'INSTRUCTOR'),
-(2, 'joshua gross', 'jgross@csumb.edu', '$2a$12$v/WoYCvbhToaNV4h64v9u.f5qk1JQbJNGJOT2NsRyykIywgPGPNYS', 'INSTRUCTOR'),
-(3, 'thomas edison', 'tedison@csumb.edu', '$2a$12$wocDShzoMujLCGZZHfHwDOBLb4N1WJz1rW6.gcLJ49GRQk5RyK0tG', 'STUDENT'),
-(4, 'fred brooks', 'fbrooks@csumb.edu', '', 'ADMIN'),
+(1, 'david wisneski', 'dwisneski@csumb.edu', '$2a$12$zklhbQ92OUWFjQgQ818zLuxpEYSFNXlV9fcIEmaiqdKQ61J38f43C', 'INSTRUCTOR'),
+(2, 'joshua gross', 'jgross@csumb.edu', '$2a$12$RnFRLcLlvRcyZQC.aqGHFuZjS65Vh2Pa4SjSTiAbt7M9RB/kF/mj.', 'INSTRUCTOR'),
+(3, 'thomas edison', 'tedison@csumb.edu', '$2a$12$97YEdgCcTIWqnyKgtqVkRe2ViqeWFMLyBhnlIRFbmsiB5NdfRMIlC', 'STUDENT'),
+(4, 'fred brooks', 'fbrooks@csumb.edu', '$2a$12$0YYaDMJLLcjitc0aQfnAb.Kk4MN6Z0o2mIPiSXnp50pzH3gzNfL6C', 'ADMIN'),
 (5, 'user', 'user@csumb.edu', '$2a$10$NVM0n8ElaRgg7zWO1CxUdei7vWoPg91Lz2aYavh9.f9q0e4bRadue','STUDENT'),
 (6, 'admin', 'admin@csumb.edu', '$2a$10$8cjz47bjbR4Mn8GMg9IZx.vyjhLXR/SKKMSZ9.mP9vpMu0ssKi8GW' , 'ADMIN'),
 (7, 'instructor', 'instructor@csumb.edu', '$2a$12$QZy6k02Br.5fX4SL2GVwmem3sq9zFQLj9txpYLzD.ZoYaHHY9huZC', 'INSTRUCTOR'),
