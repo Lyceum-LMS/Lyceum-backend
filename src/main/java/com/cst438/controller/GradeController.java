@@ -102,7 +102,6 @@ public class GradeController {
 
         // for each grade in the GradeDTO list, retrieve the grade entity
         // update the score and save the entity
-        boolean instructorInvalid = true;
 
         // verify Instructor is assigned to grades' section
         if(!dlist.isEmpty()){
