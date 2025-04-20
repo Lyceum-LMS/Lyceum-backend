@@ -44,10 +44,6 @@ public class GradeController {
 
         String instructorEmail = principal.getName();
 
-        // get the list of enrollments for the section related to this assignment.
-        // hint: use te enrollment repository method findEnrollmentsBySectionOrderByStudentName.
-        // for each enrollment, get the grade related to the assignment and enrollment
-        // hint: use the gradeRepository findByEnrollmentIdAndAssignmentId method.
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Assignment not found."));
 
@@ -56,6 +52,10 @@ public class GradeController {
         if (!section.getInstructorEmail().equals(instructorEmail)){
             System.out.println("Invalid Instructor for assignment");
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid Instructor for assignment");
+        }
+
+        if (!assignment.getSection().getInstructorEmail().equals(instructorEmail)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not the instructor for this assignment's section");
         }
 
         List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsBySectionNoOrderByStudentName(assignment.getSection().getSectionNo());
@@ -69,7 +69,6 @@ public class GradeController {
                 grade.setAssignment(assignment);
                 grade = gradeRepository.save(grade);
             }
-            // Build the GradeDTO using grade data
             GradeDTO dto = new GradeDTO(
                     grade.getGradeId(),
                     enrollment.getStudent().getName(),
