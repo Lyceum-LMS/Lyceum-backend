@@ -100,6 +100,4 @@ public class CourseController {
     public List<Term> getAllTerms() {
         return termRepository.findAllByOrderByTermIdDesc();
     }
-
-
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,9 @@ public class GradeController {
     // a8 sls
     @GetMapping("/assignments/{assignmentId}/grades")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_INSTRUCTOR')")
-    public List<GradeDTO> getAssignmentGrades(@PathVariable("assignmentId") int assignmentId) {
+    public List<GradeDTO> getAssignmentGrades(
+            @PathVariable("assignmentId") int assignmentId,
+            Principal principal) {
         // get the list of enrollments for the section related to this assignment.
         // hint: use te enrollment repository method findEnrollmentsBySectionOrderByStudentName.
         // for each enrollment, get the grade related to the assignment and enrollment
@@ -79,7 +82,9 @@ public class GradeController {
     // a8 sls
     @PutMapping("/grades")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_INSTRUCTOR')")
-    public void updateGrades(@RequestBody List<GradeDTO> dlist) {
+    public void updateGrades(
+            @RequestBody List<GradeDTO> dlist,
+            Principal principal) {
         // for each grade in the GradeDTO list, retrieve the grade entity
         // update the score and save the entity
         for (GradeDTO dto : dlist) {
