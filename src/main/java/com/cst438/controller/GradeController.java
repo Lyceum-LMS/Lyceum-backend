@@ -24,6 +24,9 @@ public class GradeController {
     @Autowired
     AssignmentRepository assignmentRepository;
 
+    @Autowired
+    SectionRepository sectionRepository;
+
     // instructor gets grades for assignment ordered by student name
     // user must be instructor for the section
     /**
@@ -38,12 +41,22 @@ public class GradeController {
     public List<GradeDTO> getAssignmentGrades(
             @PathVariable("assignmentId") int assignmentId,
             Principal principal) {
+
+        String instructorEmail = principal.getName();
+
         // get the list of enrollments for the section related to this assignment.
         // hint: use te enrollment repository method findEnrollmentsBySectionOrderByStudentName.
         // for each enrollment, get the grade related to the assignment and enrollment
         // hint: use the gradeRepository findByEnrollmentIdAndAssignmentId method.
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Assignment not found."));
+
+        Section section = assignment.getSection();
+
+        if (!section.getInstructorEmail().equals(instructorEmail)){
+            System.out.println("Invalid Instructor for assignment");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid Instructor for assignment");
+        }
 
         List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsBySectionNoOrderByStudentName(assignment.getSection().getSectionNo());
 
@@ -85,11 +98,27 @@ public class GradeController {
     public void updateGrades(
             @RequestBody List<GradeDTO> dlist,
             Principal principal) {
+
+        String instructorEmail = principal.getName();
+
         // for each grade in the GradeDTO list, retrieve the grade entity
         // update the score and save the entity
+        boolean instructorInvalid = true;
+
         for (GradeDTO dto : dlist) {
             Grade grade = gradeRepository.findById(dto.gradeId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Grade not found for id: " + dto.gradeId()));
+
+            Assignment assignment = grade.getAssignment();
+            Section section = assignment.getSection();
+
+            if (instructorInvalid && !section.getInstructorEmail().equals(instructorEmail)){
+                System.out.println("Invalid Instructor for assignment");
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid Instructor for assignment");
+            } else {
+                instructorInvalid = false;
+            }
+
             grade.setScore(dto.score());
             gradeRepository.save(grade);
         }

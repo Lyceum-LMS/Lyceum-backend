@@ -1,15 +1,15 @@
 package com.cst438.controller;
 
 
-import com.cst438.domain.Enrollment;
-import com.cst438.domain.EnrollmentRepository;
-import com.cst438.domain.SectionRepository;
-import com.cst438.domain.UserRepository;
+import com.cst438.domain.*;
 import com.cst438.dto.EnrollmentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +71,11 @@ public class EnrollmentController {
      */
     @PutMapping("/enrollments")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_INSTRUCTOR')")
-    public void updateEnrollmentGrade(@RequestBody List<EnrollmentDTO> dlist) {
+    public void updateEnrollmentGrade(
+            @RequestBody List<EnrollmentDTO> dlist,
+            Principal principal) {
+
+        String instructorEmail = principal.getName();
 
         // TO-DO
         // For each EnrollmentDTO in the list
@@ -80,13 +84,21 @@ public class EnrollmentController {
 
         for (EnrollmentDTO dto : dlist) {
             Enrollment e = enrollmentRepository.findById(dto.enrollmentId()).orElse(null);
-            if (e != null) {
-                if (dto.grade() != null){
-                    e.setGrade(dto.grade().toUpperCase());
-                } else {
-                    e.setGrade(null);
+
+            Section section = e.getSection();
+
+            if (section.getInstructorEmail().equals(instructorEmail)){
+                if (e != null) {
+                    if (dto.grade() != null){
+                        e.setGrade(dto.grade().toUpperCase());
+                    } else {
+                        e.setGrade(null);
+                    }
+                    enrollmentRepository.save(e);
                 }
-                enrollmentRepository.save(e);
+            } else {
+                System.out.println("Invalid instructor for enrollment");
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid Instructor for enrollment");
             }
         }
     }
