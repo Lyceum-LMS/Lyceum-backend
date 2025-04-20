@@ -174,7 +174,9 @@ public class StudentScheduleController {
      logged in user must be the student (assignment 7)
      */
     @DeleteMapping("/enrollments/{enrollmentId}")
-    public void dropCourse(@PathVariable("enrollmentId") int enrollmentId) {
+    public void dropCourse(
+            @PathVariable("enrollmentId") int enrollmentId,
+            Principal principal) {
 
         // TO-DO ✅
 
