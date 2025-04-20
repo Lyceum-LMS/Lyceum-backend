@@ -104,24 +104,25 @@ public class GradeController {
         // update the score and save the entity
         boolean instructorInvalid = true;
 
-        for (GradeDTO dto : dlist) {
-            Grade grade = gradeRepository.findById(dto.gradeId())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Grade not found for id: " + dto.gradeId()));
-
+        // verify Instructor is assigned to grades' section
+        if(!dlist.isEmpty()){
+            Grade grade = gradeRepository.findById(dlist.get(0).gradeId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Grade not found for id: " + dlist.get(0).gradeId()));
             Assignment assignment = grade.getAssignment();
             Section section = assignment.getSection();
 
-            if (instructorInvalid && !section.getInstructorEmail().equals(instructorEmail)){
+            if (!section.getInstructorEmail().equals(instructorEmail)){
                 System.out.println("Invalid Instructor for assignment");
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid Instructor for assignment");
-            } else {
-                instructorInvalid = false;
             }
+        }
 
+        for (GradeDTO dto : dlist) {
+            Grade grade = gradeRepository.findById(dto.gradeId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Grade not found for id: " + dto.gradeId()));
             grade.setScore(dto.score());
             gradeRepository.save(grade);
         }
-
     }
 
 }

@@ -46,6 +46,7 @@ public class StudentController {
            @RequestParam("semester") String semester,
 //           @RequestParam("studentId") int studentId) {
            Principal principal) {
+
        String studentEmail = principal.getName();
        User student = userRepository.findByEmail(studentEmail);
        int studentId = student.getId();

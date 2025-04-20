@@ -33,12 +33,24 @@ public class EnrollmentController {
     @GetMapping("/sections/{sectionNo}/enrollments")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_INSTRUCTOR')")
     public List<EnrollmentDTO> getEnrollments(
-            @PathVariable("sectionNo") int sectionNo ) {
+            @PathVariable("sectionNo") int sectionNo,
+            Principal principal) {
+
+        String instructorEmail = principal.getName();
 
         // TO-DO
 		//  hint: use enrollment repository findEnrollmentsBySectionNoOrderByStudentName method
         //  remove the following line when done
         List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsBySectionNoOrderByStudentName(sectionNo);
+
+        if(!enrollments.isEmpty()){
+            Section section = enrollments.get(0).getSection();
+            if (!section.getInstructorEmail().equals(instructorEmail)){
+                System.out.println("Invalid instructor for enrollment");
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid Instructor for enrollment");
+            }
+        }
+
         List<EnrollmentDTO> dto_list = new ArrayList<>();
         for (Enrollment e : enrollments) {
             dto_list.add(new EnrollmentDTO(
