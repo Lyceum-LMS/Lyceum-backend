@@ -189,9 +189,8 @@ public class StudentScheduleController {
             throw new RuntimeException("Enrollment ID invalid");
         }
         Enrollment enrollment = enrollmentOpt.get();
-        User student = enrollment.getStudent();
 
-        if(!student.getEmail().equals(studentEmail)){
+        if(!enrollment.getStudent().getEmail().equals(studentEmail)){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not the student for this section/enrollment");
         }
         // check that today is not after the dropDeadline for section
