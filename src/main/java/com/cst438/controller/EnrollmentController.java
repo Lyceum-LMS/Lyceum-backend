@@ -38,18 +38,18 @@ public class EnrollmentController {
 
         String instructorEmail = principal.getName();
 
+        Section section = sectionRepository.findById(sectionNo).orElse(null);
+
+        // verify sectionNo belong to Instructor
+        if (!section.getInstructorEmail().equals(instructorEmail)){
+            System.out.println("Invalid instructor for section");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid Instructor for section");
+        }
+
         // TO-DO
 		//  hint: use enrollment repository findEnrollmentsBySectionNoOrderByStudentName method
         //  remove the following line when done
         List<Enrollment> enrollments = enrollmentRepository.findEnrollmentsBySectionNoOrderByStudentName(sectionNo);
-
-        if(!enrollments.isEmpty()){
-            Section section = enrollments.get(0).getSection();
-            if (!section.getInstructorEmail().equals(instructorEmail)){
-                System.out.println("Invalid instructor for enrollment");
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid Instructor for enrollment");
-            }
-        }
 
         List<EnrollmentDTO> dto_list = new ArrayList<>();
         for (Enrollment e : enrollments) {

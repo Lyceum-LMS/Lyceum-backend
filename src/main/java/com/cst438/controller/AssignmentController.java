@@ -143,6 +143,7 @@ public class AssignmentController {
     // Update an assignment
     // a8 sls
     @PutMapping("/assignments/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_INSTRUCTOR')")
     public AssignmentDTO updateAssignment(
             @PathVariable("id") int assignmentId,
             @RequestBody AssignmentDTO dto,
@@ -201,6 +202,7 @@ public class AssignmentController {
      */
     // a8 sls
     @DeleteMapping("/assignments/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_INSTRUCTOR')")
     public void deleteAssignment(
             @PathVariable("id") int assignmentId,
 //            @RequestParam("instructorEmail") String instructorEmail) { // Add instructorEmail parameter

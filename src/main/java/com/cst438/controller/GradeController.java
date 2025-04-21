@@ -47,14 +47,9 @@ public class GradeController {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Assignment not found."));
 
-        Section section = assignment.getSection();
-
-        if (!section.getInstructorEmail().equals(instructorEmail)){
-            System.out.println("Invalid Instructor for assignment");
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid Instructor for assignment");
-        }
-
+        // validate assignment belongs to Instructor
         if (!assignment.getSection().getInstructorEmail().equals(instructorEmail)) {
+            System.out.println("Invalid Instructor for assignment");
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not the instructor for this assignment's section");
         }
 
@@ -100,25 +95,20 @@ public class GradeController {
 
         String instructorEmail = principal.getName();
 
-        // for each grade in the GradeDTO list, retrieve the grade entity
-        // update the score and save the entity
-
-        // verify Instructor is assigned to grades' section
-        if(!dlist.isEmpty()){
-            Grade grade = gradeRepository.findById(dlist.get(0).gradeId())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Grade not found for id: " + dlist.get(0).gradeId()));
-            Assignment assignment = grade.getAssignment();
-            Section section = assignment.getSection();
-
-            if (!section.getInstructorEmail().equals(instructorEmail)){
-                System.out.println("Invalid Instructor for assignment");
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid Instructor for assignment");
-            }
-        }
-
+        // Since list is passed to the method and not generated inside this method,
+        // validate each assignment belongs to logged in Instructor
         for (GradeDTO dto : dlist) {
             Grade grade = gradeRepository.findById(dto.gradeId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Grade not found for id: " + dto.gradeId()));
+
+            // verify grade belongs to logged in Instructor
+            Assignment assignment = grade.getAssignment();
+
+            if (!assignment.getSection().getInstructorEmail().equals(instructorEmail)){
+                System.out.println("Invalid Instructor for assignment");
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid Instructor for assignment");
+            }
+
             grade.setScore(dto.score());
             gradeRepository.save(grade);
         }

@@ -3,20 +3,20 @@ insert into term (term_id, tyear, semester, add_date, add_deadline, drop_deadlin
 (6, 2022, 'Fall',   '2022-05-01', '2022-08-30', '2022-08-30', '2022-08-15', '2022-12-17'),
 (7, 2023, 'Spring', '2022-11-01', '2023-01-30', '2023-01-30', '2023-01-15', '2023-05-17'),
 (8, 2023, 'Fall' ,  '2023-05-01', '2023-08-30', '2023-08-30', '2023-08-15', '2023-12-17'),
-(9, 2024, 'Spring', '2023-11-01', '2025-04-30', '2025-05-07', '2024-01-15', '2024-05-17'),
+(9, 2024, 'Spring', '2023-11-01', '2024-01-30', '2024-01-30', '2024-01-15', '2024-05-17'),
 (10, 2024, 'Fall',  '2024-05-01', '2024-08-30', '2024-08-30', '2024-08-15', '2024-12-17'),
 (11, 2025, 'Spring', '2024-11-01', '2025-04-30', '2025-05-14', '2025-01-15', '2025-05-17'),
 (12, 2025, 'Fall',  '2025-05-01', '2025-08-30', '2025-08-30', '2025-08-15', '2025-12-17');
 
 insert into user_table (id, name, email, password, type) values
-(1, 'david wisneski', 'dwisneski@csumb.edu', '$2a$12$zklhbQ92OUWFjQgQ818zLuxpEYSFNXlV9fcIEmaiqdKQ61J38f43C', 'INSTRUCTOR'),
-(2, 'joshua gross', 'jgross@csumb.edu', '$2a$12$RnFRLcLlvRcyZQC.aqGHFuZjS65Vh2Pa4SjSTiAbt7M9RB/kF/mj.', 'INSTRUCTOR'),
-(3, 'thomas edison', 'tedison@csumb.edu', '$2a$12$97YEdgCcTIWqnyKgtqVkRe2ViqeWFMLyBhnlIRFbmsiB5NdfRMIlC', 'STUDENT'),
-(4, 'fred brooks', 'fbrooks@csumb.edu', '$2a$12$0YYaDMJLLcjitc0aQfnAb.Kk4MN6Z0o2mIPiSXnp50pzH3gzNfL6C', 'ADMIN'),
+(1, 'david wisneski', 'dwisneski@csumb.edu', '$2a$12$uZz67rFAEHJEpovpqEd6IezOriHD0F7Yiou2S/0p96a9qzUjj9j/i', 'INSTRUCTOR'),
+(2, 'joshua gross', 'jgross@csumb.edu', '$2a$12$ebXHkmKaBOxvkCnnC2vcY.FDoY4FRWfuwdkUnUEjfketzkeEk/NQm', 'INSTRUCTOR'),
+(3, 'thomas edison', 'tedison@csumb.edu', '$2a$12$ElItqj9s58ojvM1LglMNSuHHu/Fp/rJXZoDZQypvOOITW1Zel5Xcm', 'STUDENT'),
+(4, 'fred brooks', 'fbrooks@csumb.edu', '$2a$12$nZh.MlrMrn9WwP.wUfIJn.xw/gJIfYfeANCfZ4Bw58D991z3PV3Ei', 'ADMIN'),
 (5, 'user', 'user@csumb.edu', '$2a$10$NVM0n8ElaRgg7zWO1CxUdei7vWoPg91Lz2aYavh9.f9q0e4bRadue','STUDENT'),
 (6, 'admin', 'admin@csumb.edu', '$2a$10$8cjz47bjbR4Mn8GMg9IZx.vyjhLXR/SKKMSZ9.mP9vpMu0ssKi8GW' , 'ADMIN'),
 (7, 'instructor', 'instructor@csumb.edu', '$2a$12$QZy6k02Br.5fX4SL2GVwmem3sq9zFQLj9txpYLzD.ZoYaHHY9huZC', 'INSTRUCTOR'),
-(8, 'homer simpson', 'hsimpson@csumb.edu', '$2a$12$RHwZCxps.n1IPgq1oujhxOb1h9mFaDrwKnFDpCakFriaQdiLYITfi', 'STUDENT');
+(8, 'lisa simpson', 'lsimpson@csumb.edu', '$2a$12$BnNmm36VK.lT11J9gZpfGu2JNMks545JWZcUhwt3XBO.ukYgacJPG', 'STUDENT');
 
 insert into course values
 ('cst238', 'Introduction to Programming', 5),
@@ -49,7 +49,9 @@ insert into section(section_no, course_id, sec_id, term_id, building, room, time
 insert into enrollment (enrollment_id, grade, section_no, user_id ) values
 (1, 'A', 1, 3),
 (2, 'B', 8, 3),
-(3,  null, 10, 3);
+(3,  null, 10, 3),
+(4,  null, 13, 3),
+(5,  null, 13, 8);
 
 insert into assignment (assignment_id, section_no, title, due_date) values
 ( 1, 8, 'db homework 1', '2024-02-01'),
@@ -58,4 +60,6 @@ insert into assignment (assignment_id, section_no, title, due_date) values
 ( 4, 13, 'db homework 2 2025', '2025-02-15');
 
 insert into grade (grade_id, enrollment_id, assignment_id, score) values
-( 1, 2, 1, 95);
+( 1, 2, 1, 95),
+( 2, 4, 3, null),
+( 3, 5, 3, 97);
