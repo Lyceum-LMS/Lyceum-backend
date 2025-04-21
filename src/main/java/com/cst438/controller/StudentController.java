@@ -48,12 +48,12 @@ public class StudentController {
            Principal principal) {
 
        String studentEmail = principal.getName();
-       User student = userRepository.findByEmail(studentEmail);
-       int studentId = student.getId();
 
      // TO-DO
        // verify studentId is valid
-       User user = userRepository.findById(studentId).orElse(null);
+       User user = userRepository.findByEmail(studentEmail);
+       int studentId = user.getId();
+
        if (user==null) {
            throw  new ResponseStatusException( HttpStatus.NOT_FOUND, "studentId invalid ");
        }
@@ -101,12 +101,12 @@ public class StudentController {
             Principal principal) {
 
         String studentEmail = principal.getName();
-        User student = userRepository.findByEmail(studentEmail);
-        int studentId = student.getId();
 
         // TO-DO remove the following line when done
         // verify studentId is valid
-        User user = userRepository.findById(studentId).orElse(null);
+        User user = userRepository.findByEmail(studentEmail);
+        int studentId = user.getId();
+
         if (user==null) {
             throw  new ResponseStatusException( HttpStatus.NOT_FOUND, "studentId invalid ");
         }
