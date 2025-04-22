@@ -84,7 +84,7 @@ public class CourseController {
     }
 
     @GetMapping("/courses")
-    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN') || hasAuthority('SCOPE_ROLE_INSTRUCTOR') || hasAuthority('SCOPE_ROLE_STUDENT')")
     public List<CourseDTO> getAllCourses( ) {
         List<Course> courses = courseRepository.findAllByOrderByCourseIdAsc();
         List<CourseDTO> dto_list = new ArrayList<>();
