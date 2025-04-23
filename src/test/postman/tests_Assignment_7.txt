@@ -1,0 +1,292 @@
+Assignment 7
+
+admin
+{
+    "jwt": "",
+    "role": "ADMIN"
+}
+
+user
+{
+    "jwt": "",
+    "role": "STUDENT"
+}
+
+tedison
+{
+    "jwt": "",
+    "role": "STUDENT"
+}
+
+
+dwisneski
+{
+    "jwt": "",
+    "role": "INSTRUCTOR"
+}
+
+jgross
+{
+    "jwt": "",
+    "role": "INSTRUCTOR"
+}
+
+* UserController *
+-all methods' tests passed
+
+-admin-updateUser(...)
+DELETE http://localhost:8080/users/{id}
+-all tests passed
+
+-admin-updateUser(...)
+PUT http://localhost:8080/users
+{
+    "id": 7001,
+    "name": "bart simpson jr.",
+    "email": "bsimpson@csumb.edu",
+    "type": "STUDENT"
+}
+-all tests passed
+
+-admin-createUser(...)
+POST http://localhost:8080/users
+   {
+        "name": "bart simpson",
+        "email": "bsimpson@csumb.edu",
+        "type": "STUDENT"
+    }
+-all tests passed
+
+-admin-findAllUsers(...)
+GET http://localhost:8080/users
+-all tests passed
+
+* StudentScheduleController *
+-all methods' tests passed
+
+-student-dropCourse(...)
+DELETE  http://localhost:8080/enrollments/10001
+-all tests passeds
+
+-student-addCourse(...)
+POST  http://localhost:8080/enrollments/sections/13
+-all tests passed
+
+-student-getTranscript(...)
+GET http://localhost:8080/transcripts
+-all tests passed
+
+
+* StudentController *
+-all methods' tests passed
+
+-student-getStudentAssignments(...)
+GET http://localhost:8080/assignments?year=2025&semester=Spring
+-all tests passed
+
+-student-getSchedule(...)
+GET http://localhost:8080/enrollments?year=2025&semester=Spring
+-all tests passed
+
+* SectionController *
+-all methods' tests passed
+
+-all-getOpenSectionsForEnrollment(...)
+GET   http://localhost:8080/enrollments?year=2025&semester=Spring
+-all tests passed
+
+-instructor-getSectionsForInstructor(...)
+GET  http://localhost:8080/sections?year=2025&semester=Spring
+-all tests passed
+
+-admin-deleteSection(...)
+DELETE  http://localhost:8080/sections/1001
+-all tests passed
+
+
+-admin-updateSection(...)
+PUT  http://localhost:8080/sections
+{
+    "secNo": 1001,
+    "year": 2025,
+    "semester": "Spring",
+    "courseId": "cst499",
+    "title": "Independent Study",
+    "secId": 1,
+    "building": "052",
+    "room": "204",
+    "times": "M W 10:00-11:50",
+    "instructorName": "david wisneski",
+    "instructorEmail": "dwisneski@csumb.edu"
+}
+-all tests passed
+
+-admin-addSection(...)
+POST  http://localhost:8080/sections
+    {
+        "year": 2025,
+        "semester": "Spring",
+        "courseId": "cst499",
+        "title": "Independent Study",
+        "secId": 1,
+        "building": "052",
+        "room": "104",
+        "times": "M W 10:00-11:50",
+        "instructorName": "david wisneski",
+        "instructorEmail": "dwisneski@csumb.edu"
+    }
+-all tests passed
+
+-all-getAllSections(...)
+GET http://localhost:8080/courses/{courseId}/sections?year=2025&semester=Spring
+GET http://localhost:8080/courses/cst/sections?year=2025&semester=Spring
+-all tests passed
+
+
+* GradeController *
+-all methods' tests passed
+
+-instructor-updateGrades(...)
+PUT http://localhost:8080/grades
+[
+    {
+        "gradeId": 3,
+        "studentName": "lisa simpson",
+        "studentEmail": "lsimpson@csumb.edu",
+        "assignmentTitle": "db homework 1a 2025",
+        "courseId": "cst363",
+        "sectionId": 13,
+        "score": 100
+    },
+    {
+        "gradeId": 2,
+        "studentName": "thomas edison",
+        "studentEmail": "tedison@csumb.edu",
+        "assignmentTitle": "db homework 1a 2025",
+        "courseId": "cst363",
+        "sectionId": 13,
+        "score": null
+    }
+]
+-all tests passed
+
+-instructor-getAssignmentGrades(...)
+GET http://localhost:8080/assignments/{assignmentId}/grades
+-all tests passed
+
+
+* EnrollmentController *
+-all methods' tests passed
+
+-instructor-updateEnrollmentGrades(...)
+PUT http://localhost:8080/enrollments
+[
+    {
+        "enrollmentId": 5,
+        "grade": "B",
+        "studentId": 8,
+        "name": "lisa simpson",
+        "email": "lsimpson@csumb.edu",
+        "courseId": "cst363",
+        "title": "Introduction to Database",
+        "sectionId": 1,
+        "sectionNo": 13,
+        "building": "052",
+        "room": "104",
+        "times": "M W 10:00-11:50",
+        "credits": 4,
+        "year": 2025,
+        "semester": "Spring"
+    },
+    {
+        "enrollmentId": 4,
+        "grade": "C",
+        "studentId": 3,
+        "name": "thomas edison",
+        "email": "tedison@csumb.edu",
+        "courseId": "cst363",
+        "title": "Introduction to Database",
+        "sectionId": 1,
+        "sectionNo": 13,
+        "building": "052",
+        "room": "104",
+        "times": "M W 10:00-11:50",
+        "credits": 4,
+        "year": 2025,
+        "semester": "Spring"
+    }
+]
+-all tests passed
+
+-instructor-getEnrollments(...)
+GET http://localhost:8080/sections/13/enrollments
+-all tests passed
+
+* CourseController *
+-all methods' tests passed
+
+-admin-deleteCourse(...)
+DELETE http://localhost:8080/courses/cst499
+-all tests passed
+
+-admin-updateCourse(...)
+PUT http://localhost:8080/courses
+    {
+        "courseId": "cst499",
+        "title": "Independent Study2",
+        "credits": 4
+    }
+-all tests passed
+
+-admin-addCourse(...)
+POST http://localhost:8080/courses
+    {
+        "courseId": "cst499",
+        "title": "Independent Study",
+        "credits": 4
+    }
+-all tests passed
+
+-all-getAllCourses(...)
+GET http://localhost:8080/courses
+-getAllTerms(...)
+GET http://localhost:8080/terms
+-both tests passed for all user roles
+
+* AssignmentController *
+-all methods' tests passed
+
+-instructor-deleteAssignment(...)
+DELETE http://localhost:8080/assignments/6002
+DELETE http://localhost:8080/assignments/6000
+-all tests passed; note that it returns a message if assignment doesn't exist for Instructor
+
+
+-instructor-updateAssignment(...)
+PUT http://localhost:8080/assignments/3
+    {
+        "id": 3,
+        "title": "db homework 1a 2025",
+        "dueDate": "2025-02-01",
+        "courseId": "cst363",
+        "secId": 1,
+        "secNo": 13
+    }
+-all tests passed
+
+-instructor-createAssignment()
+POST http://localhost:8080/assignments
+    {
+        "title": "db homework 2",
+        "dueDate": "2025-02-18",
+        "courseId": "cst363",
+        "secId": 1,
+        "secNo": 13
+    }
+-all tests passed
+
+getAssignments()
+GET http://localhost:8080/sections/8/assignments
+-all tests passed
+
+

@@ -1,0 +1,1137 @@
+{
+	"info": {
+		"_postman_id": "39ffac4d-47d8-4eda-a78e-7c2ec327db00",
+		"name": "cst438_Asmt7",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43119899"
+	},
+	"item": [
+		{
+			"name": "admin-login",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin@csumb.edu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-login",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user@csumb.edu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "tedison-login",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "thomas edison2025",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "tedison@csumb.edu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dwisneski-login",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "david wisneski2025",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "dwisneski@csumb.edu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "jgross-login",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "joshua gross2025",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "jgross@csumb.edu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dwisneski-getAssign",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiZHdpc25lc2tpQGNzdW1iLmVkdSIsImV4cCI6MTc0NTM3NDMxOSwiaWF0IjoxNzQ1MzcwNzE5LCJzY29wZSI6IlJPTEVfSU5TVFJVQ1RPUiJ9.BC9kqvLVO7kA_kHZK3mbM09KJdB543Edb2LiOyY9L5WCDh5pTKtpG_JsrgBIifbz179UVCVQY4gwA97uLFe67ZI8X-EvXnfNNECPrlOI0QNZRScB8dpzEOpqNiqNBAZu1VFNQ6ssG4ZlOSrAGn7z1CnriYybkuk_phGpU2lfOb7ZoV4s_57ICS7I8HrBre6xrdg1Njxr-ykKcuD13Qbn-Lh8k7HMhXnajSn8QXc-cTRKPYIiskJ0O69wyX3sWLXE4erj3nShkL4zgQPJS27zvyKYZkV3So0fmIZZded92fNePu-AQ-CKzmZeZx9-bdxw0ulAYYdozavlVXpJsYHnqA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/sections/13/assignments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sections",
+						"13",
+						"assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dwisneski-createAssign",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW5AY3N1bWIuZWR1IiwiZXhwIjoxNzQ1Mzc0MzUwLCJpYXQiOjE3NDUzNzA3NTAsInNjb3BlIjoiUk9MRV9BRE1JTiJ9.s5DdVhRI6_Y25mhqCUYcRo9s5mYdMBp7k7Tj054ZOMc8dYBPwo6U7pLNnipy8vQ6b2hXfAThqa4ncPyWg-crDfnlpLF2Yx3CLtM4jQTHslYdaA63V7SGNaEGOwpHHdgHfKte-Yd0rxAdX5r_Y89TAf1WJlg770UZcw9CEasy9Ew3qL4y_rjdcEhqEP_0YxAFJbAcMqscxOTgRrKP9EhuOMt4ESBAg3t7kRrTO3WOUCAcK4fwO54Oeou7ZfB7r2Ih45A2QaoJvlv2V8nWuZUTGYkhDdaizXlZZHTT-WtKglQsrmZR0JNEzHlCXZ3aqe6518lO3hTfkS7mfH5-3XbkyQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"title\": \"db homework 3\",\n        \"dueDate\": \"2025-02-18\",\n        \"courseId\": \"cst363\",\n        \"secId\": 1,\n        \"secNo\": 13\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/assignments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dwisneski-updateAssign",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW5AY3N1bWIuZWR1IiwiZXhwIjoxNzQ1Mzc0MzUwLCJpYXQiOjE3NDUzNzA3NTAsInNjb3BlIjoiUk9MRV9BRE1JTiJ9.s5DdVhRI6_Y25mhqCUYcRo9s5mYdMBp7k7Tj054ZOMc8dYBPwo6U7pLNnipy8vQ6b2hXfAThqa4ncPyWg-crDfnlpLF2Yx3CLtM4jQTHslYdaA63V7SGNaEGOwpHHdgHfKte-Yd0rxAdX5r_Y89TAf1WJlg770UZcw9CEasy9Ew3qL4y_rjdcEhqEP_0YxAFJbAcMqscxOTgRrKP9EhuOMt4ESBAg3t7kRrTO3WOUCAcK4fwO54Oeou7ZfB7r2Ih45A2QaoJvlv2V8nWuZUTGYkhDdaizXlZZHTT-WtKglQsrmZR0JNEzHlCXZ3aqe6518lO3hTfkS7mfH5-3XbkyQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"id\": 3,\n        \"title\": \"db homework 1a 2025\",\n        \"dueDate\": \"2025-02-01\",\n        \"courseId\": \"cst363\",\n        \"secId\": 1,\n        \"secNo\": 13\n    }\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/assignments/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"assignments",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dwisneski-deleteAssign",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW5AY3N1bWIuZWR1IiwiZXhwIjoxNzQ1Mzc0MzUwLCJpYXQiOjE3NDUzNzA3NTAsInNjb3BlIjoiUk9MRV9BRE1JTiJ9.s5DdVhRI6_Y25mhqCUYcRo9s5mYdMBp7k7Tj054ZOMc8dYBPwo6U7pLNnipy8vQ6b2hXfAThqa4ncPyWg-crDfnlpLF2Yx3CLtM4jQTHslYdaA63V7SGNaEGOwpHHdgHfKte-Yd0rxAdX5r_Y89TAf1WJlg770UZcw9CEasy9Ew3qL4y_rjdcEhqEP_0YxAFJbAcMqscxOTgRrKP9EhuOMt4ESBAg3t7kRrTO3WOUCAcK4fwO54Oeou7ZfB7r2Ih45A2QaoJvlv2V8nWuZUTGYkhDdaizXlZZHTT-WtKglQsrmZR0JNEzHlCXZ3aqe6518lO3hTfkS7mfH5-3XbkyQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/assignments/6002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"assignments",
+						"6002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all-getAllCourses",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW5AY3N1bWIuZWR1IiwiZXhwIjoxNzQ1MzgyMjY3LCJpYXQiOjE3NDUzNzg2NjcsInNjb3BlIjoiUk9MRV9BRE1JTiJ9.aY_Frbsc1eJH0v1yVb6PGfze1E0Bff7W1FYGuujCXFwV92rJnix4yeDP9rdBXTwrWSm-2Xm7lvVUHYiz2tRYoL5wxDD3IUceG43PcrvWAIaZ-pjA6KVZQZ8FrhpFI1tYDsoMKaLr3mrzrk09lEHIB0qKvW3q89uuWHp2VcgRRUFQCK6wAJ00MklDBJhhY6OwN6YhHBpYBuXQVmE1-cZbnWz3mGNSzX9lCxNVHcEYoj0Gga8-7gPMiUBKoYPtStKZvAQ3MmZXkA5D5CpG_s-Edir5r9TrozDadfox9snrr-ZNuZ8O0mFiO2veRnmaKsfGLOvmqLXlvsSYHGeDVqcH8g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/courses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin-addCourse",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW5AY3N1bWIuZWR1IiwiZXhwIjoxNzQ1MzgyMjY3LCJpYXQiOjE3NDUzNzg2NjcsInNjb3BlIjoiUk9MRV9BRE1JTiJ9.aY_Frbsc1eJH0v1yVb6PGfze1E0Bff7W1FYGuujCXFwV92rJnix4yeDP9rdBXTwrWSm-2Xm7lvVUHYiz2tRYoL5wxDD3IUceG43PcrvWAIaZ-pjA6KVZQZ8FrhpFI1tYDsoMKaLr3mrzrk09lEHIB0qKvW3q89uuWHp2VcgRRUFQCK6wAJ00MklDBJhhY6OwN6YhHBpYBuXQVmE1-cZbnWz3mGNSzX9lCxNVHcEYoj0Gga8-7gPMiUBKoYPtStKZvAQ3MmZXkA5D5CpG_s-Edir5r9TrozDadfox9snrr-ZNuZ8O0mFiO2veRnmaKsfGLOvmqLXlvsSYHGeDVqcH8g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"courseId\": \"cst499\",\n        \"title\": \"Independent Study\",\n        \"credits\": 4\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/courses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin-updateCourse",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW5AY3N1bWIuZWR1IiwiZXhwIjoxNzQ1MzgyMjY3LCJpYXQiOjE3NDUzNzg2NjcsInNjb3BlIjoiUk9MRV9BRE1JTiJ9.aY_Frbsc1eJH0v1yVb6PGfze1E0Bff7W1FYGuujCXFwV92rJnix4yeDP9rdBXTwrWSm-2Xm7lvVUHYiz2tRYoL5wxDD3IUceG43PcrvWAIaZ-pjA6KVZQZ8FrhpFI1tYDsoMKaLr3mrzrk09lEHIB0qKvW3q89uuWHp2VcgRRUFQCK6wAJ00MklDBJhhY6OwN6YhHBpYBuXQVmE1-cZbnWz3mGNSzX9lCxNVHcEYoj0Gga8-7gPMiUBKoYPtStKZvAQ3MmZXkA5D5CpG_s-Edir5r9TrozDadfox9snrr-ZNuZ8O0mFiO2veRnmaKsfGLOvmqLXlvsSYHGeDVqcH8g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"courseId\": \"cst499\",\n        \"title\": \"Independent Study3\",\n        \"credits\": 4\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/courses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin-deleteCourse",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiZHdpc25lc2tpQGNzdW1iLmVkdSIsImV4cCI6MTc0NTM4MjMxMSwiaWF0IjoxNzQ1Mzc4NzExLCJzY29wZSI6IlJPTEVfSU5TVFJVQ1RPUiJ9.HDZFN7Evggu4N4GPVdIBrWoELozMnXkhIQLV4uJ-cZhmO8FRZWJqw7I8lTjxZqQDqtmpGDoIag9M596OSVusaAilH5z_TjLyBbI7M_uVz_T92Az3rXnyxGz7YU4iufSuRKRI6K8kVHIeVP5xor0j7Kj8cCxpNss01S8FpzDhUBKMLfmOIiuQJJcR394OJzhGcvpxn50l7ccM_3m6UtDlARRplIk9IQwv2AHS7pIiNpnqCsfcThKbwpatlAf3pfGkq8mwgHpZnPcIJoGKFnyLVORnyKQ7X-56XcHs50JpjLavBZHVL8y2Y6cccoTFKCUEB9d9NVaGRB0M9MOO-tbfMQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/courses/cst499",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"courses",
+						"cst499"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "instructor-getEnrollments",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiZHdpc25lc2tpQGNzdW1iLmVkdSIsImV4cCI6MTc0NTM4MjMxMSwiaWF0IjoxNzQ1Mzc4NzExLCJzY29wZSI6IlJPTEVfSU5TVFJVQ1RPUiJ9.HDZFN7Evggu4N4GPVdIBrWoELozMnXkhIQLV4uJ-cZhmO8FRZWJqw7I8lTjxZqQDqtmpGDoIag9M596OSVusaAilH5z_TjLyBbI7M_uVz_T92Az3rXnyxGz7YU4iufSuRKRI6K8kVHIeVP5xor0j7Kj8cCxpNss01S8FpzDhUBKMLfmOIiuQJJcR394OJzhGcvpxn50l7ccM_3m6UtDlARRplIk9IQwv2AHS7pIiNpnqCsfcThKbwpatlAf3pfGkq8mwgHpZnPcIJoGKFnyLVORnyKQ7X-56XcHs50JpjLavBZHVL8y2Y6cccoTFKCUEB9d9NVaGRB0M9MOO-tbfMQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/sections/13/enrollments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sections",
+						"13",
+						"enrollments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "instructor-updateEnrollmentGrade",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiZHdpc25lc2tpQGNzdW1iLmVkdSIsImV4cCI6MTc0NTM4MjMxMSwiaWF0IjoxNzQ1Mzc4NzExLCJzY29wZSI6IlJPTEVfSU5TVFJVQ1RPUiJ9.HDZFN7Evggu4N4GPVdIBrWoELozMnXkhIQLV4uJ-cZhmO8FRZWJqw7I8lTjxZqQDqtmpGDoIag9M596OSVusaAilH5z_TjLyBbI7M_uVz_T92Az3rXnyxGz7YU4iufSuRKRI6K8kVHIeVP5xor0j7Kj8cCxpNss01S8FpzDhUBKMLfmOIiuQJJcR394OJzhGcvpxn50l7ccM_3m6UtDlARRplIk9IQwv2AHS7pIiNpnqCsfcThKbwpatlAf3pfGkq8mwgHpZnPcIJoGKFnyLVORnyKQ7X-56XcHs50JpjLavBZHVL8y2Y6cccoTFKCUEB9d9NVaGRB0M9MOO-tbfMQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"enrollmentId\": 5,\n        \"grade\": \"B\",\n        \"studentId\": 8,\n        \"name\": \"lisa simpson\",\n        \"email\": \"lsimpson@csumb.edu\",\n        \"courseId\": \"cst363\",\n        \"title\": \"Introduction to Database\",\n        \"sectionId\": 1,\n        \"sectionNo\": 13,\n        \"building\": \"052\",\n        \"room\": \"104\",\n        \"times\": \"M W 10:00-11:50\",\n        \"credits\": 4,\n        \"year\": 2025,\n        \"semester\": \"Spring\"\n    },\n    {\n        \"enrollmentId\": 4,\n        \"grade\": \"C\",\n        \"studentId\": 3,\n        \"name\": \"thomas edison\",\n        \"email\": \"tedison@csumb.edu\",\n        \"courseId\": \"cst363\",\n        \"title\": \"Introduction to Database\",\n        \"sectionId\": 1,\n        \"sectionNo\": 13,\n        \"building\": \"052\",\n        \"room\": \"104\",\n        \"times\": \"M W 10:00-11:50\",\n        \"credits\": 4,\n        \"year\": 2025,\n        \"semester\": \"Spring\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/enrollments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"enrollments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "instructor-getAssignmentGrades",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiZHdpc25lc2tpQGNzdW1iLmVkdSIsImV4cCI6MTc0NTM4MjMxMSwiaWF0IjoxNzQ1Mzc4NzExLCJzY29wZSI6IlJPTEVfSU5TVFJVQ1RPUiJ9.HDZFN7Evggu4N4GPVdIBrWoELozMnXkhIQLV4uJ-cZhmO8FRZWJqw7I8lTjxZqQDqtmpGDoIag9M596OSVusaAilH5z_TjLyBbI7M_uVz_T92Az3rXnyxGz7YU4iufSuRKRI6K8kVHIeVP5xor0j7Kj8cCxpNss01S8FpzDhUBKMLfmOIiuQJJcR394OJzhGcvpxn50l7ccM_3m6UtDlARRplIk9IQwv2AHS7pIiNpnqCsfcThKbwpatlAf3pfGkq8mwgHpZnPcIJoGKFnyLVORnyKQ7X-56XcHs50JpjLavBZHVL8y2Y6cccoTFKCUEB9d9NVaGRB0M9MOO-tbfMQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/assignments/3/grades",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"assignments",
+						"3",
+						"grades"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "instructor-updatgeGrades",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW5AY3N1bWIuZWR1IiwiZXhwIjoxNzQ1MzgyMjY3LCJpYXQiOjE3NDUzNzg2NjcsInNjb3BlIjoiUk9MRV9BRE1JTiJ9.aY_Frbsc1eJH0v1yVb6PGfze1E0Bff7W1FYGuujCXFwV92rJnix4yeDP9rdBXTwrWSm-2Xm7lvVUHYiz2tRYoL5wxDD3IUceG43PcrvWAIaZ-pjA6KVZQZ8FrhpFI1tYDsoMKaLr3mrzrk09lEHIB0qKvW3q89uuWHp2VcgRRUFQCK6wAJ00MklDBJhhY6OwN6YhHBpYBuXQVmE1-cZbnWz3mGNSzX9lCxNVHcEYoj0Gga8-7gPMiUBKoYPtStKZvAQ3MmZXkA5D5CpG_s-Edir5r9TrozDadfox9snrr-ZNuZ8O0mFiO2veRnmaKsfGLOvmqLXlvsSYHGeDVqcH8g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"gradeId\": 3,\n        \"studentName\": \"lisa simpson\",\n        \"studentEmail\": \"lsimpson@csumb.edu\",\n        \"assignmentTitle\": \"db homework 1a 2025\",\n        \"courseId\": \"cst363\",\n        \"sectionId\": 13,\n        \"score\": 100\n    },\n    {\n        \"gradeId\": 2,\n        \"studentName\": \"thomas edison\",\n        \"studentEmail\": \"tedison@csumb.edu\",\n        \"assignmentTitle\": \"db homework 1a 2025\",\n        \"courseId\": \"cst363\",\n        \"sectionId\": 13,\n        \"score\": null\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/grades",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"grades"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all-getSections",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlckBjc3VtYi5lZHUiLCJleHAiOjE3NDUzODIyOTUsImlhdCI6MTc0NTM3ODY5NSwic2NvcGUiOiJST0xFX1NUVURFTlQifQ.n8LI5jhOTSAj7UR5FBXXHN1iWjMjnp94GE3KXMUQo4sC9g952myTMC0olqPve3altuot4hM09f9dbXCbfiMaP4T_gtJuUHZpICzxzrWjcfOuITm9jHF49pjp0o0jmV_ZNJHS9FeEh7r-uBndswavq0G1ZmULzlKkEnD_hH_EFmfw-4k4wlNoO2vn-utSl8KmsBmTGffSaD5ahrdopgAyfjLK4J_BJ2jrCsid_zDs3-gSOF6SuXY-v8CXqNukYDAxyWG3Gpv0VK_PA9d0bQUK5Rwrmpi0CZN9bUNLSRECeKmJ2iuIgGeEG7Wi752eQIvX4CPfux_eo6Uo2SVOxkivxw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/courses/cst/sections?year=2025&semester=Spring",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"courses",
+						"cst",
+						"sections"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2025"
+						},
+						{
+							"key": "semester",
+							"value": "Spring"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin-addSection",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlckBjc3VtYi5lZHUiLCJleHAiOjE3NDUzODIyOTUsImlhdCI6MTc0NTM3ODY5NSwic2NvcGUiOiJST0xFX1NUVURFTlQifQ.n8LI5jhOTSAj7UR5FBXXHN1iWjMjnp94GE3KXMUQo4sC9g952myTMC0olqPve3altuot4hM09f9dbXCbfiMaP4T_gtJuUHZpICzxzrWjcfOuITm9jHF49pjp0o0jmV_ZNJHS9FeEh7r-uBndswavq0G1ZmULzlKkEnD_hH_EFmfw-4k4wlNoO2vn-utSl8KmsBmTGffSaD5ahrdopgAyfjLK4J_BJ2jrCsid_zDs3-gSOF6SuXY-v8CXqNukYDAxyWG3Gpv0VK_PA9d0bQUK5Rwrmpi0CZN9bUNLSRECeKmJ2iuIgGeEG7Wi752eQIvX4CPfux_eo6Uo2SVOxkivxw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"year\": 2025,\n        \"semester\": \"Spring\",\n        \"courseId\": \"cst499\",\n        \"title\": \"Independent Study\",\n        \"secId\": 1,\n        \"building\": \"052\",\n        \"room\": \"104\",\n        \"times\": \"M W 10:00-11:50\",\n        \"instructorName\": \"david wisneski\",\n        \"instructorEmail\": \"dwisneski@csumb.edu\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/sections",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sections"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin-updateSection",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlckBjc3VtYi5lZHUiLCJleHAiOjE3NDUzODIyOTUsImlhdCI6MTc0NTM3ODY5NSwic2NvcGUiOiJST0xFX1NUVURFTlQifQ.n8LI5jhOTSAj7UR5FBXXHN1iWjMjnp94GE3KXMUQo4sC9g952myTMC0olqPve3altuot4hM09f9dbXCbfiMaP4T_gtJuUHZpICzxzrWjcfOuITm9jHF49pjp0o0jmV_ZNJHS9FeEh7r-uBndswavq0G1ZmULzlKkEnD_hH_EFmfw-4k4wlNoO2vn-utSl8KmsBmTGffSaD5ahrdopgAyfjLK4J_BJ2jrCsid_zDs3-gSOF6SuXY-v8CXqNukYDAxyWG3Gpv0VK_PA9d0bQUK5Rwrmpi0CZN9bUNLSRECeKmJ2iuIgGeEG7Wi752eQIvX4CPfux_eo6Uo2SVOxkivxw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"secNo\": 1001,\n    \"year\": 2025,\n    \"semester\": \"Spring\",\n    \"courseId\": \"cst499\",\n    \"title\": \"Independent Study\",\n    \"secId\": 1,\n    \"building\": \"052\",\n    \"room\": \"204\",\n    \"times\": \"M W 10:00-11:50\",\n    \"instructorName\": \"david wisneski\",\n    \"instructorEmail\": \"dwisneski@csumb.edu\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/sections",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sections"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin-deleteSection",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlckBjc3VtYi5lZHUiLCJleHAiOjE3NDUzODIyOTUsImlhdCI6MTc0NTM3ODY5NSwic2NvcGUiOiJST0xFX1NUVURFTlQifQ.n8LI5jhOTSAj7UR5FBXXHN1iWjMjnp94GE3KXMUQo4sC9g952myTMC0olqPve3altuot4hM09f9dbXCbfiMaP4T_gtJuUHZpICzxzrWjcfOuITm9jHF49pjp0o0jmV_ZNJHS9FeEh7r-uBndswavq0G1ZmULzlKkEnD_hH_EFmfw-4k4wlNoO2vn-utSl8KmsBmTGffSaD5ahrdopgAyfjLK4J_BJ2jrCsid_zDs3-gSOF6SuXY-v8CXqNukYDAxyWG3Gpv0VK_PA9d0bQUK5Rwrmpi0CZN9bUNLSRECeKmJ2iuIgGeEG7Wi752eQIvX4CPfux_eo6Uo2SVOxkivxw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"secNo\": 1001,\n    \"year\": 2025,\n    \"semester\": \"Spring\",\n    \"courseId\": \"cst499\",\n    \"title\": \"Independent Study\",\n    \"secId\": 1,\n    \"building\": \"052\",\n    \"room\": \"204\",\n    \"times\": \"M W 10:00-11:50\",\n    \"instructorName\": \"david wisneski\",\n    \"instructorEmail\": \"dwisneski@csumb.edu\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/sections/1001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sections",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "instructor-getSectionsForInstructor",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiZHdpc25lc2tpQGNzdW1iLmVkdSIsImV4cCI6MTc0NTM4NTc0NywiaWF0IjoxNzQ1MzgyMTQ3LCJzY29wZSI6IlJPTEVfSU5TVFJVQ1RPUiJ9.Up7jhl9RQoxAUfC2FWrU-JjDmE4ZKzRY0Rh3zCaiCdmzd8nJrqZrzq5nNhEe84vIi284em3NINiPOnArmFq89Vpe5zE_fdciyCulC3zd3vqKPjyKgiYmGIRrMcZEiCzFbkH16jaYyv5aVM9AI9bZ9NGZYUhxoyo7ml5_TWKYwq6Z3xMjZ55f9OHxvcm_LO632BIcqkYwxvrGLSGgj_lmsGEJUQFwV40mxoijgWFh0iBrr0txTAmkt1SeGe1602axaZLlrrfFyqLumbgr576nOnnjtQWN3Qyj499hAJyWvnmDHzn9rUFljJI9l3MnWLHF8EswN1g7FazFJtkGgjqSgg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/sections?year=2025&semester=Spring",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sections"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2025"
+						},
+						{
+							"key": "semester",
+							"value": "Spring"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all-getOpenSectionsForEnrollment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlckBjc3VtYi5lZHUiLCJleHAiOjE3NDUzODU4NTksImlhdCI6MTc0NTM4MjI1OSwic2NvcGUiOiJST0xFX1NUVURFTlQifQ.idkhhEZqMBZ4tCN8Eizkkdg-kSDTYCnYJeA1YyqWIm1FYwwtV6HMjmglXYH3MpaV5ORXzlnsmY2YQCkPjpuKQfHGNZ_pvQBIE0olNV6CSMXTYyAl55YT8oUxiDIRJDWBF2JNTkwLZg0aZ0FJwnMlYOuZeaAZyXiUcPWj-6wqWPk5bbrkB3aU0zcmPvaXkVo8Iy-Kaa0sUaE6MKQwgA-RHuVb7vuuLdzTYsYcTja8Qj2n-4N3d4pFRo11tWCDd6JmYny8XHx4G-N-XK02vYPM7PVNe8n1f76hHM0iMJxiPvph7cV_w6wV6EJYCZ5DxAg4OFpnj5etHeTPjsd5lVyr6w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/sections/open",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sections",
+						"open"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "student-getSchedule",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW5AY3N1bWIuZWR1IiwiZXhwIjoxNzQ1Mzg3MDcxLCJpYXQiOjE3NDUzODM0NzEsInNjb3BlIjoiUk9MRV9BRE1JTiJ9.g5R682nlhitMyqm9_00d6Nv1y2yyNZEJ1V4VtftiTf9Ia8ZhotNjM9D2PPU1KCeTc9WRnNf0MIfZznvaN83fxWmkvSKUty3cHBKlYQRAhpMOEOkrTGJrqkYqZUYmHuXl5SdL0GV_sPR5aroSlCS_7QQ0CBWPiOFGZoODEbf6_iPKCT86wtsmGy9RsBsGl4EqbZl1RVI0oxK0GtSQr7q2QDNqx7UXbQCtkHPNRuQ2bOVo4IoeRQMyHDMmcFOlc0pQFTRJQpQIBEYXElZpBSsSF5ViZe3jEOErXTutTSsKx9jDFyVjS_Li-4TS-1y3Nyfuy72OQlfhH-RmzVU9rm6tkQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/enrollments?year=2025&semester=Spring",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"enrollments"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2025"
+						},
+						{
+							"key": "semester",
+							"value": "Spring"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "student-getAssignments",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiZHdpc25lc2tpQGNzdW1iLmVkdSIsImV4cCI6MTc0NTM4NjI0NCwiaWF0IjoxNzQ1MzgyNjQ0LCJzY29wZSI6IlJPTEVfSU5TVFJVQ1RPUiJ9.tgxxHkaWWDJ85AxczpCkaOIWwU6yqIhe9gco4TlRlMwAbhR9xGAJ_2z4lM73KcJlmpzIjMK4aTP8b4-dPoRgzhbi06FnlF4NG-czlDgrECaSbORjLqMx6sG5DmeKn6NNdl8owPuNYnwVUiUx7awlX-1e4QQxfLJ_YzI2ypBBQ2c2xCqBu_93cO0lTO6MSkQScVk0K1FVRgK8Dgbp5f-NdZFSW6n9_7fPuHC_rrj2dWmIpPJwevXMlEKIKWZqlIpUpNPcY7IqNPbBllhXjXqww5thzBdoH1JRVkgRliGRckZj-aA3bHIEt9rcmwozyJG4tangosr8NwnUaOX95tAr7w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/assignments?year=2025&semester=Spring",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"assignments"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2025"
+						},
+						{
+							"key": "semester",
+							"value": "Spring"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "student-getTranscript",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiZHdpc25lc2tpQGNzdW1iLmVkdSIsImV4cCI6MTc0NTM4NzEwOCwiaWF0IjoxNzQ1MzgzNTA4LCJzY29wZSI6IlJPTEVfSU5TVFJVQ1RPUiJ9.oqsbC1OzIUNvHRHU6UtC6R_VHYKC93ESp1gAPBzFunzDl_ADUMzZNvj4lRSI3yqyhIbz_MwJlIUwwWC9Nds6Vv_cu1whClKEYtvAuIwbg_r0gUlhRnR5u9Rv0amW_MSRWf2Jq4JJmgXPXrkwGDcZwNC4j5O4-JIwtDU8KDSR4QujGpv-RKZtmJPg0A63e2orHKiSUwfMhrRRKtkkJ5f-oCzyK9NZ5rS5WUh6bo68cdVoYZ37vhGlxKzbJUhUylZDPbnUtP3JrC4-WHsfKqIT69YWiy76DTFVlTUhrEnEq4M_0YoH8RJWE8Yo0W-33KgmK9cfAVK_qFZbztQzsIKmmg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/transcripts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transcripts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "student-addCourse",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW5AY3N1bWIuZWR1IiwiZXhwIjoxNzQ1Mzg3MDcxLCJpYXQiOjE3NDUzODM0NzEsInNjb3BlIjoiUk9MRV9BRE1JTiJ9.g5R682nlhitMyqm9_00d6Nv1y2yyNZEJ1V4VtftiTf9Ia8ZhotNjM9D2PPU1KCeTc9WRnNf0MIfZznvaN83fxWmkvSKUty3cHBKlYQRAhpMOEOkrTGJrqkYqZUYmHuXl5SdL0GV_sPR5aroSlCS_7QQ0CBWPiOFGZoODEbf6_iPKCT86wtsmGy9RsBsGl4EqbZl1RVI0oxK0GtSQr7q2QDNqx7UXbQCtkHPNRuQ2bOVo4IoeRQMyHDMmcFOlc0pQFTRJQpQIBEYXElZpBSsSF5ViZe3jEOErXTutTSsKx9jDFyVjS_Li-4TS-1y3Nyfuy72OQlfhH-RmzVU9rm6tkQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/enrollments/sections/13",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"enrollments",
+						"sections",
+						"13"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "student-dropCourse",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW5AY3N1bWIuZWR1IiwiZXhwIjoxNzQ1Mzg3MDcxLCJpYXQiOjE3NDUzODM0NzEsInNjb3BlIjoiUk9MRV9BRE1JTiJ9.g5R682nlhitMyqm9_00d6Nv1y2yyNZEJ1V4VtftiTf9Ia8ZhotNjM9D2PPU1KCeTc9WRnNf0MIfZznvaN83fxWmkvSKUty3cHBKlYQRAhpMOEOkrTGJrqkYqZUYmHuXl5SdL0GV_sPR5aroSlCS_7QQ0CBWPiOFGZoODEbf6_iPKCT86wtsmGy9RsBsGl4EqbZl1RVI0oxK0GtSQr7q2QDNqx7UXbQCtkHPNRuQ2bOVo4IoeRQMyHDMmcFOlc0pQFTRJQpQIBEYXElZpBSsSF5ViZe3jEOErXTutTSsKx9jDFyVjS_Li-4TS-1y3Nyfuy72OQlfhH-RmzVU9rm6tkQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/enrollments/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"enrollments",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin-findAllUsers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW5AY3N1bWIuZWR1IiwiZXhwIjoxNzQ1Mzg3MDcxLCJpYXQiOjE3NDUzODM0NzEsInNjb3BlIjoiUk9MRV9BRE1JTiJ9.g5R682nlhitMyqm9_00d6Nv1y2yyNZEJ1V4VtftiTf9Ia8ZhotNjM9D2PPU1KCeTc9WRnNf0MIfZznvaN83fxWmkvSKUty3cHBKlYQRAhpMOEOkrTGJrqkYqZUYmHuXl5SdL0GV_sPR5aroSlCS_7QQ0CBWPiOFGZoODEbf6_iPKCT86wtsmGy9RsBsGl4EqbZl1RVI0oxK0GtSQr7q2QDNqx7UXbQCtkHPNRuQ2bOVo4IoeRQMyHDMmcFOlc0pQFTRJQpQIBEYXElZpBSsSF5ViZe3jEOErXTutTSsKx9jDFyVjS_Li-4TS-1y3Nyfuy72OQlfhH-RmzVU9rm6tkQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin-createUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW5AY3N1bWIuZWR1IiwiZXhwIjoxNzQ1Mzg3MDcxLCJpYXQiOjE3NDUzODM0NzEsInNjb3BlIjoiUk9MRV9BRE1JTiJ9.g5R682nlhitMyqm9_00d6Nv1y2yyNZEJ1V4VtftiTf9Ia8ZhotNjM9D2PPU1KCeTc9WRnNf0MIfZznvaN83fxWmkvSKUty3cHBKlYQRAhpMOEOkrTGJrqkYqZUYmHuXl5SdL0GV_sPR5aroSlCS_7QQ0CBWPiOFGZoODEbf6_iPKCT86wtsmGy9RsBsGl4EqbZl1RVI0oxK0GtSQr7q2QDNqx7UXbQCtkHPNRuQ2bOVo4IoeRQMyHDMmcFOlc0pQFTRJQpQIBEYXElZpBSsSF5ViZe3jEOErXTutTSsKx9jDFyVjS_Li-4TS-1y3Nyfuy72OQlfhH-RmzVU9rm6tkQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"name\": \"bart simpson\",\n        \"email\": \"bsimpson@csumb.edu\",\n        \"type\": \"STUDENT\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin-updateUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW5AY3N1bWIuZWR1IiwiZXhwIjoxNzQ1Mzg3MDcxLCJpYXQiOjE3NDUzODM0NzEsInNjb3BlIjoiUk9MRV9BRE1JTiJ9.g5R682nlhitMyqm9_00d6Nv1y2yyNZEJ1V4VtftiTf9Ia8ZhotNjM9D2PPU1KCeTc9WRnNf0MIfZznvaN83fxWmkvSKUty3cHBKlYQRAhpMOEOkrTGJrqkYqZUYmHuXl5SdL0GV_sPR5aroSlCS_7QQ0CBWPiOFGZoODEbf6_iPKCT86wtsmGy9RsBsGl4EqbZl1RVI0oxK0GtSQr7q2QDNqx7UXbQCtkHPNRuQ2bOVo4IoeRQMyHDMmcFOlc0pQFTRJQpQIBEYXElZpBSsSF5ViZe3jEOErXTutTSsKx9jDFyVjS_Li-4TS-1y3Nyfuy72OQlfhH-RmzVU9rm6tkQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 7001,\n    \"name\": \"bart simpson jr.\",\n    \"email\": \"bsimpson@csumb.edu\",\n    \"type\": \"STUDENT\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin-updateUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW5AY3N1bWIuZWR1IiwiZXhwIjoxNzQ1Mzg3MDcxLCJpYXQiOjE3NDUzODM0NzEsInNjb3BlIjoiUk9MRV9BRE1JTiJ9.g5R682nlhitMyqm9_00d6Nv1y2yyNZEJ1V4VtftiTf9Ia8ZhotNjM9D2PPU1KCeTc9WRnNf0MIfZznvaN83fxWmkvSKUty3cHBKlYQRAhpMOEOkrTGJrqkYqZUYmHuXl5SdL0GV_sPR5aroSlCS_7QQ0CBWPiOFGZoODEbf6_iPKCT86wtsmGy9RsBsGl4EqbZl1RVI0oxK0GtSQr7q2QDNqx7UXbQCtkHPNRuQ2bOVo4IoeRQMyHDMmcFOlc0pQFTRJQpQIBEYXElZpBSsSF5ViZe3jEOErXTutTSsKx9jDFyVjS_Li-4TS-1y3Nyfuy72OQlfhH-RmzVU9rm6tkQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 7001,\n    \"name\": \"bart simpson jr.\",\n    \"email\": \"bsimpson@csumb.edu\",\n    \"type\": \"STUDENT\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/7001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"7001"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
